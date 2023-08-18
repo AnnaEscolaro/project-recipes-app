@@ -198,7 +198,7 @@ export type MealsIngredients = {
   meals: Ingredients[]
 };
 
-type Ingredients = {
+export type Ingredients = {
   idIngredient: string,
   strIngredient: string,
   strDescription: string,
