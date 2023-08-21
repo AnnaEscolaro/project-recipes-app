@@ -1,17 +1,24 @@
+import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const email = useLogin('');
   const password = useLogin('');
 
   const regexEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i;
-  console.log(regexEmail.test(email.value));
-  console.log(email.value);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    localStorage.setItem('user', JSON.stringify({ email: email.value }));
+    navigate('/meals');
+  };
 
   return (
     <>
       <h1>Login</h1>
-      <form>
+      <form onSubmit={ handleSubmit }>
         <input
           value={ email.value }
           type="email"

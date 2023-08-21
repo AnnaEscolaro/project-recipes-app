@@ -4,6 +4,9 @@ import { renderWithRouter } from './Helpers/renderWithRouter';
 
 describe('Testando o componente Login', () => {
   const VALID_EMAIL = 'tryber@test.com';
+  const EMAIL_INPUT = 'email-input';
+  const PASSWORD_INPUT = 'password-input';
+  const LOGIN_BUTTON = 'login-submit-btn';
 
   test('Verifica se o componente renderiza corretamente quando esta na rota "/"', () => {
     renderWithRouter(<App />, { route: '/' });
@@ -11,9 +14,9 @@ describe('Testando o componente Login', () => {
     const title = screen.getByRole('heading', { name: /Login/i });
     expect(title).toBeInTheDocument();
 
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
-    const loginButton = screen.getByTestId('login-submit-btn');
+    const emailInput = screen.getByTestId(EMAIL_INPUT);
+    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
+    const loginButton = screen.getByTestId(LOGIN_BUTTON);
 
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -23,9 +26,9 @@ describe('Testando o componente Login', () => {
   test('Verifica se a validação funciona corretamente', async () => {
     const { user } = renderWithRouter(<App />, { route: '/' });
 
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
-    const loginButton = screen.getByTestId('login-submit-btn');
+    const emailInput = screen.getByTestId(EMAIL_INPUT);
+    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
+    const loginButton = screen.getByTestId(LOGIN_BUTTON);
 
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -50,5 +53,25 @@ describe('Testando o componente Login', () => {
     await user.type(emailInput, VALID_EMAIL);
     await user.type(passwordInput, '1234567');
     expect(loginButton).toBeEnabled();
+  });
+
+  test('Verifica se o email é armazenado no local storage', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/' });
+
+    const emailInput = screen.getByTestId(EMAIL_INPUT);
+    const passwordInput = screen.getByTestId(PASSWORD_INPUT);
+    const loginButton = screen.getByTestId(LOGIN_BUTTON);
+
+    await user.type(emailInput, VALID_EMAIL);
+    await user.type(passwordInput, '1234567');
+    expect(loginButton).toBeEnabled();
+    await user.click(loginButton);
+
+    const { pathname } = window.location;
+    expect(pathname).toBe('/meals');
+    const userLocalStorage = localStorage.getItem('user');
+    const parsedUser = userLocalStorage ? JSON.parse(userLocalStorage) : null;
+
+    expect(parsedUser).toEqual({ email: VALID_EMAIL });
   });
 });
