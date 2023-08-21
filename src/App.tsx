@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Layout from './components/Layout';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route path="/done-recipes" element={ <DoneRecipes /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
       </Route>
+      <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
+      <Route path="/*" element={ <div>Not Found</div> } />
     </Routes>
   );
 }
