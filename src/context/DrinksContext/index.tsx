@@ -9,7 +9,7 @@ export function DrinksProvider({ children }: { children: React.ReactNode }) {
   const fetchDrinks = async (url: string) => {
     try {
       const data = await api(url);
-      setDrinks(data);
+      setDrinks(data.drinks);
     } catch (error) {
       console.error(error);
     }

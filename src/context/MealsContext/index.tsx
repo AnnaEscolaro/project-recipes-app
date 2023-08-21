@@ -8,8 +8,9 @@ export function MealsProvider({ children }: { children: React.ReactNode }) {
 
   const fetchMeals = async (url: string) => {
     try {
+      console.log(url);
       const data = await api(url);
-      setMeals(data);
+      setMeals(data.meals);
     } catch (error: any) {
       console.error(error.message);
     }

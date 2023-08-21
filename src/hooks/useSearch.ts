@@ -5,6 +5,7 @@ function useSearch(initialValue: string) {
 
   function handleChange(newValue: string) {
     setValue(newValue);
+    console.log(newValue);
   }
 
   return {

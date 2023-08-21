@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
 
@@ -10,6 +10,8 @@ type Props = {
 export default function SearchBar({ inputValue }: Props) {
   const drinksContext = useContext(DrinksContext);
   const mealsContext = useContext(MealsContext);
+
+  /*   const nav = useNavigate(); */
   const local = useLocation();
   const page = local.pathname.slice(1);
 
@@ -24,36 +26,41 @@ export default function SearchBar({ inputValue }: Props) {
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
-    switch (target.name) {
-      case 'ingredient':
-        setSelected({
-          ...selected,
-          ingredient: true,
-          url: page === 'meals'
-            ? `www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`
-            : `www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`,
-        });
-        break;
-      case 'name':
-        setSelected({
-          ...selected,
-          name: true,
-          url: page === 'meals'
-            ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`
-            : `www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`,
-        });
-        break;
-      case 'first-letter':
-        setSelected({
-          ...selected,
-          firstLetter: true,
-          url: page === 'meals'
-            ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
-            : `www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`,
-        });
-        break;
-      default:
-        setSelected({ ...selected });
+    if (inputValue.length > 0 && inputValue !== null) {
+      switch (target.name) {
+        case 'ingredient':
+          setSelected({
+            firstLetter: false,
+            name: false,
+            ingredient: true,
+            url: page === 'meals'
+              ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`
+              : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`,
+          });
+          break;
+        case 'name':
+          setSelected({
+            firstLetter: false,
+            ingredient: false,
+            name: true,
+            url: page === 'meals'
+              ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`
+              : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`,
+          });
+          break;
+        case 'first-letter':
+          setSelected({
+            name: false,
+            ingredient: false,
+            firstLetter: true,
+            url: page === 'meals'
+              ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
+              : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`,
+          });
+          break;
+        default:
+          setSelected({ ...selected });
+      }
     }
   };
 
@@ -62,9 +69,17 @@ export default function SearchBar({ inputValue }: Props) {
     if (inputValue.length > 1 && selected.firstLetter) {
       window.alert('Pesquisa Inválida');
     }
-    if (page === 'meals') {
+    if (page === 'meals' && selected.url.length > 0) {
       mealsContext.fetchMeals(selected.url);
-    } else { drinksContext.fetchDrinks(selected.url); }
+    /*       if (mealsContext.meals?.meals.length === 1) {
+        nav(`/meals/`)
+      } */
+    } else if (page === 'drinks' && selected.url.length > 0) {
+      drinksContext.fetchDrinks(selected.url);
+    }
+    /*     if (mealsContext.meals === null || drinksContext.drinks === null) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters');
+    } */
   };
 
   return (
@@ -79,7 +94,7 @@ export default function SearchBar({ inputValue }: Props) {
           id="ingredient"
           data-testid="ingredient-search-radio"
           checked={ selected.ingredient }
-          onChange={ (e) => handleCheck(e) }
+          onChange={ handleCheck }
         />
       </label>
       <label htmlFor="name">
@@ -92,7 +107,7 @@ export default function SearchBar({ inputValue }: Props) {
           id="name"
           data-testid="name-search-radio"
           checked={ selected.name }
-          onChange={ () => handleCheck }
+          onChange={ handleCheck }
         />
       </label>
       <label htmlFor="first-letter">
@@ -105,7 +120,7 @@ export default function SearchBar({ inputValue }: Props) {
           id="first-letter"
           data-testid="first-letter-search-radio"
           checked={ selected.firstLetter }
-          onChange={ () => handleCheck }
+          onChange={ handleCheck }
         />
       </label>
       <button
