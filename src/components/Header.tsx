@@ -1,20 +1,21 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProfileIcon from '../images/profileIcon.svg';
 import iconSearch from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
-import useSearch from '../hooks/useSearch';
+import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 
 export default function Header() {
-  const searchInput = useSearch('');
+  const drinksContext = useContext(DrinksContext);
+  const { inputValue, setInputValue } = drinksContext;
 
   useEffect(() => {
     let trated = '';
-    if (searchInput.value.indexOf('') > -1) {
-      trated = searchInput.value.replace(/\s/g, '_');
-      searchInput.onChange(trated);
+    if (inputValue.indexOf('') > -1) {
+      trated = inputValue.replace(/\s/g, '_');
+      setInputValue(trated);
     }
-  }, [searchInput]);
+  }, [setInputValue, inputValue]);
 
   const path = window.location.pathname;
   const [pathIcon, setPathIcon] = useState<boolean>(false);
@@ -43,8 +44,8 @@ export default function Header() {
           <input
             type="text"
             data-testid="search-input"
-            value={ searchInput.value }
-            onChange={ ({ target }) => searchInput.onChange(target.value.toLowerCase()) }
+            value={ inputValue }
+            onChange={ ({ target }) => setInputValue(target.value.toLowerCase()) }
           />
         </div>
       ) : (
@@ -56,7 +57,7 @@ export default function Header() {
         </button>
       ) : null}
       <h1 data-testid="page-title">{newPath}</h1>
-      <SearchBar inputValue={ searchInput.value } />
+      <SearchBar />
     </header>
   );
 }

@@ -5,9 +5,11 @@ import { api } from '../../services/api';
 
 export function DrinksProvider({ children }: { children: React.ReactNode }) {
   const [drinks, setDrinks] = useState<Drinks>();
+  const [inputValue, setInputValue] = useState('');
 
   const fetchDrinks = async (url: string) => {
     try {
+      console.log('123');
       const data = await api(url);
       setDrinks(data.drinks);
     } catch (error) {
@@ -18,6 +20,8 @@ export function DrinksProvider({ children }: { children: React.ReactNode }) {
   const shared = {
     drinks,
     fetchDrinks,
+    inputValue,
+    setInputValue,
   };
 
   return (

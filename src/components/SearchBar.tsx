@@ -3,15 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
 
-type Props = {
-  inputValue: string
-};
-
-export default function SearchBar({ inputValue }: Props) {
+export default function SearchBar() {
   const drinksContext = useContext(DrinksContext);
   const mealsContext = useContext(MealsContext);
 
-  /*   const nav = useNavigate(); */
+  const { inputValue } = drinksContext;
+
+  const nav = useNavigate();
   const local = useLocation();
   const page = local.pathname.slice(1);
 
@@ -19,7 +17,7 @@ export default function SearchBar({ inputValue }: Props) {
     ingredient: false,
     name: false,
     firstLetter: false,
-    url: '',
+    // url: '',
   };
 
   const [selected, setSelected] = useState(INITIAL_STATE);
@@ -33,30 +31,33 @@ export default function SearchBar({ inputValue }: Props) {
             firstLetter: false,
             name: false,
             ingredient: true,
-            url: page === 'meals'
-              ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`
-              : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`,
+            // url: page === 'meals'
+            //   ? `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputValue}`
+            //   : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`,
           });
+          console.log(selected);
           break;
         case 'name':
           setSelected({
             firstLetter: false,
             ingredient: false,
             name: true,
-            url: page === 'meals'
-              ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`
-              : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`,
+            // url: page === 'meals'
+            //   ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`
+            //   : `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputValue}`,
           });
+          console.log(selected);
           break;
         case 'first-letter':
           setSelected({
             name: false,
             ingredient: false,
             firstLetter: true,
-            url: page === 'meals'
-              ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
-              : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`,
+            // url: page === 'meals'
+            //   ? `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputValue}`
+            //   : `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputValue}`,
           });
+          console.log(selected);
           break;
         default:
           setSelected({ ...selected });
@@ -66,20 +67,28 @@ export default function SearchBar({ inputValue }: Props) {
 
   const execSearch = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (inputValue.length > 1 && selected.firstLetter) {
-      window.alert('Pesquisa Inválida');
-    }
+    console.log(inputValue);
+    // if (inputValue.length > 1 && selected.firstLetter) {
+    //   return window.alert('Pesquisa Inválida');
+    // }
+    // if (page === 'meals' && mealsContext.meals?.meals === null) {
+    //   return window.alert('Sorry, we haven\'t found any recipes for these filters');
+    // }
+    // if (page === 'drinks' && drinksContext.drinks?.drinks === null) {
+    //   return window.alert('Sorry, we haven\'t found any recipes for these filters');
+    // }
     if (page === 'meals' && selected.url.length > 0) {
-      mealsContext.fetchMeals(selected.url);
-    /*       if (mealsContext.meals?.meals.length === 1) {
-        nav(`/meals/`)
-      } */
-    } else if (page === 'drinks' && selected.url.length > 0) {
-      drinksContext.fetchDrinks(selected.url);
+      return mealsContext.fetchMeals(selected.url);
     }
-    /*     if (mealsContext.meals === null || drinksContext.drinks === null) {
-      window.alert('Sorry, we haven\'t found any recipes for these filters');
-    } */
+    if (page === 'drinks' && selected.url.length > 0) {
+      return drinksContext.fetchDrinks(selected.url);
+    }
+    // if (mealsContext.meals?.meals.length === 1) {
+    //   nav(`/meals/${mealsContext.meals.meals[0].idMeal}`);
+    // }
+    // if (drinksContext.drinks?.drinks.length === 1) {
+    //   nav(`/meals/${drinksContext.drinks.drinks[0].idDrink}`);
+    // }
   };
 
   return (
