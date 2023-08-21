@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { api } from '../services/api';
+import { Drinks } from '../types/typesApi';
 
 export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState<Drinks>();
 
   useEffect(() => {
     const getDetails = async () => {
@@ -16,13 +17,15 @@ export default function RecipeDetails() {
       } else {
         const data = await api(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         setDetails(data);
-        console.log(details);
       }
     };
     getDetails();
   }, [pathname, id]);
 
   return (
-    <div>RecipeDetails</div>
+    <>
+      <div>RecipeDetails</div>
+      <p>{details?.drinks[0].strDrink}</p>
+    </>
   );
 }
