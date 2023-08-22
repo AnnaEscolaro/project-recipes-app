@@ -24,7 +24,7 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
 
   return (
     <div>
-      <img src={ strMealThumb } alt={ strMeal } data-testid="recipe-photo" />
+      <img src={ strMealThumb } alt={ strMeal } data-testid="recipe-photo" width="320" />
       <h1 data-testid="recipe-title">{strMeal}</h1>
       <h2 data-testid="recipe-category">{strCategory}</h2>
       {ingredients.map((ingredient, index) => (
@@ -39,12 +39,18 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
       ))}
       <p data-testid="instructions">{strInstructions}</p>
       <iframe
-        data-testid="video"
-        title="Vídeo do YouTube"
-        width="560"
-        height="315"
-        src={ strYoutube }
-        allow="autoplay; encrypted-media"
+        width="300"
+        height="200"
+        src={ strYoutube.replace('watch?v=', 'embed/') }
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share"
         allowFullScreen
       />
     </div>
