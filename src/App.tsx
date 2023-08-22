@@ -8,7 +8,8 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Layout from './components/Layout';
-import RecipeDetails from './components/RecipeDetails';
+import RecipeDetails from './pages/RecipeDetails';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       </Route>
       <Route path="/meals/:id" element={ <RecipeDetails /> } />
       <Route path="/drinks/:id" element={ <RecipeDetails /> } />
-      <Route path="/*" element={ <div>Not Found</div> } />
+      <Route path="/*" element={ <NotFound /> } />
     </Routes>
   );
 }
