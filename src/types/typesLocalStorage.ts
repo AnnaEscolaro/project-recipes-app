@@ -30,10 +30,10 @@ type FavoriteRecipes = Recipe[];
 
 /* export type InProgressRecipes = {
   drinks: {
-    [key: string ]: Ingredients[]
+    [key: string ]: DrinksDetails[]
   },
   meals: {
-    [key: string ]: Ingredients[]
+    [key: string ]: Meals[]
   }
 }; */
 

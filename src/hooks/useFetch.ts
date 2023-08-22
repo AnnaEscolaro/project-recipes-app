@@ -6,7 +6,7 @@ import { api } from '../services/api';
 
 export function useFetch(url: string) {
   const [data, setData] = useState<
-  Meals | MealsCategories | MealsNacionality | MealsAndDrinks>();
+  Meals | MealsCategories | MealsAndDrinks | MealsNacionality>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ export function useFetch(url: string) {
       setData(fetching);
     };
     fetchData();
-  });
+  }, [url]);
 
   return data;
 }
