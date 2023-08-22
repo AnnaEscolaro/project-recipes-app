@@ -5,8 +5,7 @@ export async function api(url: string) {
 }
 
 const nullAlert = (data: any) => {
-  const alert = 'Sorry, we haven\'t found any recipes for these filters';
-  console.log(data.drinks, data.meals);
+  const alert = 'Sorry, we haven\'t found any recipes for these filters.';
   if (data.meals === null || data.drinks === null) {
     window.alert(alert);
   }
@@ -62,10 +61,13 @@ export const mealsSearch = async (filter: string, inputValue: string, page: stri
   if (filter === 'name' && page === 'meals') {
     try {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`);
+      console.log(response);
       const data = await response.json();
+      console.log(data);
       nullAlert(data);
       return data.meals;
     } catch (error) {
+      console.log(error);
       return error;
     }
   }

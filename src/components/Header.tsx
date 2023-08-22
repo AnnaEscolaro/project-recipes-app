@@ -11,9 +11,10 @@ export default function Header() {
 
   useEffect(() => {
     let trated = '';
-    if (inputValue.indexOf('') > -1) {
+    if (inputValue.indexOf(' ') > -1) {
       trated = inputValue.replace(/\s/g, '_');
       setInputValue(trated);
+      console.log(trated);
     }
   }, [setInputValue, inputValue]);
 
@@ -45,7 +46,7 @@ export default function Header() {
             type="text"
             data-testid="search-input"
             value={ inputValue }
-            onChange={ ({ target }) => setInputValue(target.value.toLowerCase()) }
+            onChange={ ({ target }) => setInputValue(target.value) }
           />
         </div>
       ) : (
