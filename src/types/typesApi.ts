@@ -54,7 +54,7 @@ export type Meals = {
 
 export type MealsAndDrinks = {
   meals: Meals[];
-  drinks: DrinksDetails[];
+  drinks: Drinks[];
 };
 
 export type MealsCategories = {
@@ -194,7 +194,7 @@ export type MealsNacionality =
       ]
     };
 
-export type DrinksDetails = {
+export type Drinks = {
   idDrink: string,
   strDrink: string,
   strDrinkAlternate: string,

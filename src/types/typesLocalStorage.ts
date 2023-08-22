@@ -1,5 +1,3 @@
-import { Ingredients } from './typesApi';
-
 type User = {
   email: string,
 };
@@ -30,13 +28,13 @@ type Recipe = [{
 
 type FavoriteRecipes = Recipe[];
 
-export type InProgressRecipes = {
+/* export type InProgressRecipes = {
   drinks: {
-    [key: string ]: Ingredients[]
+    [key: string ]: DrinksDetails[]
   },
   meals: {
-    [key: string ]: Ingredients[]
+    [key: string ]: Meals[]
   }
-};
+}; */
 
-export type LocalStorage = User | DoneRecipes | FavoriteRecipes | InProgressRecipes;
+export type LocalStorage = User | DoneRecipes | FavoriteRecipes;

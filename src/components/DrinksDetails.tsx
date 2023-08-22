@@ -1,6 +1,6 @@
-import { DrinksDetails } from '../types/typesApi';
+import { Drinks } from '../types/typesApi';
 
-export default function DrinksDetail({ drink }: { drink: DrinksDetails }) {
+export default function DrinksDetail({ drink }: { drink: Drinks }) {
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
   const ingredients = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
