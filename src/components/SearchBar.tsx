@@ -53,18 +53,13 @@ export default function SearchBar() {
   };
 
   useEffect(() => {
-    try {
-      if (mealsContext.meals && mealsContext.meals.length === 1) {
-        nav(`/meals/${mealsContext.meals[0]}`);
-      }
-      if (drinksContext.drinks.length === 1) {
-        nav(`/meals/${drinksContext.drinks[0].idDrink}`);
-      }
-      if (drinksContext.drinks === null || mealsContext.meals === null) {
-        window.alert('Sorry, we haven\'t found any recipes for these filters');
-      }
-    } catch (error) {
-      console.error(error);
+    if (mealsContext.meals.length === 1 && mealsContext.meals[1] === undefined) {
+      console.log('ok');
+      nav(`/meals/${mealsContext.meals[0].idMeal}`);
+    }
+    if (drinksContext.drinks.length === 1) {
+      console.log('ok');
+      nav(`/drinks/${drinksContext.drinks[0].idDrink}`);
     }
   }, [drinksContext.drinks, nav, mealsContext.meals]);
 
