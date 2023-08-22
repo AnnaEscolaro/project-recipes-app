@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
@@ -52,34 +52,33 @@ export default function SearchBar() {
     }
   };
 
+  useEffect(() => {
+    try {
+      if (mealsContext.meals && mealsContext.meals.meals?.length === 1) {
+        console.log(mealsContext.meals.meals);
+        nav(`/meals/${mealsContext.meals.meals[0].idMeal}`);
+      }
+      if (drinksContext.drinks?.drinks?.length === 1) {
+        console.log(drinksContext.drinks.drinks);
+        nav(`/meals/${drinksContext.drinks.drinks[0].idDrink}`);
+      }
+      if (drinksContext.drinks?.drinks === null || mealsContext.meals?.meals === null) {
+        window.alert('Sorry, we haven\'t found any recipes for these filters');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }, [drinksContext.drinks?.drinks, nav, mealsContext.meals]);
+
   const execSearch = async (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log(inputValue);
-    console.log(searchFilter);
     if (inputValue.length > 1 && searchFilter === 'first-letter') {
       return window.alert('Your search must have only 1 (one) character');
     }
-    if (page === 'meals') {
-      const data = await mealsSearch(searchFilter, inputValue);
-      mealsContext.setMeals(data);
-      if (page === 'meals' && !mealsContext.meals.meals) {
-        console.log(mealsContext.meals.meals);
-        return window.alert('Sorry, we haven\'t found any recipes for these filters');
-      }
-    }
-    if (page === 'drinks') {
-      const data = await drinksSearch(searchFilter, inputValue);
-      drinksContext.setDrinks(data);
-      if (page === 'drinks' && !drinksContext.drinks.drinks) {
-        return window.alert('Sorry, we haven\'t found any recipes for these filters');
-      }
-    }
-    if (mealsContext.meals?.meals.length === 1) {
-      return nav(`/meals/${mealsContext.meals.meals[0].idMeal}`);
-    }
-    if (drinksContext.drinks?.drinks.length === 1) {
-      return nav(`/drinks/${drinksContext.drinks.drinks[0].idDrink}`);
-    }
+    const mealsData = await mealsSearch(searchFilter, inputValue, page);
+    if (mealsData) mealsContext.setMeals(mealsData);
+    const drinksData = await drinksSearch(searchFilter, inputValue, page);
+    if (drinksData) drinksContext.setDrinks(drinksData);
   };
 
   return (

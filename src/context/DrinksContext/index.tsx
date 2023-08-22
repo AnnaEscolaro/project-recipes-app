@@ -3,7 +3,7 @@ import { DrinksContext } from './DrinksContext';
 import { Drinks } from '../../types/typesApi';
 
 export function DrinksProvider({ children }: { children: React.ReactNode }) {
-  const [drinks, setDrinks] = useState<Drinks>();
+  const [drinks, setDrinks] = useState<Drinks | { drinks: null }>();
   const [inputValue, setInputValue] = useState('');
   const [searchFilter, setSearchFilter] = useState('');
 

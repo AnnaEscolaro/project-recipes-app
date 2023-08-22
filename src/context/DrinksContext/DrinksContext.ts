@@ -2,8 +2,8 @@ import { createContext } from 'react';
 import { Drinks } from '../../types/typesApi';
 
 type DrinksType = {
-  drinks: Drinks,
-  setDrinks: React.Dispatch<React.SetStateAction<Drinks>>,
+  drinks: Drinks | { drinks: null } | undefined,
+  setDrinks: React.Dispatch<React.SetStateAction<Drinks | { drinks: null } | undefined>>,
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>,
   searchFilter: string,
