@@ -2,8 +2,8 @@ import { createContext } from 'react';
 import { Meals } from '../../types/typesApi';
 
 type MealsType = {
-  meals: Meals | undefined,
-  fetchMeals: (url: string) => void,
+  meals: Meals,
+  setMeals: React.Dispatch<React.SetStateAction<Meals>>,
 };
 
 export const MealsContext = createContext({} as MealsType);
