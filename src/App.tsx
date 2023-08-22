@@ -8,8 +8,8 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Layout from './components/Layout';
-import DetailsMeal from './pages/DetailsMeal';
-import DetailsDrink from './pages/DetailsDrink';
+import RecipeDetails from './pages/RecipeDetails';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -17,13 +17,14 @@ function App() {
       <Route index element={ <Login /> } />
       <Route path="/" element={ <Layout /> }>
         <Route path="/meals" element={ <Meals /> } />
-        <Route path="meals/:id" element={ <DetailsMeal /> } />
-        <Route path="drinks/:id" element={ <DetailsDrink /> } />
         <Route path="/drinks" element={ <Drinks /> } />
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <DoneRecipes /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
       </Route>
+      <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
+      <Route path="/*" element={ <NotFound /> } />
     </Routes>
   );
 }

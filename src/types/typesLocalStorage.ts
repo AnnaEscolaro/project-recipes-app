@@ -30,7 +30,7 @@ type Recipe = [{
 
 type FavoriteRecipes = Recipe[];
 
-type InProgressRecipes = {
+export type InProgressRecipes = {
   drinks: {
     [key: string ]: Ingredients[]
   },
