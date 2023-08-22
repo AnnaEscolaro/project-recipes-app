@@ -1,11 +1,14 @@
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import { renderWithRouter } from './Helpers/renderWithRouter';
-import App from '../App';
 import { MockFetchMeals } from './Mocks/MockFetchMeals';
+import App from '../App';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
+  const expectedMeal = 'Spicy Arrabiata Penne';
+
+  window.alert = vi.fn();
 
   beforeEach(() => {
     global.fetch = vi.fn().mockResolvedValue({
@@ -37,11 +40,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'chicken');
+    await user.type(textInput, 'penne rigate');
     await user.click(ingredient);
     await user.click(searchButtonBar);
 
-    expect('Brown Stew Chicken').toBeInTheDocument();
+    const meal = screen.getByText(expectedMeal);
+    expect(meal).toBeInTheDocument();
   });
 
   test('Se o filtro name funciona corretamente na tela meals', async () => {
@@ -52,11 +56,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'carbonara');
+    await user.type(textInput, 'Arrabiata');
     await user.click(name);
     await user.click(searchButtonBar);
 
-    expect('Spaghetti alla Carbonara').toBeInTheDocument();
+    const meal = screen.getByText(expectedMeal);
+    expect(meal).toBeInTheDocument();
   });
 
   test('Se o filtro firstletter funciona corretamente na tela meals', async () => {
@@ -67,11 +72,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'a');
+    await user.type(textInput, 's');
     await user.click(firstLetter);
     await user.click(searchButtonBar);
 
-    expect('Apple Frangipan Tart').toBeInTheDocument();
+    const meal = screen.getByText(expectedMeal);
+    expect(meal).toBeInTheDocument();
   });
 
   test('Se aparece um alerta na tela de meals caso sejam digitadas mais de uma letra no filtro firstletter', async () => {

@@ -1,11 +1,14 @@
 import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import { renderWithRouter } from './Helpers/renderWithRouter';
-import App from '../App';
 import { MockFetchDrinks } from './Mocks/MockFetchDrinks';
+import App from '../App';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
+  const expectedDrink = 'Munich Mule';
+
+  window.alert = vi.fn();
 
   beforeEach(() => {
     global.fetch = vi.fn().mockResolvedValue({
@@ -37,11 +40,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'wine');
+    await user.type(textInput, 'Gin');
     await user.click(ingredient);
     await user.click(searchButtonBar);
+    const drink = screen.getByText(expectedDrink);
 
-    expect('Archbishop').toBeInTheDocument();
+    expect(drink).toBeInTheDocument();
   });
 
   test('Se o filtro name funciona corretamente na tela drinks', async () => {
@@ -52,11 +56,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'new_york');
+    await user.type(textInput, 'munich');
     await user.click(name);
     await user.click(searchButtonBar);
 
-    expect('New York Sour"').toBeInTheDocument();
+    const drink = screen.getByText(expectedDrink);
+    expect(drink).toBeInTheDocument();
   });
 
   test('Se o filtro firstletter funciona corretamente na tela drinks', async () => {
@@ -67,11 +72,12 @@ describe('Testando o componente SearchBar', () => {
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'a');
+    await user.type(textInput, 'm');
     await user.click(firstLetter);
     await user.click(searchButtonBar);
 
-    expect('A1').toBeInTheDocument();
+    const drink = screen.getByText(expectedDrink);
+    expect(drink).toBeInTheDocument();
   });
 
   test('Se aparece um alerta na tela de drinks caso sejam digitadas mais de uma letra no filtro firstletter', async () => {
