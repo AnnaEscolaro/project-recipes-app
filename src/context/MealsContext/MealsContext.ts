@@ -2,8 +2,8 @@ import { createContext } from 'react';
 import { Meals } from '../../types/typesApi';
 
 type MealsType = {
-  meals: Meals | { meals: null } | undefined,
-  setMeals: React.Dispatch<React.SetStateAction<Meals | { meals: null } | undefined>>,
+  meals: Meals[],
+  setMeals: React.Dispatch<React.SetStateAction<Meals>>,
 };
 
 export const MealsContext = createContext({} as MealsType);

@@ -54,21 +54,19 @@ export default function SearchBar() {
 
   useEffect(() => {
     try {
-      if (mealsContext.meals && mealsContext.meals.meals?.length === 1) {
-        console.log(mealsContext.meals.meals);
-        nav(`/meals/${mealsContext.meals.meals[0].idMeal}`);
+      if (mealsContext.meals && mealsContext.meals.length === 1) {
+        nav(`/meals/${mealsContext.meals[0]}`);
       }
-      if (drinksContext.drinks?.drinks?.length === 1) {
-        console.log(drinksContext.drinks.drinks);
-        nav(`/meals/${drinksContext.drinks.drinks[0].idDrink}`);
+      if (drinksContext.drinks.length === 1) {
+        nav(`/meals/${drinksContext.drinks[0].idDrink}`);
       }
-      if (drinksContext.drinks?.drinks === null || mealsContext.meals?.meals === null) {
+      if (drinksContext.drinks === null || mealsContext.meals === null) {
         window.alert('Sorry, we haven\'t found any recipes for these filters');
       }
     } catch (error) {
       console.error(error);
     }
-  }, [drinksContext.drinks?.drinks, nav, mealsContext.meals]);
+  }, [drinksContext.drinks, nav, mealsContext.meals]);
 
   const execSearch = async (e: React.MouseEvent) => {
     e.preventDefault();

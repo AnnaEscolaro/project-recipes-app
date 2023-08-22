@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import {
-  Drinks, Meals, MealsCategories, MealsIngredients, MealsNacionality,
+  MealsAndDrinks, Meals, MealsCategories, MealsNacionality,
 } from '../types/typesApi';
 import { api } from '../services/api';
 
 export function useFetch(url: string) {
   const [data, setData] = useState<
-  Meals | MealsCategories | MealsIngredients | MealsNacionality | Drinks>();
+  Meals | MealsCategories | MealsNacionality | MealsAndDrinks>();
 
   useEffect(() => {
     const fetchData = async () => {
