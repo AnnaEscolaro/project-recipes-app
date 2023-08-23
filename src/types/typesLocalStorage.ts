@@ -26,15 +26,15 @@ export type Recipe = [{
   image: string
 }];
 
-type FavoriteRecipes = Recipe[];
+export type FavoriteRecipes = Recipe[];
 
-/* export type InProgressRecipes = {
+export type InProgressRecipes = {
   drinks: {
-    [key: string ]: DrinksDetails[]
+    [key: string ]: []
   },
   meals: {
-    [key: string ]: Meals[]
+    [key: string ]: []
   }
-}; */
+};
 
-export type LocalStorage = User | DoneRecipes | FavoriteRecipes;
+export type LocalStorage = User | DoneRecipes | FavoriteRecipes | InProgressRecipes;

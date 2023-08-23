@@ -8,9 +8,24 @@ export default function LocalStorageProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useLocalStorage('user', { email: '' });
+  const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
+  const [inProgressRecipes, setInProgressRecipes] = useLocalStorage(
+    'inProgressRecipes',
+    {
+      drinks: {},
+      meals: {},
+    },
+  );
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
   const shared = {
     user,
     setUser,
+    doneRecipes,
+    setDoneRecipes,
+    inProgressRecipes,
+    setInProgressRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
   };
   return (
     <div>
