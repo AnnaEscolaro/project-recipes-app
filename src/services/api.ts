@@ -6,7 +6,6 @@ export async function api(url: string) {
 
 export const drinksSearch = async (filter: string, inputValue: string, page: string) => {
   if (filter === 'ingredient' && page === 'drinks') {
-    console.log('ok');
     try {
       const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputValue}`);
       const data = await response.json();
@@ -51,12 +50,9 @@ export const mealsSearch = async (filter: string, inputValue: string, page: stri
   if (filter === 'name' && page === 'meals') {
     try {
       const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputValue}`);
-      console.log(response);
       const data = await response.json();
-      console.log(data);
       return data.meals;
     } catch (error) {
-      console.log(error);
       return error;
     }
   }
