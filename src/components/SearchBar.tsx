@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
@@ -52,31 +52,35 @@ export default function SearchBar() {
     }
   };
 
-  useEffect(() => {
-    try {
-      if (mealsContext.meals && mealsContext.meals.length === 1) {
-        nav(`/meals/${mealsContext.meals[0]}`);
-      }
-      if (drinksContext.drinks.length === 1) {
-        nav(`/meals/${drinksContext.drinks[0].idDrink}`);
-      }
-      if (drinksContext.drinks === null || mealsContext.meals === null) {
-        window.alert('Sorry, we haven\'t found any recipes for these filters');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, [drinksContext.drinks, nav, mealsContext.meals]);
-
   const execSearch = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (inputValue.length > 1 && searchFilter === 'first-letter') {
       return window.alert('Your search must have only 1 (one) character');
     }
+
     const mealsData = await mealsSearch(searchFilter, inputValue, page);
-    if (mealsData) mealsContext.setMeals(mealsData);
+    if (mealsData) {
+      console.log({ mealsData });
+      mealsContext.setMeals(mealsData);
+      if (mealsData.length === 1) {
+        nav(`/meals/${mealsData[0].idMeal}`);
+      }
+    }
+
     const drinksData = await drinksSearch(searchFilter, inputValue, page);
-    if (drinksData) drinksContext.setDrinks(drinksData);
+    if (drinksData) {
+      drinksContext.setDrinks(drinksData);
+      if (drinksData.length === 1) {
+        nav(`/drinks/${drinksData[0].idDrink}`);
+      }
+    }
+
+    if (mealsData === null) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (drinksData === null) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
   };
 
   return (
