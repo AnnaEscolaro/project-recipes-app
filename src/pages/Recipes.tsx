@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardRecipes from '../components/CardRecipes';
 
 type RecipesProps = {
@@ -22,7 +22,7 @@ function Recipes({ path } : RecipesProps) {
       }
     };
     fetchData();
-  }, []);
+  }, [path]);
 
   return (
     <>
