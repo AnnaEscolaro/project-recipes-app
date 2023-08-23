@@ -10,14 +10,23 @@ describe('Testando o componente Header', () => {
   });
   test('testando se o input aparece e some', async () => {
     const { user } = renderWithRouter(<App />, { route: '/meals' });
+
+    const inputLiteral = 'search-input';
+
     const searchButton = screen.getByTestId('btn-Click');
     expect(searchButton).toBeInTheDocument();
-    expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
+    expect(screen.queryByTestId(inputLiteral)).not.toBeInTheDocument();
     await user.click(searchButton);
-    expect(screen.queryByTestId('search-input')).toBeInTheDocument();
+    const input = await screen.findByTestId(inputLiteral);
+    expect(screen.queryByTestId(inputLiteral)).toBeInTheDocument();
+
+    await user.type(input, 'chicken breast');
+
+    expect(input).toHaveValue('chicken_breast');
   });
   test('testando se ao clicar no icone perfil a barra de pesquisa some', async () => {
     const { user } = renderWithRouter(<App />, { route: '/meals' });
+
     const oldTitle = screen.getByRole('heading', { name: /meals/i });
     expect(oldTitle).toBeInTheDocument();
     const searchButton = screen.getByTestId('profile-top-btn');
