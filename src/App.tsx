@@ -10,14 +10,15 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import Layout from './components/Layout';
 import RecipeDetails from './pages/RecipeDetails';
 import NotFound from './pages/NotFound';
+import Recipes from './pages/Recipes';
 
 function App() {
   return (
     <Routes>
       <Route index element={ <Login /> } />
       <Route path="/" element={ <Layout /> }>
-        <Route path="/meals" element={ <Meals /> } />
-        <Route path="/drinks" element={ <Drinks /> } />
+        <Route path="/meals" element={ <Recipes path="meals" /> } />
+        <Route path="/drinks" element={ <Recipes path="drinks" /> } />
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <DoneRecipes /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
