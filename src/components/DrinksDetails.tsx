@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
+import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function DrinksDetail({ drink }: { drink: Drinks }) {
   const [data, setData] = useState<Meals[]>([]);
+
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
+
   const ingredients = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
       if (curr[0].includes('strIngredient') && curr[1] !== null) {
@@ -13,6 +17,7 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
     },
     [],
   );
+
   const measures = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
       if (curr[0].includes('strMeasure') && curr[1] !== null) {
@@ -23,19 +28,33 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
     [],
   );
 
+  const { inProgressRecipes, doneRecipes } = useContext(LocalStorageContext);
+
+  const recipeStatus = () => {
+    if (inProgressRecipes.drinks[drink.idDrink]) {
+      return 'Continue Recipe';
+    }
+    if (doneRecipes.some((recipe) => recipe.id === drink.idDrink)) {
+      return '';
+    }
+    return 'Start Recipe';
+  };
+
+  const status = recipeStatus();
+
   useEffect(() => {
-    const recomandationDrink = async () => {
+    const recommendationDrink = async () => {
       try {
         const response = await fetch(
           'https://www.themealdb.com/api/json/v1/1/search.php?s=',
         );
-        const mealsRecomentation = await response.json();
-        setData(mealsRecomentation.meals);
+        const mealsRecommendation = await response.json();
+        setData(mealsRecommendation.meals);
       } catch (error) {
         console.log(error);
       }
     };
-    recomandationDrink();
+    recommendationDrink();
   }, []);
 
   return (
@@ -75,12 +94,15 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
             </div>
           ))}
       </div>
-      <button
-        data-testid="start-recipe-btn"
-        style={ { position: 'fixed', bottom: 0 } }
-      >
-        Start Recipe
-      </button>
+      { (status === 'Continue Recipe' || status === 'Start Recipe')
+      && (
+        <Link
+          to={ `/drinks/${drink.idDrink}/in-progress` }
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: 0 } }
+        >
+          { status }
+        </Link>)}
     </div>
   );
 }

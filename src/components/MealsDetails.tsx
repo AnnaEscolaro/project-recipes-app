@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
+import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function MealsDetails({ meals }: { meals: Meals }) {
   const [data, setData] = useState<Drinks[]>([]);
@@ -28,20 +30,35 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
     [],
   );
 
+  const { inProgressRecipes, doneRecipes } = useContext(LocalStorageContext);
+
+  const recipeStatus = () => {
+    if (inProgressRecipes.meals[meals.idMeal]) {
+      return 'Continue Recipe';
+    }
+    if (doneRecipes.some((recipe) => recipe.id === meals.idMeal)) {
+      return '';
+    }
+    return 'Start Recipe';
+  };
+
+  const status = recipeStatus();
+
   useEffect(() => {
-    const recomandationMeals = async () => {
+    const recommendationMeals = async () => {
       try {
         const response = await fetch(
           'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
         );
-        const drinkRecomantation = await response.json();
-        setData(drinkRecomantation.drinks);
+        const drinkRecommendation = await response.json();
+        setData(drinkRecommendation.drinks);
       } catch (error) {
         console.log(error);
       }
     };
-    recomandationMeals();
+    recommendationMeals();
   }, []);
+
   return (
     <div>
       <img
@@ -97,12 +114,15 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
             </div>
           ))}
       </div>
-      <button
-        data-testid="start-recipe-btn"
-        style={ { position: 'fixed', bottom: 0 } }
-      >
-        Start Recipe
-      </button>
+      { (status === 'Continue Recipe' || status === 'Start Recipe')
+      && (
+        <Link
+          to={ `/meals/${meals.idMeal}/in-progress` }
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: 0 } }
+        >
+          { status }
+        </Link>)}
     </div>
   );
 }

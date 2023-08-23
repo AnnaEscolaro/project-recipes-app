@@ -11,6 +11,7 @@ export default function RecipeDetails() {
 
   const [details, setDetails] = useState<MealsAndDrinks>();
   const [isMeals, setIsMeals] = useState<boolean>();
+
   useEffect(() => {
     const getDetails = async () => {
       try {
@@ -35,10 +36,10 @@ export default function RecipeDetails() {
   }, [pathname, id]);
 
   return (
-    <div>
+    <section>
       {isMeals
         ? details && <MealsDetails meals={ details.meals[0] } />
         : details && <DrinksDetail drink={ details.drinks[0] } />}
-    </div>
+    </section>
   );
 }
