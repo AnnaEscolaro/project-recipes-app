@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { useLogin } from '../hooks/useLogin';
+import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setUser } = useContext(LocalStorageContext);
 
   const email = useLogin('');
   const password = useLogin('');
@@ -11,7 +14,7 @@ export default function Login() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    localStorage.setItem('user', JSON.stringify({ email: email.value }));
+    setUser({ email: email.value });
     navigate('/meals');
   };
 
