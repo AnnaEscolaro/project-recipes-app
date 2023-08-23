@@ -14,7 +14,6 @@ export default function Header() {
     if (inputValue.indexOf(' ') > -1) {
       trated = inputValue.replace(/\s/g, '_');
       setInputValue(trated);
-      console.log(trated);
     }
   }, [setInputValue, inputValue]);
 

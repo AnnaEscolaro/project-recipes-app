@@ -69,11 +69,17 @@ export default function SearchBar() {
 
     const drinksData = await drinksSearch(searchFilter, inputValue, page);
     if (drinksData) {
-      console.log({ drinksData });
       drinksContext.setDrinks(drinksData);
       if (drinksData.length === 1) {
         nav(`/drinks/${drinksData[0].idDrink}`);
       }
+    }
+
+    if (mealsData === null) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (drinksData === null) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 
