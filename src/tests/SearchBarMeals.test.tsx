@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/dom';
+import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import { renderWithRouter } from './Helpers/renderWithRouter';
 import { MockFetchMeals } from './Mocks/MockFetchMeals';
@@ -8,9 +8,8 @@ describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
   const expectedMeal = 'Spicy Arrabiata Penne';
 
-  window.alert = vi.fn();
-
   beforeEach(() => {
+    window.alert = vi.fn(() => {});
     global.fetch = vi.fn().mockResolvedValue({
       json: async () => MockFetchMeals,
     });
@@ -93,15 +92,21 @@ describe('Testando o componente SearchBar', () => {
     await user.click(searchButtonBar);
     expect(window.alert).toHaveBeenCalledTimes(1);
   });
+});
 
-  test.only('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
+describe('Testando o alerta de receita não encontrada', () => {
+  test('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
+    window.alert = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => null,
+    });
     const { user } = renderWithRouter(<App />, { route: '/meals' });
     const name = screen.getByLabelText(/Name/i);
     const searchButtonHeader = screen.getByTestId('btn-Click');
     const searchButtonBar = screen.getByRole('button', { name: /Search/i });
 
     await user.click(searchButtonHeader);
-    const textInput = screen.getByTestId(searchInput);
+    const textInput = screen.getByTestId('search-input');
     await user.type(textInput, 'trybe');
     await user.click(name);
     await user.click(searchButtonBar);
