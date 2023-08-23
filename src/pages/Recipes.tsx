@@ -28,7 +28,7 @@ function Recipes({ path } : RecipesProps) {
     <>
       <h1>Recipes</h1>
       {currentValue && (
-        currentValue.map((current, index) => {
+        currentValue.slice(0, 12).map((current, index) => {
           return (
             <CardRecipes key={ index } data={ current } type={ path } index={ index } />
           );
