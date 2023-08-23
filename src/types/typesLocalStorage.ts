@@ -1,8 +1,8 @@
-type User = {
+export type User = {
   email: string,
 };
 
-type DoneRecipe = {
+export type DoneRecipe = {
   id: string,
   type: string,
   nationality: string,
@@ -14,9 +14,9 @@ type DoneRecipe = {
   tags: string[],
 };
 
-type DoneRecipes = DoneRecipe[];
+export type DoneRecipes = DoneRecipe[];
 
-type Recipe = [{
+export type Recipe = [{
   id: string,
   type: string,
   nationality: string,
