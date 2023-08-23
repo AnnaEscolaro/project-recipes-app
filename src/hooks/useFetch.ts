@@ -10,8 +10,12 @@ export function useFetch(url: string) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetching = await api(url);
-      setData(fetching);
+      try {
+        const fetching = await api(url);
+        setData(fetching);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, [url]);
