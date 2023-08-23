@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { MealsProvider } from '../../context/MealsContext';
 import { DrinksProvider } from '../../context/DrinksContext';
+import LocalStorageProvider from '../../context/LocalStorageContext';
 
 export const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
   window.history.pushState({}, '', route);
@@ -10,13 +11,15 @@ export const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
   return {
     user: userEvent.setup(),
     ...render(
-      <MealsProvider>
-        <DrinksProvider>
-          <BrowserRouter>
-            {ui}
-          </BrowserRouter>
-        </DrinksProvider>
-      </MealsProvider>,
+      <LocalStorageProvider>
+        <MealsProvider>
+          <DrinksProvider>
+            <BrowserRouter>
+              {ui}
+            </BrowserRouter>
+          </DrinksProvider>
+        </MealsProvider>
+      </LocalStorageProvider>,
     ),
   };
 };
