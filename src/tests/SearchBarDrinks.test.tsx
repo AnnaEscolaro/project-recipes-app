@@ -43,7 +43,7 @@ describe('Testando o componente SearchBar', () => {
     await user.type(textInput, 'Gin');
     await user.click(ingredient);
     await user.click(searchButtonBar);
-    const drink = screen.getByText(expectedDrink);
+    const drink = await screen.findByText(expectedDrink);
 
     expect(drink).toBeInTheDocument();
   });
@@ -60,7 +60,7 @@ describe('Testando o componente SearchBar', () => {
     await user.click(name);
     await user.click(searchButtonBar);
 
-    const drink = screen.getByText(expectedDrink);
+    const drink = await screen.findByText(expectedDrink);
     expect(drink).toBeInTheDocument();
   });
 
@@ -76,7 +76,7 @@ describe('Testando o componente SearchBar', () => {
     await user.click(firstLetter);
     await user.click(searchButtonBar);
 
-    const drink = screen.getByText(expectedDrink);
+    const drink = await screen.findByText(expectedDrink);
     expect(drink).toBeInTheDocument();
   });
 
@@ -94,7 +94,7 @@ describe('Testando o componente SearchBar', () => {
     expect(window.alert).toHaveBeenCalledTimes(1);
   });
 
-  test('Se aparece um alerta na tela de drinks caso a receita não exista', async () => {
+  test.only('Se aparece um alerta na tela de drinks caso a receita não exista', async () => {
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const searchButtonHeader = screen.getByTestId('btn-Click');

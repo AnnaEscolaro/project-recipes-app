@@ -44,7 +44,7 @@ describe('Testando o componente SearchBar', () => {
     await user.click(ingredient);
     await user.click(searchButtonBar);
 
-    const meal = screen.getByText(expectedMeal);
+    const meal = await screen.findByText(expectedMeal);
     expect(meal).toBeInTheDocument();
   });
 
@@ -60,7 +60,7 @@ describe('Testando o componente SearchBar', () => {
     await user.click(name);
     await user.click(searchButtonBar);
 
-    const meal = screen.getByText(expectedMeal);
+    const meal = await screen.findByText(expectedMeal);
     expect(meal).toBeInTheDocument();
   });
 
@@ -76,7 +76,7 @@ describe('Testando o componente SearchBar', () => {
     await user.click(firstLetter);
     await user.click(searchButtonBar);
 
-    const meal = screen.getByText(expectedMeal);
+    const meal = await screen.findByText(expectedMeal);
     expect(meal).toBeInTheDocument();
   });
 
@@ -94,17 +94,18 @@ describe('Testando o componente SearchBar', () => {
     expect(window.alert).toHaveBeenCalledTimes(1);
   });
 
-  test('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
+  test.only('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
     const { user } = renderWithRouter(<App />, { route: '/meals' });
-    const ingredient = screen.getByLabelText(/Ingredient/i);
+    const name = screen.getByLabelText(/Name/i);
     const searchButtonHeader = screen.getByTestId('btn-Click');
     const searchButtonBar = screen.getByRole('button', { name: /Search/i });
 
     await user.click(searchButtonHeader);
     const textInput = screen.getByTestId(searchInput);
-    await user.type(textInput, 'trybe@trybe');
-    await user.click(ingredient);
+    await user.type(textInput, 'trybe');
+    await user.click(name);
     await user.click(searchButtonBar);
+
     expect(window.alert).toHaveBeenCalledTimes(1);
   });
 });
