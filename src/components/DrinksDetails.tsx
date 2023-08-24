@@ -6,7 +6,7 @@ import { Recipe } from '../types/typesLocalStorage';
 import favoriteIcon from '../images/blackHeartIcon.svg';
 import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
 
-export default function DrinksDetail({
+export default function DrinksDetails({
   drink,
   handleClick,
   alert,

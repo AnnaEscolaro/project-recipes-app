@@ -25,12 +25,12 @@ function App() {
       <Route path="/meals/:id" element={ <RecipeDetails /> } />
       <Route
         path="/meals/:id/in-progress"
-        element={ <RecipeInProgress path="meals" /> }
+        element={ <RecipeInProgress /> }
       />
       <Route path="/drinks/:id" element={ <RecipeDetails /> } />
       <Route
         path="/drinks/:id/in-progress"
-        element={ <RecipeInProgress path="drinks" /> }
+        element={ <RecipeInProgress /> }
       />
       <Route path="/*" element={ <NotFound /> } />
     </Routes>
