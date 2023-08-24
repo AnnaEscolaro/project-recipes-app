@@ -63,8 +63,17 @@ export default function MealsDetails({
   // Cria a chave da receita no seu respectivo objeto e adiciona o número do ingrediente nela.
 
   const addProgress = (ingredientNum: number) => {
-    if (inProgressRecipes.meals[meals.idMeal]
-      && !(inProgressRecipes.meals[meals.idMeal].includes(ingredientNum))) {
+    if (inProgressRecipes.meals[meals.idMeal].includes(ingredientNum)) {
+      const ingredientList = inProgressRecipes.meals[meals.idMeal];
+      const filtered = ingredientList.filter((ing) => ing !== ingredientNum);
+
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [meals.idMeal]: filtered,
+      });
+
+      console.log({ filtered, ingredientList });
+    } else {
       setInProgressRecipes({
         ...inProgressRecipes,
         meals: {
@@ -72,9 +81,8 @@ export default function MealsDetails({
           [meals.idMeal]: [...inProgressRecipes.meals[meals.idMeal], ingredientNum],
         },
       });
+      console.log('ok');
     }
-
-    console.log(ingredientNum, inProgressRecipes.meals);
   };
 
   const measures = Object.entries(meals).reduce(
@@ -113,7 +121,6 @@ export default function MealsDetails({
     };
     recommendationMeals();
     setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === meals.idMeal));
-    console.log(inProgressRecipes.meals);
   }, [favoriteRecipes, meals.idMeal, inProgressRecipes]);
 
   return (
@@ -190,21 +197,21 @@ export default function MealsDetails({
             </div>
           ))}
       </div>
-      {(status === 'Continue Recipe' || status === 'Start Recipe') && (
+      {!path.includes('progress')
+      && (status === 'Continue Recipe' || status === 'Start Recipe') && (
         <Buttons
           page={ `/meals/${meals.idMeal}/in-progress` }
           btnName={ status }
           testID="start-recipe-btn"
         />
       )}
-      {(inProgressRecipes.meals[meals.idMeal]
-      && inProgressRecipes.meals[meals.idMeal].length === ingredients.length) && (
-        <Buttons
-          page={ `/meals/${meals.idMeal}/done-recipes` }
-          btnName="Finish Recipe"
-          testID="finish-recipe-btn"
-        />
-      )}
+      {path.includes('progress')
+      && <Buttons
+        page={ `/meals/${meals.idMeal}/done-recipes` }
+        btnName="Finish Recipe"
+        testID="finish-recipe-btn"
+        visibility={ inProgressRecipes.meals[meals.idMeal] === undefined }
+      />}
       <p>{alert}</p>
       <div>
         <button
