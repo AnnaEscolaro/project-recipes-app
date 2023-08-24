@@ -17,21 +17,21 @@ function Recipes({ path } : RecipesProps) {
     const fetchData = async () => {
       if (path === 'meals' && meals?.length === 0) {
         const responseMeals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-        const dataMeals = await responseMeals.json();
-        setMeals(dataMeals.meals);
+        const dataMeals = await responseMeals?.json();
+        setMeals(dataMeals?.meals);
 
         const responseCategoryMeals = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-        const dataCategoryMeals = await responseCategoryMeals.json();
-        setListCategory(dataCategoryMeals.meals);
+        const dataCategoryMeals = await responseCategoryMeals?.json();
+        setListCategory(dataCategoryMeals?.meals);
       }
       if (path === 'drinks' && drinks?.length === 0) {
         const responseDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-        const dataDrinks = await responseDrinks.json();
-        setDrinks(dataDrinks.drinks);
+        const dataDrinks = await responseDrinks?.json();
+        setDrinks(dataDrinks?.drinks);
 
         const responseCategoryDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-        const dataCategoryDrinks = await responseCategoryDrinks.json();
-        setListCategory(dataCategoryDrinks.drinks);
+        const dataCategoryDrinks = await responseCategoryDrinks?.json();
+        setListCategory(dataCategoryDrinks?.drinks);
       }
     };
     fetchData();
