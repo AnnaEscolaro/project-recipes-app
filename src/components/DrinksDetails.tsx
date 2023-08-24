@@ -2,8 +2,21 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
+import { Recipe } from '../types/typesLocalStorage';
+import favoriteIcon from '../images/blackHeartIcon.svg';
+import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
 
-export default function DrinksDetail({ drink }: { drink: Drinks }) {
+export default function DrinksDetail({
+  drink,
+  handleClick,
+  alert,
+  handleClickFavorite,
+}: {
+  drink: Drinks;
+  handleClick: (link: string) => void;
+  alert: string;
+  handleClickFavorite: (FavoriteRecipe: Recipe) => void;
+}) {
   const [data, setData] = useState<Meals[]>([]);
 
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
@@ -18,6 +31,8 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
     [],
   );
 
+  const [isFavorite, setIsFavorite] = useState<boolean>();
+
   const measures = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
       if (curr[0].includes('strMeasure') && curr[1] !== null) {
@@ -28,7 +43,8 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
     [],
   );
 
-  const { inProgressRecipes, doneRecipes } = useContext(LocalStorageContext);
+  const { inProgressRecipes,
+    doneRecipes, favoriteRecipes } = useContext(LocalStorageContext);
 
   const recipeStatus = () => {
     if (inProgressRecipes.drinks[drink.idDrink]) {
@@ -55,7 +71,10 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
       }
     };
     recommendationDrink();
-  }, []);
+    setIsFavorite(
+      favoriteRecipes.some((recipe) => recipe.id === drink.idDrink),
+    );
+  }, [favoriteRecipes, drink.idDrink]);
 
   return (
     <div>
@@ -94,15 +113,42 @@ export default function DrinksDetail({ drink }: { drink: Drinks }) {
             </div>
           ))}
       </div>
-      { (status === 'Continue Recipe' || status === 'Start Recipe')
-      && (
+      {(status === 'Continue Recipe' || status === 'Start Recipe') && (
         <Link
           to={ `/drinks/${drink.idDrink}/in-progress` }
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0 } }
+          style={ { position: 'fixed', bottom: 0, right: 0 } }
         >
-          { status }
-        </Link>)}
+          {status}
+        </Link>
+      )}
+      <p>{alert}</p>
+      <div>
+        <button
+          data-testid="share-btn"
+          onClick={ () => handleClick(`http://localhost:3000/drinks/${drink.idDrink}`) }
+        >
+          Share
+        </button>
+        <button
+          onClick={ () => handleClickFavorite({
+            id: drink.idDrink,
+            type: 'drink',
+            category: drink.strCategory,
+            nationality: '',
+            alcoholicOrNot: drink.strAlcoholic,
+            name: strDrink,
+            image: strDrinkThumb,
+          }) }
+        >
+          favorite
+          <img
+            data-testid="favorite-btn"
+            src={ isFavorite ? favoriteIcon : noIsFavoriteIcon }
+            alt=""
+          />
+        </button>
+      </div>
     </div>
   );
 }

@@ -2,10 +2,26 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
+import { Recipe } from '../types/typesLocalStorage';
+import favoriteIcon from '../images/blackHeartIcon.svg';
+import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
 
-export default function MealsDetails({ meals }: { meals: Meals }) {
+export default function MealsDetails({
+  meals,
+  handleClick,
+  alert,
+  handleClickFavorite,
+}: {
+  meals: Meals;
+  handleClick: (link: string) => void;
+  alert: string;
+  handleClickFavorite: (FavoriteRecipe: Recipe) => void;
+}) {
+  const { inProgressRecipes,
+    doneRecipes, favoriteRecipes } = useContext(LocalStorageContext);
   const [data, setData] = useState<Drinks[]>([]);
   const { strMeal, strMealThumb, strCategory, strYoutube, strInstructions } = meals;
+  const [isFavorite, setIsFavorite] = useState<boolean>();
 
   const ingredients = Object.entries(meals).reduce(
     (acc: string[], curr: string[]) => {
@@ -29,8 +45,6 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
     },
     [],
   );
-
-  const { inProgressRecipes, doneRecipes } = useContext(LocalStorageContext);
 
   const recipeStatus = () => {
     if (inProgressRecipes.meals[meals.idMeal]) {
@@ -57,7 +71,8 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
       }
     };
     recommendationMeals();
-  }, []);
+    setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === meals.idMeal));
+  }, [favoriteRecipes, meals.idMeal]);
 
   return (
     <div>
@@ -114,15 +129,42 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
             </div>
           ))}
       </div>
-      { (status === 'Continue Recipe' || status === 'Start Recipe')
-      && (
+      {(status === 'Continue Recipe' || status === 'Start Recipe') && (
         <Link
           to={ `/meals/${meals.idMeal}/in-progress` }
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0 } }
+          style={ { position: 'fixed', bottom: 0, right: 0 } }
         >
-          { status }
-        </Link>)}
+          {status}
+        </Link>
+      )}
+      <p>{alert}</p>
+      <div>
+        <button
+          data-testid="share-btn"
+          onClick={ () => handleClick(`http://localhost:3000/meals/${meals.idMeal}`) }
+        >
+          Share
+        </button>
+        <button
+          onClick={ () => handleClickFavorite({
+            id: meals.idMeal,
+            type: 'meal',
+            category: meals.strCategory,
+            nationality: meals.strArea,
+            alcoholicOrNot: '',
+            name: meals.strMeal,
+            image: strMealThumb,
+          }) }
+        >
+          favorite
+          <img
+            data-testid="favorite-btn"
+            src={ isFavorite ? favoriteIcon : noIsFavoriteIcon }
+            alt=""
+          />
+        </button>
+      </div>
     </div>
   );
 }

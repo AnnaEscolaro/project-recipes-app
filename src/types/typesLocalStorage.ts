@@ -16,7 +16,7 @@ export type DoneRecipe = {
 
 export type DoneRecipes = DoneRecipe[];
 
-export type Recipe = [{
+export type Recipe = {
   id: string,
   type: string,
   nationality: string,
@@ -24,7 +24,7 @@ export type Recipe = [{
   alcoholicOrNot: string,
   name: string,
   image: string
-}];
+};
 
 export type FavoriteRecipes = Recipe[];
 
