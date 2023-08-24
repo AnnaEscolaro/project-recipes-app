@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/dom';
+import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from './Helpers/renderWithRouter';
 
@@ -8,7 +9,13 @@ describe('Testando o componente Login', () => {
   const PASSWORD_INPUT = 'password-input';
   const LOGIN_BUTTON = 'login-submit-btn';
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   test('Verifica se o componente renderiza corretamente quando esta na rota "/"', () => {
+    global.fetch = vi.fn();
+
     renderWithRouter(<App />, { route: '/' });
 
     const title = screen.getByRole('heading', { name: /Login/i });
@@ -24,6 +31,8 @@ describe('Testando o componente Login', () => {
   });
 
   test('Verifica se a validação funciona corretamente', async () => {
+    global.fetch = vi.fn();
+
     const { user } = renderWithRouter(<App />, { route: '/' });
 
     const emailInput = screen.getByTestId(EMAIL_INPUT);
@@ -56,6 +65,8 @@ describe('Testando o componente Login', () => {
   });
 
   test('Verifica se o email é armazenado no local storage', async () => {
+    global.fetch = vi.fn();
+
     const { user } = renderWithRouter(<App />, { route: '/' });
 
     const emailInput = screen.getByTestId(EMAIL_INPUT);
