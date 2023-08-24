@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Buttons from './Buttons';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 import { Recipe } from '../types/typesLocalStorage';
@@ -114,13 +114,11 @@ export default function DrinksDetail({
           ))}
       </div>
       {(status === 'Continue Recipe' || status === 'Start Recipe') && (
-        <Link
-          to={ `/drinks/${drink.idDrink}/in-progress` }
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0, right: 0 } }
-        >
-          {status}
-        </Link>
+        <Buttons
+          page={ `/drinks/${drink.idDrink}/in-progress` }
+          btnName={ status }
+          testID="start-recipe-btn"
+        />
       )}
       <p>{alert}</p>
       <div>

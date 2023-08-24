@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 import { Recipe } from '../types/typesLocalStorage';
 import favoriteIcon from '../images/blackHeartIcon.svg';
 import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
+import Buttons from './Buttons';
 
 export default function MealsDetails({
   meals,
@@ -130,13 +130,11 @@ export default function MealsDetails({
           ))}
       </div>
       {(status === 'Continue Recipe' || status === 'Start Recipe') && (
-        <Link
-          to={ `/meals/${meals.idMeal}/in-progress` }
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0, right: 0 } }
-        >
-          {status}
-        </Link>
+        <Buttons
+          page={ `/meals/${meals.idMeal}/in-progress` }
+          btnName={ status }
+          testID="start-recipe-btn"
+        />
       )}
       <p>{alert}</p>
       <div>
