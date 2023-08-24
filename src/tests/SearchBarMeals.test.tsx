@@ -9,13 +9,6 @@ import App from '../App';
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
 
-  //   beforeEach(() => {
-  //     window.alert = vi.fn(() => {});
-  //     global.fetch = vi.fn().mockResolvedValue({
-  //       json: async () => MockFetchMeals,
-  //     });
-  //   });
-
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -105,24 +98,25 @@ describe('Testando o componente SearchBar', () => {
   });
 });
 
-// describe('Testando o alerta de receita não encontrada', () => {
-//   test('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
-//     window.alert = vi.fn(() => {});
-//     global.fetch = vi.fn().mockResolvedValue({
-//       json: async () => ({ meals: null }),
-//     });
+describe('Testando o alerta de receita não encontrada', () => {
+  test.only('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
+    window.alert = vi.fn(() => {});
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => ({ meals: null }),
+    });
 
-//     const { user } = renderWithRouter(<App />, { route: '/meals' });
-//     const ingredient = screen.getByLabelText(/Ingredient/i);
-//     const searchButtonHeader = screen.getByTestId('btn-Click');
-//     const searchButtonBar = screen.getByRole('button', { name: /Search/i });
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const ingredient = screen.getByLabelText(/Ingredient/i);
+    const searchButtonHeader = screen.getByTestId('btn-Click');
+    const searchButtonBar = screen.getByRole('button', { name: /Search/i });
 
-//     await user.click(searchButtonHeader);
-//     const textInput = screen.getByTestId('search-input');
-//     await user.type(textInput, 'trybe');
-//     await user.click(ingredient);
-//     await user.click(searchButtonBar);
+    await user.click(searchButtonHeader);
+    screen.debug();
+    const textInput = screen.getByTestId('search-input');
+    await user.type(textInput, 'trybe');
+    await user.click(ingredient);
+    await user.click(searchButtonBar);
 
-//     expect(window.alert).toHaveBeenCalledTimes(1);
-//   });
-// });
+    expect(window.alert).toHaveBeenCalledTimes(1);
+  });
+});

@@ -15,7 +15,7 @@ function Recipes({ path } : RecipesProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (path === 'meals' && meals.length === 0) {
+      if (path === 'meals' && meals?.length === 0) {
         const responseMeals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const dataMeals = await responseMeals.json();
         setMeals(dataMeals.meals);
@@ -24,7 +24,7 @@ function Recipes({ path } : RecipesProps) {
         const dataCategoryMeals = await responseCategoryMeals.json();
         setListCategory(dataCategoryMeals.meals);
       }
-      if (path === 'drinks' && drinks.length === 0) {
+      if (path === 'drinks' && drinks?.length === 0) {
         const responseDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         const dataDrinks = await responseDrinks.json();
         setDrinks(dataDrinks.drinks);
@@ -53,11 +53,11 @@ function Recipes({ path } : RecipesProps) {
         )}
       </div>
       <main>
-        {path === 'drinks' && drinks.length > 0 ? (
-          drinks.slice(0, 12).map((current, index) => (
+        {path === 'drinks' && drinks?.length > 0 ? (
+          drinks?.slice(0, 12).map((current, index) => (
             <CardRecipes key={ index } data={ current } type={ path } index={ index } />
           ))
-        ) : (meals.slice(0, 12).map((current, index) => (
+        ) : (meals?.slice(0, 12).map((current, index) => (
           <CardRecipes key={ index } data={ current } type={ path } index={ index } />
         )))}
       </main>

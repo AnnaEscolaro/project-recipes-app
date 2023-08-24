@@ -60,7 +60,6 @@ export default function SearchBar() {
 
     const mealsData = await mealsSearch(searchFilter, inputValue, page);
     if (mealsData) {
-      console.log({ mealsData });
       mealsContext.setMeals(mealsData);
       if (mealsData.length === 1) {
         nav(`/meals/${mealsData[0].idMeal}`);
