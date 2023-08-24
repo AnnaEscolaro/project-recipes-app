@@ -1,14 +1,22 @@
 import { screen } from '@testing-library/dom';
+import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from './Helpers/renderWithRouter';
 
 describe('Testando o componente Header', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   test('testando se o componente aparece na tela quando esta na rota meals com todos as informações', () => {
+    global.fetch = vi.fn();
     renderWithRouter(<App />, { route: '/meals' });
     const title = screen.getByRole('heading', { name: /meals/i });
     expect(title).toBeInTheDocument();
   });
   test('testando se o input aparece e some', async () => {
+    global.fetch = vi.fn();
+
     const { user } = renderWithRouter(<App />, { route: '/meals' });
 
     const inputLiteral = 'search-input';
@@ -25,6 +33,8 @@ describe('Testando o componente Header', () => {
     expect(input).toHaveValue('chicken_breast');
   });
   test('testando se ao clicar no icone perfil a barra de pesquisa some', async () => {
+    global.fetch = vi.fn();
+
     const { user } = renderWithRouter(<App />, { route: '/meals' });
 
     const oldTitle = screen.getByRole('heading', { name: /meals/i });

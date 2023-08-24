@@ -5,6 +5,7 @@ import { MockFetchDrinksByIngredient } from './Mocks/mockDrinksByIngredient';
 import { mockFetchDrinksByName } from './Mocks/mockDrinksByName';
 import { mockFetchDrinksByFirstLetter } from './Mocks/mockDrinksByFirstLetter';
 import App from '../App';
+import { mockFetchOneDrink } from './Mocks/mockOneDrink';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
@@ -14,6 +15,7 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se as opções de input e o botão search são renderizados na tela drinks', () => {
+    global.fetch = vi.fn();
     renderWithRouter(<App />, { route: '/drinks' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const name = screen.getByLabelText(/Name/i);
@@ -82,6 +84,25 @@ describe('Testando o componente SearchBar', () => {
     await user.click(searchButtonBar);
 
     const drink = await screen.findByText('Ace');
+    expect(drink).toBeInTheDocument();
+  });
+
+  test('Se havendo apenas uma receita, ocorre o redirecionamento de tela', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchOneDrink,
+    });
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const ingredient = screen.getByLabelText(/Ingredient/i);
+    const searchButtonHeader = screen.getByTestId('btn-Click');
+    const searchButtonBar = screen.getByRole('button', { name: /Search/i });
+
+    await user.click(searchButtonHeader);
+    const textInput = screen.getByTestId(searchInput);
+    await user.type(textInput, 'Vodka');
+    await user.click(ingredient);
+    await user.click(searchButtonBar);
+
+    const drink = await screen.findByText('Combine vodka and ginger beer in a highball glass.');
     expect(drink).toBeInTheDocument();
   });
 

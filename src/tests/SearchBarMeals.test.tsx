@@ -5,6 +5,7 @@ import { fetchMealsByIngredient } from './Mocks/mockMealsByIngredient';
 import { mockFetchMealsByName } from './Mocks/mockMealsByName';
 import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
 import App from '../App';
+import { mockFetchOneMeal } from './Mocks/mockOneMeal';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
@@ -14,6 +15,7 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se as opções de input e o botão search são renderizados na tela meals', () => {
+    global.fetch = vi.fn();
     renderWithRouter(<App />, { route: '/meals' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const name = screen.getByLabelText(/Name/i);
@@ -82,6 +84,25 @@ describe('Testando o componente SearchBar', () => {
     expect(meal).toBeInTheDocument();
   });
 
+  test('Se havendo apenas uma receita, ocorre o redirecionamento de tela', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchOneMeal,
+    });
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const ingredient = screen.getByLabelText(/Ingredient/i);
+    const searchButtonHeader = screen.getByTestId('btn-Click');
+    const searchButtonBar = screen.getByRole('button', { name: /Search/i });
+
+    await user.click(searchButtonHeader);
+    const textInput = screen.getByTestId(searchInput);
+    await user.type(textInput, 'tomato');
+    await user.click(ingredient);
+    await user.click(searchButtonBar);
+
+    const meal = await screen.findByText('Put th cheesy sausage rolls.');
+    expect(meal).toBeInTheDocument();
+  });
+
   test('Se aparece um alerta na tela de meals caso sejam digitadas mais de uma letra no filtro firstletter', async () => {
     window.alert = vi.fn(() => {});
     const { user } = renderWithRouter(<App />, { route: '/meals' });
@@ -99,7 +120,7 @@ describe('Testando o componente SearchBar', () => {
 });
 
 describe('Testando o alerta de receita não encontrada', () => {
-  test.only('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
+  test('Se aparece um alerta na tela de meals caso a receita não exista', async () => {
     window.alert = vi.fn(() => {});
     global.fetch = vi.fn().mockResolvedValue({
       json: async () => ({ meals: null }),
