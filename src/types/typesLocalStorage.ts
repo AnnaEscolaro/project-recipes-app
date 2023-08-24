@@ -16,7 +16,7 @@ export type DoneRecipe = {
 
 export type DoneRecipes = DoneRecipe[];
 
-export type Recipe = [{
+export type Recipe = {
   id: string,
   type: string,
   nationality: string,
@@ -24,17 +24,17 @@ export type Recipe = [{
   alcoholicOrNot: string,
   name: string,
   image: string
-}];
+};
 
-type FavoriteRecipes = Recipe[];
+export type FavoriteRecipes = Recipe[];
 
-/* export type InProgressRecipes = {
+export type InProgressRecipes = {
   drinks: {
-    [key: string ]: DrinksDetails[]
+    [key: string ]: []
   },
   meals: {
-    [key: string ]: Meals[]
+    [key: string ]: []
   }
-}; */
+};
 
-export type LocalStorage = User | DoneRecipes | FavoriteRecipes;
+export type LocalStorage = User | DoneRecipes | FavoriteRecipes | InProgressRecipes;
