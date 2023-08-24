@@ -1,9 +1,9 @@
 type CardRecipesProps = {
   data: {
-    strMealThumb: string,
-    strDrinkThumb: string,
-    strMeal: string,
-    strDrink: string,
+    strMealThumb?: string,
+    strDrinkThumb?: string,
+    strMeal?: string,
+    strDrink?: string,
   },
   type: string,
   index: number,

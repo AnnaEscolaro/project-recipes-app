@@ -16,6 +16,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </BrowserRouter>
       </MealsProvider>
     </DrinksProvider>
-    ,
   </LocalStorageProvider>,
 );

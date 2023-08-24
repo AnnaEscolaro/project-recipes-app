@@ -12,13 +12,14 @@ export const renderWithRouter = (ui: JSX.Element, { route = '/' } = {}) => {
     user: userEvent.setup(),
     ...render(
       <LocalStorageProvider>
-        <MealsProvider>
-          <DrinksProvider>
+        <DrinksProvider>
+          <MealsProvider>
             <BrowserRouter>
               {ui}
             </BrowserRouter>
-          </DrinksProvider>
-        </MealsProvider>
+          </MealsProvider>
+        </DrinksProvider>
+        ,
       </LocalStorageProvider>,
     ),
   };
