@@ -1,22 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import Buttons from './Buttons';
+import Buttons from './Buttons/StatusButton';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
-import { Recipe } from '../types/typesLocalStorage';
-import favoriteIcon from '../images/blackHeartIcon.svg';
-import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
+import FavoriteButton from './Buttons/FavoriteButton';
+import ShareButton from './Buttons/ShareButtton';
 
-export default function DrinksDetails({
-  drink,
-  handleClick,
-  alert,
-  handleClickFavorite,
-}: {
-  drink: Drinks;
-  handleClick: (link: string) => void;
-  alert: string;
-  handleClickFavorite: (FavoriteRecipe: Recipe) => void;
-}) {
+export default function DrinksDetails({ drink }: { drink: Drinks }) {
   const [data, setData] = useState<Meals[]>([]);
 
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
@@ -30,8 +19,6 @@ export default function DrinksDetails({
     },
     [],
   );
-
-  const [isFavorite, setIsFavorite] = useState<boolean>();
 
   const measures = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
@@ -71,9 +58,6 @@ export default function DrinksDetails({
       }
     };
     recommendationDrink();
-    setIsFavorite(
-      favoriteRecipes.some((recipe) => recipe.id === drink.idDrink),
-    );
   }, [favoriteRecipes, drink.idDrink]);
 
   return (
@@ -120,16 +104,12 @@ export default function DrinksDetails({
           testID="start-recipe-btn"
         />
       )}
-      <p>{alert}</p>
       <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => handleClick(`http://localhost:3000/drinks/${drink.idDrink}`) }
-        >
-          Share
-        </button>
-        <button
-          onClick={ () => handleClickFavorite({
+        <ShareButton
+          link={ `http://localhost:3000/drinks/${drink.idDrink}` }
+        />
+        <FavoriteButton
+          favoriteRecipe={ {
             id: drink.idDrink,
             type: 'drink',
             category: drink.strCategory,
@@ -137,15 +117,8 @@ export default function DrinksDetails({
             alcoholicOrNot: drink.strAlcoholic,
             name: strDrink,
             image: strDrinkThumb,
-          }) }
-        >
-          favorite
-          <img
-            data-testid="favorite-btn"
-            src={ isFavorite ? favoriteIcon : noIsFavoriteIcon }
-            alt=""
-          />
-        </button>
+          } }
+        />
       </div>
     </div>
   );

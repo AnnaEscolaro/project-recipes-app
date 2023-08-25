@@ -2,28 +2,21 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
-import { Recipe } from '../types/typesLocalStorage';
-import favoriteIcon from '../images/blackHeartIcon.svg';
-import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
-import Buttons from './Buttons';
+import Buttons from './Buttons/StatusButton';
+import FavoriteButton from './Buttons/FavoriteButton';
+import ShareButton from './Buttons/ShareButtton';
 
 export default function MealsDetails({
   meals,
-  handleClick,
-  alert,
-  handleClickFavorite,
 }: {
   meals: Meals;
-  handleClick: (link: string) => void;
-  alert: string;
-  handleClickFavorite: (FavoriteRecipe: Recipe) => void;
 }) {
   const { inProgressRecipes,
     doneRecipes, favoriteRecipes,
     setInProgressRecipes } = useContext(LocalStorageContext);
   const [data, setData] = useState<Drinks[]>([]);
   const { strMeal, strMealThumb, strCategory, strYoutube, strInstructions } = meals;
-  const [isFavorite, setIsFavorite] = useState<boolean>();
+
   const path = useLocation().pathname;
 
   const ingredients = Object.entries(meals).reduce(
@@ -120,7 +113,6 @@ export default function MealsDetails({
       }
     };
     recommendationMeals();
-    setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === meals.idMeal));
   }, [favoriteRecipes, meals.idMeal, inProgressRecipes]);
 
   return (
@@ -212,32 +204,21 @@ export default function MealsDetails({
         testID="finish-recipe-btn"
         visibility={ inProgressRecipes.meals[meals.idMeal] === undefined }
       />}
-      <p>{alert}</p>
       <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => handleClick(`http://localhost:3000/meals/${meals.idMeal}`) }
-        >
-          Share
-        </button>
-        <button
-          onClick={ () => handleClickFavorite({
-            id: meals.idMeal,
+        <ShareButton
+          link={ `http://localhost:3000/meals/${meals.idMeal}` }
+        />
+        <FavoriteButton
+          favoriteRecipe={
+          { id: meals.idMeal,
             type: 'meal',
             category: meals.strCategory,
             nationality: meals.strArea,
             alcoholicOrNot: '',
             name: meals.strMeal,
-            image: strMealThumb,
-          }) }
-        >
-          favorite
-          <img
-            data-testid="favorite-btn"
-            src={ isFavorite ? favoriteIcon : noIsFavoriteIcon }
-            alt=""
-          />
-        </button>
+            image: strMealThumb }
+          }
+        />
       </div>
     </div>
   );
