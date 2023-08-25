@@ -9,6 +9,7 @@ import Layout from './components/Layout';
 import RecipeDetails from './pages/RecipeDetails';
 import NotFound from './pages/NotFound';
 import Recipes from './pages/Recipes';
+import RecipeInProgress from './pages/RecipeInProgress';
 
 function App() {
   return (
@@ -22,7 +23,15 @@ function App() {
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
       </Route>
       <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route
+        path="/meals/:id/in-progress"
+        element={ <RecipeInProgress /> }
+      />
       <Route path="/drinks/:id" element={ <RecipeDetails /> } />
+      <Route
+        path="/drinks/:id/in-progress"
+        element={ <RecipeInProgress /> }
+      />
       <Route path="/*" element={ <NotFound /> } />
     </Routes>
   );
