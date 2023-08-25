@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 type CardDoneRecipesProps = {
@@ -30,14 +31,34 @@ function CardDoneRecipes({
   handleClick,
   alert,
 }: CardDoneRecipesProps) {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate(`/${type}/${id}`);
+  };
+
   return (
     <div id="done-recipes-card">
-      <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
-      <img
-        src={ image }
-        alt="foto receita"
-        data-testid={ `${index}-horizontal-image` }
-      />
+      <a
+        href={ `/${type}/${id}` }
+        onClick={ handleRedirect }
+      >
+        <p
+          data-testid={ `${index}-horizontal-name` }
+        >
+          { name }
+        </p>
+      </a>
+      <a
+        href={ `/${type}/${id}` }
+        onClick={ handleRedirect }
+      >
+        <img
+          src={ image }
+          alt="foto receita"
+          data-testid={ `${index}-horizontal-image` }
+        />
+      </a>
       {
         type === 'meal' ? (
           <p data-testid={ `${index}-horizontal-top-text` }>
@@ -60,7 +81,7 @@ function CardDoneRecipes({
       { alert }
       <button
         data-testid="share-btn"
-        onClick={ () => handleClick(`http://localhost:3000/${type}/${id}`) }
+        onClick={ () => handleClick(`/${type}/${id}`) }
       >
         Share
       </button>
