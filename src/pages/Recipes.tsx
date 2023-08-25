@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import CardRecipes from '../components/CardRecipes';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
+import { api } from '../services/api';
 
 type RecipesProps = {
   path: string,
 };
 
 function Recipes({ path } : RecipesProps) {
-  // const [currentValue, setCurrentValue] = useState([]);
   const [listCategory, setListCategory] = useState([]);
   const { drinks, setDrinks } = useContext(DrinksContext);
   const { meals, setMeals } = useContext(MealsContext);
@@ -16,41 +16,69 @@ function Recipes({ path } : RecipesProps) {
   useEffect(() => {
     const fetchData = async () => {
       if (path === 'meals' && meals?.length === 0) {
-        const responseMeals = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-        const dataMeals = await responseMeals?.json();
+        const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         setMeals(dataMeals?.meals);
 
-        const responseCategoryMeals = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-        const dataCategoryMeals = await responseCategoryMeals?.json();
+        const dataCategoryMeals = await api('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
         setListCategory(dataCategoryMeals?.meals);
       }
       if (path === 'drinks' && drinks?.length === 0) {
-        const responseDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-        const dataDrinks = await responseDrinks?.json();
+        const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         setDrinks(dataDrinks?.drinks);
 
-        const responseCategoryDrinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-        const dataCategoryDrinks = await responseCategoryDrinks?.json();
+        const dataCategoryDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
         setListCategory(dataCategoryDrinks?.drinks);
       }
     };
     fetchData();
-  }, [path, meals, drinks, setDrinks, setMeals]);
+  }, []);
+
+  const handleClickCategory = async ({ target }: any) => {
+    const clickedValue = target.id;
+
+    if (path === 'drinks') {
+      const drinksFilteredByCategory = await api(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
+      setDrinks(drinksFilteredByCategory?.drinks);
+    }
+    if (path === 'meals') {
+      const mealsFilteredByCategory = await api(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
+      setMeals(mealsFilteredByCategory?.meals);
+    }
+  };
+
+  const handleClickClear = async () => {
+    if (path === 'drinks') {
+      const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      setDrinks(dataDrinks?.drinks);
+    }
+    if (path === 'meals') {
+      const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      setMeals(dataMeals?.meals);
+    }
+  };
 
   return (
     <>
       <h1>Recipes</h1>
       <div>
         {listCategory && (
-          listCategory.slice(0, 5).map((category: { strCategory: string }, index) => (
+          listCategory.slice(0, 5).map((categoryBtn: { strCategory: string }, index) => (
             <button
               key={ index }
-              data-testid={ `${category.strCategory}-category-filter` }
+              data-testid={ `${categoryBtn.strCategory}-category-filter` }
+              id={ categoryBtn.strCategory.replace(' ', '_') }
+              onClick={ handleClickCategory }
             >
-              {category.strCategory}
+              {categoryBtn.strCategory}
             </button>
           ))
         )}
+        <button
+          data-testid="All-category-filter"
+          onClick={ handleClickClear }
+        >
+          All
+        </button>
       </div>
       <main>
         {path === 'drinks' && drinks?.length > 0 ? (
