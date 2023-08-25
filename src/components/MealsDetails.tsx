@@ -1,27 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
-import { Recipe } from '../types/typesLocalStorage';
-import favoriteIcon from '../images/blackHeartIcon.svg';
-import noIsFavoriteIcon from '../images/whiteHeartIcon.svg';
+import Buttons from './Buttons/StatusButton';
+import FavoriteButton from './Buttons/FavoriteButton';
+import ShareButton from './Buttons/ShareButtton';
 
 export default function MealsDetails({
   meals,
-  handleClick,
-  alert,
-  handleClickFavorite,
 }: {
   meals: Meals;
-  handleClick: (link: string) => void;
-  alert: string;
-  handleClickFavorite: (FavoriteRecipe: Recipe) => void;
 }) {
   const { inProgressRecipes,
-    doneRecipes, favoriteRecipes } = useContext(LocalStorageContext);
+    doneRecipes, favoriteRecipes,
+    setInProgressRecipes } = useContext(LocalStorageContext);
   const [data, setData] = useState<Drinks[]>([]);
   const { strMeal, strMealThumb, strCategory, strYoutube, strInstructions } = meals;
-  const [isFavorite, setIsFavorite] = useState<boolean>();
+
+  const path = useLocation().pathname;
 
   const ingredients = Object.entries(meals).reduce(
     (acc: string[], curr: string[]) => {
@@ -36,6 +32,52 @@ export default function MealsDetails({
     },
     [],
   );
+
+  const ingredientsAndNumbers = Object.entries(meals).reduce(
+    (acc: string[], curr: string[]) => {
+      if (
+        curr[0].includes('strIngredient')
+        && curr[1] !== null
+        && curr[1] !== ''
+      ) {
+        acc.push(`${curr[0].substring(curr[0].length - 1)} ${curr[1]}`);
+      }
+      return acc;
+    },
+    [],
+  );
+
+  // Busca os dados do localStorage e retorna se o ingrediente estava checkado anteriormente
+  const getChecked = (ingredientNum: number) => {
+    if (inProgressRecipes.meals[meals.idMeal]) {
+      return inProgressRecipes.meals[meals.idMeal].includes(ingredientNum);
+    }
+  };
+  // Cria a chave da receita no seu respectivo objeto e adiciona o número do ingrediente nela.
+
+  const addProgress = (ingredientNum: number) => {
+    if (inProgressRecipes.meals[meals.idMeal].includes(ingredientNum)) {
+      const ingredientList = inProgressRecipes.meals[meals.idMeal];
+      const filtered = ingredientList.filter((ing) => ing !== ingredientNum);
+
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        [meals.idMeal]: filtered,
+      });
+
+      console.log({ filtered, ingredientList });
+    } else {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        meals: {
+          ...inProgressRecipes.meals,
+          [meals.idMeal]: [...inProgressRecipes.meals[meals.idMeal], ingredientNum],
+        },
+      });
+      console.log('ok');
+    }
+  };
+
   const measures = Object.entries(meals).reduce(
     (acc: string[], curr: string[]) => {
       if (curr[0].includes('strMeasure') && curr[1] !== null) {
@@ -71,8 +113,7 @@ export default function MealsDetails({
       }
     };
     recommendationMeals();
-    setIsFavorite(favoriteRecipes.some((recipe) => recipe.id === meals.idMeal));
-  }, [favoriteRecipes, meals.idMeal]);
+  }, [favoriteRecipes, meals.idMeal, inProgressRecipes]);
 
   return (
     <div>
@@ -84,7 +125,26 @@ export default function MealsDetails({
       />
       <h1 data-testid="recipe-title">{strMeal}</h1>
       <h2 data-testid="recipe-category">{strCategory}</h2>
-      {ingredients.map((ingredient, index) => (
+      {path.includes('progress') ? (
+        ingredientsAndNumbers.map((ingredient, index) => (
+          <label
+            htmlFor={ ingredient }
+            key={ ingredient }
+            data-testid={ `${index}-ingredient-step` }
+          >
+            <input
+              type="checkbox"
+              name={ ingredient }
+              id={ ingredient }
+              checked={ getChecked(Number(ingredient.slice(0, 1))) }
+              onChange={ () => addProgress(Number(ingredient.slice(0, 1))) }
+            />
+            {measures[index] === undefined
+              ? `${ingredient.slice(2)}`
+              : `${ingredient.slice(2)} - ${measures[index]}`}
+          </label>
+        ))
+      ) : (ingredients.map((ingredient, index) => (
         <li
           key={ ingredient }
           data-testid={ `${index}-ingredient-name-and-measure` }
@@ -93,7 +153,7 @@ export default function MealsDetails({
             ? `${ingredient}`
             : `${ingredient} - ${measures[index]}`}
         </li>
-      ))}
+      )))}
       <p data-testid="instructions">{strInstructions}</p>
       <iframe
         width="300"
@@ -129,41 +189,36 @@ export default function MealsDetails({
             </div>
           ))}
       </div>
-      {(status === 'Continue Recipe' || status === 'Start Recipe') && (
-        <Link
-          to={ `/meals/${meals.idMeal}/in-progress` }
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: 0, right: 0 } }
-        >
-          {status}
-        </Link>
+      {!path.includes('progress')
+      && (status === 'Continue Recipe' || status === 'Start Recipe') && (
+        <Buttons
+          page={ `/meals/${meals.idMeal}/in-progress` }
+          btnName={ status }
+          testID="start-recipe-btn"
+        />
       )}
-      <p>{alert}</p>
+      {path.includes('progress')
+      && <Buttons
+        page={ `/meals/${meals.idMeal}/done-recipes` }
+        btnName="Finish Recipe"
+        testID="finish-recipe-btn"
+        visibility={ inProgressRecipes.meals[meals.idMeal] === undefined }
+      />}
       <div>
-        <button
-          data-testid="share-btn"
-          onClick={ () => handleClick(`http://localhost:3000/meals/${meals.idMeal}`) }
-        >
-          Share
-        </button>
-        <button
-          onClick={ () => handleClickFavorite({
-            id: meals.idMeal,
+        <ShareButton
+          link={ `http://localhost:3000/meals/${meals.idMeal}` }
+        />
+        <FavoriteButton
+          favoriteRecipe={
+          { id: meals.idMeal,
             type: 'meal',
             category: meals.strCategory,
             nationality: meals.strArea,
             alcoholicOrNot: '',
             name: meals.strMeal,
-            image: strMealThumb,
-          }) }
-        >
-          favorite
-          <img
-            data-testid="favorite-btn"
-            src={ isFavorite ? favoriteIcon : noIsFavoriteIcon }
-            alt=""
-          />
-        </button>
+            image: strMealThumb }
+          }
+        />
       </div>
     </div>
   );
