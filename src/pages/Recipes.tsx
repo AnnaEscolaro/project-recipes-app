@@ -10,6 +10,8 @@ type RecipesProps = {
 
 function Recipes({ path } : RecipesProps) {
   const [listCategory, setListCategory] = useState([]);
+  // const [toggle, setToggle] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const { drinks, setDrinks } = useContext(DrinksContext);
   const { meals, setMeals } = useContext(MealsContext);
 
@@ -34,8 +36,8 @@ function Recipes({ path } : RecipesProps) {
   }, []);
 
   const handleClickCategory = async ({ target }: any) => {
-    const clickedValue = target.id;
-
+    const clickedValue = target.id.replace(' ', '_');
+    setSelectedCategory(clickedValue);
     if (path === 'drinks') {
       const drinksFilteredByCategory = await api(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
       setDrinks(drinksFilteredByCategory?.drinks);
@@ -44,6 +46,10 @@ function Recipes({ path } : RecipesProps) {
       const mealsFilteredByCategory = await api(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
       setMeals(mealsFilteredByCategory?.meals);
     }
+    // if (toggle === true && selectedCategory === clickedValue) {
+    //   handleClickClear();
+    // }
+    // setToggle(!toggle);
   };
 
   const handleClickClear = async () => {
@@ -66,7 +72,7 @@ function Recipes({ path } : RecipesProps) {
             <button
               key={ index }
               data-testid={ `${categoryBtn.strCategory}-category-filter` }
-              id={ categoryBtn.strCategory.replace(' ', '_') }
+              id={ categoryBtn.strCategory }
               onClick={ handleClickCategory }
             >
               {categoryBtn.strCategory}
