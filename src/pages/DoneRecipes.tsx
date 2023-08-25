@@ -1,10 +1,20 @@
+import { useState } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { DoneRecipe, DoneRecipes } from '../types/typesLocalStorage';
 import CardDoneRecipes from '../components/CardDoneRecipes';
 
 export default function AllDoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
+  const [alertMessage, setAlertMessage] = useState<string>('');
 
+  const handleClickShare = async (link: string) => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setAlertMessage('Link copied!');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <button
@@ -46,6 +56,8 @@ export default function AllDoneRecipes() {
             tags={ tags }
             nationality={ nationality }
             alcoholicOrNot={ alcoholicOrNot }
+            handleClick={ handleClickShare }
+            alert={ alertMessage }
           />
         ))
       }

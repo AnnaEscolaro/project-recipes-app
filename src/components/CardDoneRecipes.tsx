@@ -12,6 +12,8 @@ type CardDoneRecipesProps = {
   tags: string[],
   nationality: string,
   alcoholicOrNot: string,
+  handleClick: (link: string) => void,
+  alert: string,
 };
 
 function CardDoneRecipes({
@@ -25,18 +27,9 @@ function CardDoneRecipes({
   tags,
   nationality,
   alcoholicOrNot,
+  handleClick,
+  alert,
 }: CardDoneRecipesProps) {
-  const [alertMessage, setAlertMessage] = useState<string>('');
-
-  //   const handleClickShare = async (link: string) => {
-  //     try {
-  //       await navigator.clipboard.writeText(link);
-  //       setAlertMessage('Link copied!');
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
   return (
     <div id="done-recipes-card">
       <p data-testid={ `${index}-horizontal-name` }>{ name }</p>
@@ -52,7 +45,6 @@ function CardDoneRecipes({
           </p>
         ) : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
       }
-      {/* <p data-testid={ `${index}-horizontal-top-text` }>{ category }</p> */}
       <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
       <button data-testid={ `${index}-horizontal-share-btn` }>{ shareIcon }</button>
       {
@@ -65,14 +57,13 @@ function CardDoneRecipes({
           </p>
         ))
       }
-      {/* <button
+      { alert }
+      <button
         data-testid="share-btn"
-        onClick={ () => handleClickShare(`http://localhost:3000/meals/${meals.idMeal}`) }
-        onClick={ () => handleClick(`http://localhost:3000/drinks/${drink.idDrink}`) }
-        alert={ alertMessage }
+        onClick={ () => handleClick(`http://localhost:3000/${type}/${id}`) }
       >
         Share
-      </button> */}
+      </button>
     </div>
   );
 }
