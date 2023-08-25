@@ -2,36 +2,19 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
-import Buttons from './Buttons/StatusButton';
 import FavoriteButton from './Buttons/FavoriteButton';
 import ShareButton from './Buttons/ShareButtton';
+import StatusButton from './Buttons/StatusButton';
+import getDateTime from '../services/getCurrentTime';
 
-export default function MealsDetails({
-  meals,
-}: {
-  meals: Meals;
-}) {
-  const { inProgressRecipes,
-    doneRecipes, favoriteRecipes,
+export default function MealsDetails({ meals }: { meals: Meals }) {
+  const { inProgressRecipes, doneRecipes, favoriteRecipes,
     setInProgressRecipes } = useContext(LocalStorageContext);
   const [data, setData] = useState<Drinks[]>([]);
   const { strMeal, strMealThumb, strCategory, strYoutube, strInstructions } = meals;
 
   const path = useLocation().pathname;
-
-  const ingredients = Object.entries(meals).reduce(
-    (acc: string[], curr: string[]) => {
-      if (
-        curr[0].includes('strIngredient')
-        && curr[1] !== null
-        && curr[1] !== ''
-      ) {
-        acc.push(curr[1]);
-      }
-      return acc;
-    },
-    [],
-  );
+  const currentDate = getDateTime();
 
   const ingredientsAndNumbers = Object.entries(meals).reduce(
     (acc: string[], curr: string[]) => {
@@ -56,25 +39,37 @@ export default function MealsDetails({
   // Cria a chave da receita no seu respectivo objeto e adiciona o número do ingrediente nela.
 
   const addProgress = (ingredientNum: number) => {
-    if (inProgressRecipes.meals[meals.idMeal].includes(ingredientNum)) {
+    if (inProgressRecipes.meals[meals.idMeal]
+      && inProgressRecipes.meals[meals.idMeal].includes(ingredientNum)) {
       const ingredientList = inProgressRecipes.meals[meals.idMeal];
       const filtered = ingredientList.filter((ing) => ing !== ingredientNum);
 
-      setInProgressRecipes({
-        ...inProgressRecipes,
-        [meals.idMeal]: filtered,
-      });
+      if (filtered) {
+        setInProgressRecipes({
+          ...inProgressRecipes,
+          meals: {
+            ...inProgressRecipes.meals,
+            [meals.idMeal]: filtered,
+          },
+        });
+      }
 
-      console.log({ filtered, ingredientList });
+      if (filtered.length === 0) {
+        setInProgressRecipes({
+          ...inProgressRecipes,
+          meals: {},
+        });
+      }
     } else {
       setInProgressRecipes({
         ...inProgressRecipes,
         meals: {
           ...inProgressRecipes.meals,
-          [meals.idMeal]: [...inProgressRecipes.meals[meals.idMeal], ingredientNum],
+          [meals.idMeal]: inProgressRecipes.meals[meals.idMeal]
+            ? [...inProgressRecipes.meals[meals.idMeal], ingredientNum]
+            : [ingredientNum],
         },
       });
-      console.log('ok');
     }
   };
 
@@ -99,6 +94,10 @@ export default function MealsDetails({
   };
 
   const status = recipeStatus();
+
+  const finishVisibility = inProgressRecipes.meals[meals.idMeal] === undefined
+  || inProgressRecipes.meals[meals.idMeal].length < ingredientsAndNumbers.length
+  || status === '';
 
   useEffect(() => {
     const recommendationMeals = async () => {
@@ -128,6 +127,9 @@ export default function MealsDetails({
       {path.includes('progress') ? (
         ingredientsAndNumbers.map((ingredient, index) => (
           <label
+            style={ getChecked(Number(ingredient.slice(0, 1)))
+              ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+              : { textDecoration: 'none' } }
             htmlFor={ ingredient }
             key={ ingredient }
             data-testid={ `${index}-ingredient-step` }
@@ -144,14 +146,14 @@ export default function MealsDetails({
               : `${ingredient.slice(2)} - ${measures[index]}`}
           </label>
         ))
-      ) : (ingredients.map((ingredient, index) => (
+      ) : (ingredientsAndNumbers.map((ingredient, index) => (
         <li
           key={ ingredient }
           data-testid={ `${index}-ingredient-name-and-measure` }
         >
           {measures[index] === undefined
-            ? `${ingredient}`
-            : `${ingredient} - ${measures[index]}`}
+            ? `${ingredient.slice(2)}`
+            : `${ingredient.slice(2)} - ${measures[index]}`}
         </li>
       )))}
       <p data-testid="instructions">{strInstructions}</p>
@@ -191,18 +193,29 @@ export default function MealsDetails({
       </div>
       {!path.includes('progress')
       && (status === 'Continue Recipe' || status === 'Start Recipe') && (
-        <Buttons
+        <StatusButton
           page={ `/meals/${meals.idMeal}/in-progress` }
           btnName={ status }
           testID="start-recipe-btn"
         />
       )}
       {path.includes('progress')
-      && <Buttons
+      && <StatusButton
         page={ `/meals/${meals.idMeal}/done-recipes` }
         btnName="Finish Recipe"
         testID="finish-recipe-btn"
-        visibility={ inProgressRecipes.meals[meals.idMeal] === undefined }
+        visibility={ finishVisibility }
+        recipe={ {
+          id: meals.idMeal,
+          type: 'meal',
+          nationality: meals.strArea,
+          category: meals.strCategory,
+          alcoholicOrNot: '',
+          name: meals.strMeal,
+          image: strMealThumb,
+          doneDate: currentDate,
+          tags: [],
+        } }
       />}
       <div>
         <ShareButton

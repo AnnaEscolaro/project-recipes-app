@@ -1,14 +1,42 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  LocalStorageContext,
+} from '../../context/LocalStorageContext/LocalStorageContext';
+import { DoneRecipe } from '../../types/typesLocalStorage';
 
-export default function Buttons(
-  { page, btnName, testID, visibility = false }
-  : { page: string, btnName: string, testID: string, visibility?: boolean },
+export default function StatusButton(
+  { page, btnName, testID, visibility = false, recipe = {
+    id: '',
+    type: '',
+    nationality: '',
+    category: '',
+    alcoholicOrNot: '',
+    name: '',
+    image: '',
+    doneDate: '',
+    tags: [],
+  } }
+  : { page: string, btnName: string, testID: string,
+    visibility?: boolean, recipe?: DoneRecipe },
 ) {
+  const { doneRecipes, setDoneRecipes } = useContext(LocalStorageContext);
+
   const navigate = useNavigate();
 
   const handleFinish = () => {
-    // navega para pagina de DoneRecipes e Adiciona Receita na chave DoneRecipes do localStorage
-    console.log();
+  /*     doneRecipes.forEach((currRecipe) => {
+      if (currRecipe.id === recipe.id) {
+
+      }
+    }) */
+    if (recipe) {
+      setDoneRecipes([
+        ...doneRecipes,
+        recipe,
+      ]);
+    }
+    navigate('/done-recipes');
   };
 
   return (
