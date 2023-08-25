@@ -7,7 +7,6 @@ export default function AllDoneRecipes() {
 
   return (
     <div>
-      <h1>DoneRecipes</h1>
       <button
         data-testid="filter-by-all-btn"
       >
@@ -26,21 +25,27 @@ export default function AllDoneRecipes() {
       {
         doneRecipes?.map(({
           id,
+          type,
           category,
           name,
           image,
           doneDate,
           tags,
-        }: DoneRecipe, index) => (
+          nationality,
+          alcoholicOrNot,
+        }: DoneRecipe, index: number) => (
           <CardDoneRecipes
             key={ id }
             id={ id }
+            type={ type }
             index={ index }
             image={ image }
             category={ category }
             name={ name }
             doneDate={ doneDate }
             tags={ tags }
+            nationality={ nationality }
+            alcoholicOrNot={ alcoholicOrNot }
           />
         ))
       }
