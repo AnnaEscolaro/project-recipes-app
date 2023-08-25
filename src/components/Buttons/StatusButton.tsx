@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function Buttons(
+export default function StatusButton(
   { page, btnName, testID, visibility = false }
   : { page: string, btnName: string, testID: string, visibility?: boolean },
 ) {
