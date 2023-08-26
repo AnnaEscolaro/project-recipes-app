@@ -1,8 +1,14 @@
+import { vi } from 'vitest';
 import { screen } from '@testing-library/dom';
 import App from '../App';
 import { renderWithRouter } from './Helpers/renderWithRouter';
+import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
 
 describe('testando o componente Profile', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    global.fetch = vi.fn().mockResolvedValue({ ...mockFetchMealsByFirstLetter, ...mockFetchMealsByFirstLetter });
+  });
   test('testando se o email aparece na tela', async () => {
     const { user } = renderWithRouter(<App />);
     const inputEmail = screen.getByRole('textbox');
@@ -55,5 +61,10 @@ describe('testando o componente Profile', () => {
     await user.click(btnFavorite);
     const title = screen.getByRole('heading', { name: /favorite recipes/i });
     expect(title).toBeInTheDocument();
+  });
+  test('testando o component not found', async () => {
+    renderWithRouter(<App />, { route: '/dsdssads' });
+    const notFound = screen.getByTestId('not');
+    expect(notFound).toBeInTheDocument();
   });
 });
