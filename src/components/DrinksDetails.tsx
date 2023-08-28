@@ -43,10 +43,12 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
   );
 
   const recipeStatus = () => {
-    if (inProgressRecipes.drinks[drink.idDrink]) {
+    if (inProgressRecipes.drinks[drink.idDrink]
+      && !(doneRecipes.some((recipe) => recipe.id === drink.idDrink))) {
       return 'Continue Recipe';
     }
-    if (doneRecipes.some((recipe) => recipe.id === drink.idDrink)) {
+    if (doneRecipes.some((recipe) => recipe.id === drink.idDrink)
+    && inProgressRecipes.drinks[drink.idDrink]) {
       return '';
     }
     return 'Start Recipe';

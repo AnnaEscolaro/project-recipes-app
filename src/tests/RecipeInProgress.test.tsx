@@ -11,54 +11,127 @@ import RecipeInProgress from '../pages/RecipeInProgress';
 
 const mealsPath = '/meals/52977/in-progress';
 const recipePhoto = 'recipe-photo';
-const btnStartRecipe = 'start-recipe-btn';
 const btnFavorite = 'favorite-btn';
 const drinkPath = '/drink/15997';
+const ingStep = '0-ingredient-step';
 
-test('Inputs de checkbox e finish button renderizam corretamente', async () => {
-  global.fetch = vi.fn().mockResolvedValue({
-    json: async () => mockMealsDetails,
+const finish = 'finish-recipe-btn';
+const start = 'start-recipe-btn';
+const continueBtn = 'continue-recipe-btn';
+
+describe('Teste das comidas em progresso', () => {
+  test('Inputs de checkbox e finish button renderizam corretamente', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
+
+    renderWithRouter(<RecipeInProgress />, { route: mealsPath });
+
+    expect(await screen
+      .findByTestId('12-ingredient-step')).toBeInTheDocument();
+
+    expect(await screen
+      .findByTestId('finish-recipe-btn'));
   });
 
-  renderWithRouter(<RecipeInProgress />, { route: mealsPath });
+  test('É possível tickar as checkboxes e elas ficam riscadas', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
 
-  expect(await screen
-    .findByTestId('12-ingredient-step')).toBeInTheDocument();
+    const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
 
-  expect(await screen
-    .findByTestId('finish-recipe-btn'));
-});
+    const step = await screen.findByTestId(ingStep);
 
-test('É possível tickar as checkboxes e elas ficam riscadas', async () => {
-  global.fetch = vi.fn().mockResolvedValue({
-    json: async () => mockMealsDetails,
+    expect(await screen.findByLabelText('Lentils - 1 cup')).toBeInTheDocument();
+
+    await user.click(step);
+
+    expect(step).toHaveStyle('text-decoration: line-through solid rgb(0, 0, 0)');
   });
 
-  const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
+  test('É possível encontrar o id da Receita na localStorage após tickar ingrediente', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
 
-  const step = await screen.findByTestId('0-ingredient-step');
+    window.localStorage.setItem(
+      'inProgressRecipes',
+      JSON.stringify({
+        meals: { 52977: ['aaaa'] },
+        drinks: {},
+      }),
+    );
 
-  expect(await screen.findByLabelText('Lentils - 1 cup')).toBeInTheDocument();
+    const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
 
-  await user.click(step);
+    const step = await screen.findByTestId(ingStep);
 
-  expect(step).toHaveStyle('text-decoration: line-through solid rgb(0, 0, 0)');
-});
+    await user.click(step);
 
-test('É possível encontrar o id da Receita na localStorage após tickar ingrediente', async () => {
-  global.fetch = vi.fn().mockResolvedValue({
-    json: async () => mockMealsDetails,
+    const data = localStorage.getItem(
+      'inProgressRecipes',
+    );
+
+    expect(data).not.toBeFalsy();
+    expect(data?.includes('52977')).toBeTruthy();
   });
 
-  const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
+  test('A chave inProgress é criada ao tickar ingrediente', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
 
-  const step = await screen.findByTestId('0-ingredient-step');
+    const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
 
-  await user.click(step);
+    const step = await screen.findByTestId('0-ingredient-step');
 
-  const data = localStorage.getItem(
-    'doneRecipes',
-  );
+    await user.click(step);
 
-  console.log(data);
+    const data = localStorage.getItem(
+      'inProgressRecipes',
+    );
+
+    expect(data).not.toBeFalsy();
+  });
+
+  test('A chave inProgressRecipes > meals é um objeto vazio caso nada foi tickado', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
+
+    window.localStorage.setItem(
+      'inProgressRecipes',
+      JSON.stringify({
+        meals: { 52977: [1] },
+        drinks: {},
+      }),
+    );
+
+    const { user } = renderWithRouter(<RecipeInProgress />, { route: mealsPath });
+
+    const step = await screen.findByTestId(ingStep);
+
+    await user.click(step);
+
+    const data = localStorage.getItem(
+      'inProgressRecipes',
+    );
+
+    expect(data?.includes('52977')).toBeFalsy();
+  });
+
+  test('As receitas sem medidas só aparecem os ingredientes', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsDetails,
+    });
+
+    const ingredient1 = mockMealsDetails.meals[0].strIngredient1;
+
+    renderWithRouter(<RecipeDetails />, { route: mealsPath });
+
+    const step = await screen.findByTestId(ingStep);
+
+    expect(step.innerHTML.includes(ingredient1)).toBeTruthy();
+  });
 });

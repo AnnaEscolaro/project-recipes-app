@@ -89,10 +89,12 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
   );
 
   const recipeStatus = () => {
-    if (inProgressRecipes.meals[meals.idMeal]) {
+    if (inProgressRecipes.meals[meals.idMeal]
+      && !(doneRecipes.some((recipe) => recipe.id === meals.idMeal))) {
       return 'Continue Recipe';
     }
-    if (doneRecipes.some((recipe) => recipe.id === meals.idMeal)) {
+    if (doneRecipes.some((recipe) => recipe.id === meals.idMeal)
+    && inProgressRecipes.meals[meals.idMeal]) {
       return '';
     }
     return 'Start Recipe';
