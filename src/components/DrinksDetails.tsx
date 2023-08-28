@@ -1,19 +1,31 @@
 import { useContext, useEffect, useState } from 'react';
-import Buttons from './Buttons/StatusButton';
+import { useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../types/typesApi';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 import FavoriteButton from './Buttons/FavoriteButton';
 import ShareButton from './Buttons/ShareButtton';
+import StatusButton from './Buttons/StatusButton';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
+  const { inProgressRecipes,
+    doneRecipes,
+    favoriteRecipes, setInProgressRecipes } = useContext(LocalStorageContext);
+
+  const path = useLocation().pathname;
+  const currentDate = new Date();
+
   const [data, setData] = useState<Meals[]>([]);
 
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
 
-  const ingredients = Object.entries(drink).reduce(
+  const ingredientsAndNumbers = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
-      if (curr[0].includes('strIngredient') && curr[1] !== null) {
-        acc.push(curr[1]);
+      if (
+        curr[0].includes('strIngredient')
+        && curr[1] !== null
+        && curr[1] !== ''
+      ) {
+        acc.push(`${curr[0].substring(curr[0].length - 1)} ${curr[1]}`);
       }
       return acc;
     },
@@ -30,20 +42,64 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
     [],
   );
 
-  const { inProgressRecipes,
-    doneRecipes, favoriteRecipes } = useContext(LocalStorageContext);
-
   const recipeStatus = () => {
-    if (inProgressRecipes.drinks[drink.idDrink]) {
+    if (inProgressRecipes.drinks[drink.idDrink]
+      && !(doneRecipes.some((recipe) => recipe.id === drink.idDrink))) {
       return 'Continue Recipe';
     }
-    if (doneRecipes.some((recipe) => recipe.id === drink.idDrink)) {
+    if (doneRecipes.some((recipe) => recipe.id === drink.idDrink)
+    && inProgressRecipes.drinks[drink.idDrink]) {
       return '';
     }
     return 'Start Recipe';
   };
 
   const status = recipeStatus();
+
+  const finishVisibility = inProgressRecipes.drinks[drink.idDrink] === undefined
+  || inProgressRecipes.drinks[drink.idDrink].length < ingredientsAndNumbers.length
+  || status === '';
+
+  const getChecked = (ingredientNum: number) => {
+    if (inProgressRecipes.drinks[drink.idDrink]) {
+      return inProgressRecipes.drinks[drink.idDrink].includes(ingredientNum);
+    }
+  };
+
+  const addProgress = (ingredientNum: number) => {
+    if (inProgressRecipes.drinks[drink.idDrink]
+      && inProgressRecipes.drinks[drink.idDrink].includes(ingredientNum)) {
+      const ingredientList = inProgressRecipes.drinks[drink.idDrink];
+      const filtered = ingredientList.filter((ing) => ing !== ingredientNum);
+
+      if (filtered) {
+        setInProgressRecipes({
+          ...inProgressRecipes,
+          drinks: {
+            ...inProgressRecipes.drinks,
+            [drink.idDrink]: filtered,
+          },
+        });
+      }
+
+      if (filtered.length === 0) {
+        setInProgressRecipes({
+          ...inProgressRecipes,
+          drinks: {},
+        });
+      }
+    } else {
+      setInProgressRecipes({
+        ...inProgressRecipes,
+        drinks: {
+          ...inProgressRecipes.drinks,
+          [drink.idDrink]: inProgressRecipes.drinks[drink.idDrink]
+            ? [...inProgressRecipes.drinks[drink.idDrink], ingredientNum]
+            : [ingredientNum],
+        },
+      });
+    }
+  };
 
   useEffect(() => {
     const recommendationDrink = async () => {
@@ -65,19 +121,38 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
       <img src={ strDrinkThumb } alt={ strDrink } data-testid="recipe-photo" />
       <h1 data-testid="recipe-title">{strDrink}</h1>
       <h2 data-testid="recipe-category">{strAlcoholic}</h2>
-      <ul>
-        Ingredientes:
-        {ingredients.map((ingredient, index) => (
-          <li
+      {path.includes('progress') ? (
+        ingredientsAndNumbers.map((ingredient, index) => (
+          <label
+            style={ getChecked(Number(ingredient.slice(0, 1)))
+              ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+              : { textDecoration: 'none' } }
+            htmlFor={ ingredient }
             key={ ingredient }
-            data-testid={ `${index}-ingredient-name-and-measure` }
+            data-testid={ `${index}-ingredient-step` }
           >
+            <input
+              type="checkbox"
+              name={ ingredient }
+              id={ ingredient }
+              checked={ getChecked(Number(ingredient.slice(0, 1))) }
+              onChange={ () => addProgress(Number(ingredient.slice(0, 1))) }
+            />
             {measures[index] === undefined
-              ? `${ingredient}`
-              : `${ingredient} - ${measures[index]}`}
-          </li>
-        ))}
-      </ul>
+              ? `${ingredient.slice(2)}`
+              : `${ingredient.slice(2)} - ${measures[index]}`}
+          </label>
+        ))
+      ) : (ingredientsAndNumbers.map((ingredient, index) => (
+        <li
+          key={ ingredient }
+          data-testid={ `${index}-ingredient-name-and-measure` }
+        >
+          {measures[index] === undefined
+            ? `${ingredient.slice(2)}`
+            : `${ingredient.slice(2)} - ${measures[index]}`}
+        </li>
+      )))}
       <p data-testid="instructions">{strInstructions}</p>
       <div style={ { display: 'flex', overflowY: 'scroll' } }>
         {data
@@ -97,13 +172,32 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
             </div>
           ))}
       </div>
-      {(status === 'Continue Recipe' || status === 'Start Recipe') && (
-        <Buttons
+      {!path.includes('progress')
+      && (status === 'Continue Recipe' || status === 'Start Recipe') && (
+        <StatusButton
           page={ `/drinks/${drink.idDrink}/in-progress` }
           btnName={ status }
           testID="start-recipe-btn"
         />
       )}
+      {path.includes('progress')
+      && <StatusButton
+        page={ `/drinks/${drink.idDrink}/done-recipes` }
+        btnName="Finish Recipe"
+        testID="finish-recipe-btn"
+        visibility={ finishVisibility }
+        recipe={ {
+          id: drink.idDrink,
+          type: 'drink',
+          nationality: '',
+          category: drink.strCategory,
+          alcoholicOrNot: drink.strAlcoholic,
+          name: strDrink,
+          image: strDrinkThumb,
+          doneDate: currentDate.toISOString(),
+          tags: [],
+        } }
+      />}
       <div>
         <ShareButton
           link={ `http://localhost:3000/drinks/${drink.idDrink}` }
