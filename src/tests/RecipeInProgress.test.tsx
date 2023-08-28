@@ -4,20 +4,13 @@ import RecipeDetails from '../pages/RecipeDetails';
 import { renderWithRouter } from './Helpers/renderWithRouter';
 import {
   mockMealsDetails,
-  mockMealsDetailsNoMeasure,
 } from './Mocks/mockMealsDetails';
-import { drinksMockDetail } from './Mocks/mockDrinkDetail';
 import RecipeInProgress from '../pages/RecipeInProgress';
 
 const mealsPath = '/meals/52977/in-progress';
-const recipePhoto = 'recipe-photo';
-const btnFavorite = 'favorite-btn';
-const drinkPath = '/drink/15997';
 const ingStep = '0-ingredient-step';
 
 const finish = 'finish-recipe-btn';
-const start = 'start-recipe-btn';
-const continueBtn = 'continue-recipe-btn';
 
 describe('Teste das comidas em progresso', () => {
   test('Inputs de checkbox e finish button renderizam corretamente', async () => {
@@ -31,7 +24,7 @@ describe('Teste das comidas em progresso', () => {
       .findByTestId('12-ingredient-step')).toBeInTheDocument();
 
     expect(await screen
-      .findByTestId('finish-recipe-btn'));
+      .findByTestId(finish));
   });
 
   test('É possível tickar as checkboxes e elas ficam riscadas', async () => {
