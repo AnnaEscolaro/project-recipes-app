@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
+import { Link } from 'react-router-dom';
 
 type CardDoneRecipesProps = {
   id: string,
@@ -31,34 +29,32 @@ function CardDoneRecipes({
   handleClick,
   alert,
 }: CardDoneRecipesProps) {
-  const navigate = useNavigate();
-
-  const handleRedirect = () => {
-    navigate(`/${type}/${id}`);
-  };
-
   return (
     <div id="done-recipes-card">
-      <a
-        href={ `/${type}/${id}` }
-        onClick={ handleRedirect }
+      <Link
+        to={ `/${type}s/${id}` }
+        data-testid={ `${index}-horizontal-name` }
       >
-        <p
-          data-testid={ `${index}-horizontal-name` }
-        >
-          { name }
-        </p>
-      </a>
-      <a
-        href={ `/${type}/${id}` }
-        onClick={ handleRedirect }
+        { name }
+      </Link>
+      <Link
+        to={ `/${type}s/${id}` }
       >
         <img
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
-      </a>
+      </Link>
+      {/* <button>
+        <Link to={ `/${type}s/${id}` }>
+          <img
+            src={ image }
+            alt="foto receita"
+            data-testid={ `${index}-horizontal-image` }
+          />
+        </Link>
+      </button> */}
       {
         type === 'meal' ? (
           <p data-testid={ `${index}-horizontal-top-text` }>
@@ -67,7 +63,6 @@ function CardDoneRecipes({
         ) : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
       }
       <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
-      <button data-testid={ `${index}-horizontal-share-btn` }>{ shareIcon }</button>
       {
         tags.map((tag, idx) => (
           <p
@@ -80,10 +75,14 @@ function CardDoneRecipes({
       }
       { alert }
       <button
-        data-testid="share-btn"
-        onClick={ () => handleClick(`/${type}/${id}`) }
+        // data-testid={ `${index}-horizontal-share-btn` }
+        onClick={ () => handleClick(`http://localhost:3000/${type}s/${id}`) }
       >
-        Share
+        <img
+          data-testid={ `${index}-horizontal-share-btn` }
+          src="src/images/shareIcon.svg"
+          alt="imagem compartilhar"
+        />
       </button>
     </div>
   );

@@ -1,13 +1,19 @@
-import { useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useContext, useState } from 'react';
 import { DoneRecipe } from '../types/typesLocalStorage';
 import CardDoneRecipes from '../components/CardDoneRecipes';
+import ShareButton from '../components/Buttons/ShareButtton';
+import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function AllDoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useLocalStorage('doneRecipes', []);
+  const { doneRecipes, setDoneRecipes } = useContext(LocalStorageContext);
+
+  const doneRecipesLocalStorage = doneRecipes;
+
+  const [filteredMealsOrDinks, setFilteredMealsOrDrinks] = useState<
+  DoneRecipe[]>(doneRecipesLocalStorage);
   const [alertMessage, setAlertMessage] = useState<string>('');
 
-  const doneRecipesLocalStorage = useLocalStorage('doneRecipes', []);
+  console.log(filteredMealsOrDinks);
 
   const handleClickShare = async (link: string) => {
     try {
@@ -19,21 +25,21 @@ export default function AllDoneRecipes() {
   };
 
   const filterByMeal = () => {
-    const recipesToFilter = doneRecipes;
+    const recipesToFilter = doneRecipesLocalStorage;
     const filteredByMeals = recipesToFilter
-      .filter((recipe: DoneRecipe) => recipe.type === 'meals');
-    setDoneRecipes(filteredByMeals);
+      .filter((recipe: DoneRecipe) => recipe.type === 'meal');
+    setFilteredMealsOrDrinks(filteredByMeals);
   };
 
   const filterByDrink = () => {
-    const recipesToFilter = doneRecipes;
+    const recipesToFilter = doneRecipesLocalStorage;
     const filteredByDrinks = recipesToFilter
-      .filter((recipe: DoneRecipe) => recipe.type === 'drinks');
-    setDoneRecipes(filteredByDrinks);
+      .filter((recipe: DoneRecipe) => recipe.type === 'drink');
+    setFilteredMealsOrDrinks(filteredByDrinks);
   };
 
   const removeFilters = () => {
-    setDoneRecipes(doneRecipesLocalStorage);
+    setFilteredMealsOrDrinks(doneRecipesLocalStorage);
   };
 
   return (
@@ -57,7 +63,7 @@ export default function AllDoneRecipes() {
         Drinks
       </button>
       {
-        doneRecipes?.map(({
+        filteredMealsOrDinks?.map(({
           id,
           type,
           category,
@@ -68,23 +74,27 @@ export default function AllDoneRecipes() {
           nationality,
           alcoholicOrNot,
         }: DoneRecipe, index: number) => (
-          <CardDoneRecipes
-            key={ id }
-            id={ id }
-            type={ type }
-            index={ index }
-            image={ image }
-            category={ category }
-            name={ name }
-            doneDate={ doneDate }
-            tags={ tags }
-            nationality={ nationality }
-            alcoholicOrNot={ alcoholicOrNot }
-            handleClick={ handleClickShare }
-            alert={ alertMessage }
-          />
+          <>
+            <CardDoneRecipes
+              key={ id }
+              id={ id }
+              type={ type }
+              index={ index }
+              image={ image }
+              category={ category }
+              name={ name }
+              doneDate={ doneDate }
+              tags={ tags }
+              nationality={ nationality }
+              alcoholicOrNot={ alcoholicOrNot }
+              handleClick={ handleClickShare }
+              alert={ alertMessage }
+            />
+            {/* <ShareButton link={ `http://localhost:3000/${type}/${id}` } /> */}
+          </>
         ))
       }
+
     </div>
   );
 }
