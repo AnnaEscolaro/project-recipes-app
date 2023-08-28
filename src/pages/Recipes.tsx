@@ -1,18 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CardRecipes from '../components/CardRecipes';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
 import { api } from '../services/api';
+import { Link } from 'react-router-dom';
 
 type RecipesProps = {
   path: string,
 };
 
 function Recipes({ path } : RecipesProps) {
-  const [listCategory, setListCategory] = useState([]);
   const { drinks, setDrinks } = useContext(DrinksContext);
   const { meals, setMeals } = useContext(MealsContext);
+
+  const [listCategory, setListCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,10 +95,14 @@ function Recipes({ path } : RecipesProps) {
       <main>
         {path === 'drinks' && drinks?.length > 0 ? (
           drinks?.slice(0, 12).map((current, index) => (
-            <CardRecipes key={ index } data={ current } type={ path } index={ index } />
+            <Link to={ `/drinks/${current.idDrink}` } key={ index }>
+              <CardRecipes data={ current } type={ path } index={ index } />
+            </Link>
           ))
         ) : (meals?.slice(0, 12).map((current, index) => (
-          <CardRecipes key={ index } data={ current } type={ path } index={ index } />
+          <Link to={ `/meals/${current.idMeal}` } key={ index }>
+            <CardRecipes key={ index } data={ current } type={ path } index={ index } />
+          </Link>
         )))}
       </main>
     </>
