@@ -6,7 +6,13 @@ import {
   LocalStorageContext,
 } from '../../context/LocalStorageContext/LocalStorageContext';
 
-export default function FavoriteButton({ favoriteRecipe }: { favoriteRecipe: Recipe }) {
+type FavoriteButtonProps = {
+  favoriteRecipe: Recipe,
+  testId: string,
+};
+
+export default function FavoriteButton({
+  favoriteRecipe, testId }: FavoriteButtonProps) {
   const { favoriteRecipes, setFavoriteRecipes } = useContext(LocalStorageContext);
 
   const favorite = favoriteRecipes.some(
@@ -30,7 +36,7 @@ export default function FavoriteButton({ favoriteRecipe }: { favoriteRecipe: Rec
     >
       favorite
       <img
-        data-testid="favorite-btn"
+        data-testid={ testId }
         src={ favorite ? favoriteIcon : noIsFavoriteIcon }
         alt=""
       />
