@@ -10,10 +10,9 @@ type RecipesProps = {
 
 function Recipes({ path } : RecipesProps) {
   const [listCategory, setListCategory] = useState([]);
-  // const [toggle, setToggle] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('');
   const { drinks, setDrinks } = useContext(DrinksContext);
   const { meals, setMeals } = useContext(MealsContext);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,9 +34,10 @@ function Recipes({ path } : RecipesProps) {
     fetchData();
   }, []);
 
-  const handleClickCategory = async ({ target }: any) => {
-    const clickedValue = target.id.replace(' ', '_');
-    setSelectedCategory(clickedValue);
+  const handleClickCategory = async (clickedValue: string) => {
+    const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+
     if (path === 'drinks') {
       const drinksFilteredByCategory = await api(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
       setDrinks(drinksFilteredByCategory?.drinks);
@@ -46,10 +46,12 @@ function Recipes({ path } : RecipesProps) {
       const mealsFilteredByCategory = await api(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
       setMeals(mealsFilteredByCategory?.meals);
     }
-    // if (toggle === true && selectedCategory === clickedValue) {
-    //   handleClickClear();
-    // }
-    // setToggle(!toggle);
+    if (selectedCategory === clickedValue) {
+      setMeals(dataMeals?.meals);
+      setDrinks(dataDrinks?.drinks);
+    } else {
+      setSelectedCategory(clickedValue);
+    }
   };
 
   const handleClickClear = async () => {
@@ -72,8 +74,7 @@ function Recipes({ path } : RecipesProps) {
             <button
               key={ index }
               data-testid={ `${categoryBtn.strCategory}-category-filter` }
-              id={ categoryBtn.strCategory }
-              onClick={ handleClickCategory }
+              onClick={ () => handleClickCategory(categoryBtn.strCategory) }
             >
               {categoryBtn.strCategory}
             </button>
