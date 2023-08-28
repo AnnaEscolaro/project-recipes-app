@@ -5,7 +5,6 @@ import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorage
 import FavoriteButton from './Buttons/FavoriteButton';
 import ShareButton from './Buttons/ShareButtton';
 import StatusButton from './Buttons/StatusButton';
-import getDateTime from '../services/getCurrentTime';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
   const { inProgressRecipes,
@@ -13,7 +12,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
     favoriteRecipes, setInProgressRecipes } = useContext(LocalStorageContext);
 
   const path = useLocation().pathname;
-  const currentDate = getDateTime();
+  const currentDate = new Date();
 
   const [data, setData] = useState<Meals[]>([]);
 
@@ -193,7 +192,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
           alcoholicOrNot: drink.strAlcoholic,
           name: strDrink,
           image: strDrinkThumb,
-          doneDate: currentDate,
+          doneDate: currentDate.toISOString(),
           tags: [],
         } }
       />}

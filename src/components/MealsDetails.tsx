@@ -5,7 +5,6 @@ import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorage
 import FavoriteButton from './Buttons/FavoriteButton';
 import ShareButton from './Buttons/ShareButtton';
 import StatusButton from './Buttons/StatusButton';
-import getDateTime from '../services/getCurrentTime';
 
 export default function MealsDetails({ meals }: { meals: Meals }) {
   const { inProgressRecipes, doneRecipes, favoriteRecipes,
@@ -14,7 +13,13 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
   const { strMeal, strMealThumb, strCategory, strYoutube, strInstructions } = meals;
 
   const path = useLocation().pathname;
-  const currentDate = getDateTime();
+  const currentDate = new Date();
+
+  const mealTags = meals.strTags.length > 0
+    ? [meals.strTags
+      .substring(0, meals.strTags.indexOf(',')),
+    meals.strTags.substring(meals.strTags.indexOf(',')).replace(',', '')]
+    : [];
 
   const ingredientsAndNumbers = Object.entries(meals).reduce(
     (acc: string[], curr: string[]) => {
@@ -213,8 +218,8 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
           alcoholicOrNot: '',
           name: meals.strMeal,
           image: strMealThumb,
-          doneDate: currentDate,
-          tags: [],
+          doneDate: currentDate.toISOString(),
+          tags: mealTags,
         } }
       />}
       <div>
