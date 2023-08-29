@@ -18,7 +18,7 @@ export type DoneRecipes = DoneRecipe[];
 
 export type Recipe = {
   id: string,
-  type: string,
+  type: 'meal' | 'drink',
   nationality: string,
   category: string,
   alcoholicOrNot: string,
