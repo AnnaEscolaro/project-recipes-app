@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { DoneRecipe } from '../types/typesLocalStorage';
 import CardDoneRecipes from '../components/CardDoneRecipes';
-import ShareButton from '../components/Buttons/ShareButtton';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function AllDoneRecipes() {
@@ -16,12 +15,12 @@ export default function AllDoneRecipes() {
   console.log(filteredMealsOrDinks);
 
   const handleClickShare = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setAlertMessage('Link copied!');
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    await navigator.clipboard.writeText(link);
+    setAlertMessage('Link copied!');
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   const filterByMeal = () => {
@@ -74,24 +73,21 @@ export default function AllDoneRecipes() {
           nationality,
           alcoholicOrNot,
         }: DoneRecipe, index: number) => (
-          <>
-            <CardDoneRecipes
-              key={ id }
-              id={ id }
-              type={ type }
-              index={ index }
-              image={ image }
-              category={ category }
-              name={ name }
-              doneDate={ doneDate }
-              tags={ tags }
-              nationality={ nationality }
-              alcoholicOrNot={ alcoholicOrNot }
-              handleClick={ handleClickShare }
-              alert={ alertMessage }
-            />
-            {/* <ShareButton link={ `http://localhost:3000/${type}/${id}` } /> */}
-          </>
+          <CardDoneRecipes
+            key={ id }
+            id={ id }
+            type={ type }
+            index={ index }
+            image={ image }
+            category={ category }
+            name={ name }
+            doneDate={ doneDate }
+            tags={ tags }
+            nationality={ nationality }
+            alcoholicOrNot={ alcoholicOrNot }
+            handleClick={ handleClickShare }
+            alert={ alertMessage }
+          />
         ))
       }
 

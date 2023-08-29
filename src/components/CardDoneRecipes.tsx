@@ -41,20 +41,12 @@ function CardDoneRecipes({
         to={ `/${type}s/${id}` }
       >
         <img
+          id="recipe-image"
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
       </Link>
-      {/* <button>
-        <Link to={ `/${type}s/${id}` }>
-          <img
-            src={ image }
-            alt="foto receita"
-            data-testid={ `${index}-horizontal-image` }
-          />
-        </Link>
-      </button> */}
       {
         type === 'meal' ? (
           <p data-testid={ `${index}-horizontal-top-text` }>
