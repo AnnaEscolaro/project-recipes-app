@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CardRecipes from '../components/CardRecipes';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 import { MealsContext } from '../context/MealsContext/MealsContext';
 import { api } from '../services/api';
-import { Link } from 'react-router-dom';
 
 type RecipesProps = {
   path: string,
@@ -17,19 +16,19 @@ function Recipes({ path } : RecipesProps) {
   const [listCategory, setListCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  const navigate = useNavigate();
+  const MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
   useEffect(() => {
     const fetchData = async () => {
       if (path === 'meals' && meals?.length === 0) {
-        const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+        const dataMeals = await api(MEAL_URL);
         setMeals(dataMeals?.meals);
-
         const dataCategoryMeals = await api('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
         setListCategory(dataCategoryMeals?.meals);
       }
       if (path === 'drinks' && drinks?.length === 0) {
-        const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+        const dataDrinks = await api(DRINK_URL);
         setDrinks(dataDrinks?.drinks);
 
         const dataCategoryDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
@@ -40,8 +39,8 @@ function Recipes({ path } : RecipesProps) {
   }, []);
 
   const handleClickCategory = async (clickedValue: string) => {
-    const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+    const dataMeals = await api(MEAL_URL);
+    const dataDrinks = await api(DRINK_URL);
 
     if (path === 'drinks') {
       const drinksFilteredByCategory = await api(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${clickedValue}`);
@@ -61,11 +60,11 @@ function Recipes({ path } : RecipesProps) {
 
   const handleClickClear = async () => {
     if (path === 'drinks') {
-      const dataDrinks = await api('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      const dataDrinks = await api(DRINK_URL);
       setDrinks(dataDrinks?.drinks);
     }
     if (path === 'meals') {
-      const dataMeals = await api('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const dataMeals = await api(MEAL_URL);
       setMeals(dataMeals?.meals);
     }
   };
