@@ -1,4 +1,5 @@
 // import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import { Recipe } from '../types/typesLocalStorage';
 import FavoriteButton from './Buttons/FavoriteButton';
@@ -6,13 +7,22 @@ import FavoriteButton from './Buttons/FavoriteButton';
 type CardFavoriteRecipesProps = {
   recipe: Recipe,
   index: number,
-  handleShare: (link: string) => void,
-  alert: string,
 };
 
 function CardFavoriteRecipes({
-  recipe, index, handleShare, alert }: CardFavoriteRecipesProps) {
+  recipe, index }: CardFavoriteRecipesProps) {
   const { alcoholicOrNot, category, id, image, name, nationality, type } = recipe;
+
+  const [alertMessage, setAlertMessage] = useState<string>('');
+
+  const handleShare = async (link: string) => {
+    await navigator.clipboard.writeText(link);
+    setAlertMessage('Link copied!');
+    setTimeout(() => {
+      setAlertMessage('');
+      console.log(alertMessage);
+    }, 2000);
+  };
 
   return (
     <div id="done-recipes-card">
@@ -29,6 +39,7 @@ function CardFavoriteRecipes({
         href={ `/${type}s/${id}` }
       >
         <img
+          width="360px"
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
@@ -42,7 +53,7 @@ function CardFavoriteRecipes({
             </p>)
           : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
       }
-      { alert }
+      { alertMessage }
       <button
         onClick={ () => handleShare(`http://localhost:3000/${type}s/${id}`) }
       >

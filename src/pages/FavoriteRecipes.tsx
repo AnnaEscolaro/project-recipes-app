@@ -5,26 +5,16 @@ import CardFavoriteRecipes from '../components/CardFavoriteRecipes';
 
 export default function AllDoneRecipes() {
   const { favoriteRecipes } = useContext(LocalStorageContext);
+  const [favoriteRecipesLocalStorage,
+    setFavoriteRecipesLocalStorage] = useState<Recipe[]>(favoriteRecipes);
 
-  const favoriteRecipesLocalStorage = favoriteRecipes;
+  useEffect(() => {
+    setFavoriteRecipesLocalStorage(favoriteRecipes);
+    setFilteredMealsOrDrinks(favoriteRecipesLocalStorage);
+  }, [favoriteRecipes, favoriteRecipesLocalStorage]);
 
   const [filteredMealsOrDrinks,
-    setFilteredMealsOrDrinks] = useState< Recipe[]>(favoriteRecipesLocalStorage);
-
-  const [alertMessage, setAlertMessage] = useState<string>('');
-
-  const handleClickShare = async (link: string) => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setAlertMessage('Link copied!');
-      setTimeout(() => {
-        setAlertMessage('');
-        console.log(alertMessage);
-      }, 2000);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    setFilteredMealsOrDrinks] = useState<Recipe[]>(favoriteRecipesLocalStorage);
 
   const filterByMeal = () => {
     const recipesToFilter = favoriteRecipesLocalStorage;
@@ -43,9 +33,6 @@ export default function AllDoneRecipes() {
   const removeFilters = () => {
     setFilteredMealsOrDrinks(favoriteRecipesLocalStorage);
   };
-
-  useEffect(() => {
-  }, [favoriteRecipes, filteredMealsOrDrinks]);
 
   return (
     <div>
@@ -73,8 +60,6 @@ export default function AllDoneRecipes() {
             key={ recipe.id }
             recipe={ recipe }
             index={ index }
-            handleShare={ handleClickShare }
-            alert={ alertMessage }
           />
         ))
       }
