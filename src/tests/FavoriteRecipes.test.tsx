@@ -24,9 +24,6 @@ describe('Testando o componente FavoriteRecipes', () => {
 
     localStorage.setItem('favoriteRecipes', JSON.stringify(data));
   };
-  // afterEach(() => {
-  //   vi.clearAllMocks();
-  // });
 
   test('Verifica se o componente renderiza corretamente quando esta na rota "/favorite-recipes"', () => {
     renderWithRouter(<App />, { route: ROUTE_FAVORITE });
