@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import ProfileIcon from '../images/profileIcon.svg';
-import iconSearch from '../images/searchIcon.svg';
+import ProfileIcon from '../images/icone-perfil (1).png';
+import iconSearch from '../images/icone pesquiar.png';
+import AppIcon from '../images/ícone Recipes app.png';
+import RecipesTitle from '../images/App.svg';
+import AppTitle from '../images/Recipes.svg';
 import SearchBar from './SearchBar';
 import { DrinksContext } from '../context/DrinksContext/DrinksContext';
 
@@ -27,37 +30,69 @@ export default function Header() {
     );
     setPathIcon(newpath);
   }, [path]);
-  const [togleSearch, setTogleSearch] = useState(false);
+  const [toggleSearch, setToggleSearch] = useState(false);
   const navigate = useNavigate();
-  const pathTitle = path.slice(1);
+  const pathTitle = path.slice(1).toUpperCase();
   const newPath = pathTitle
     .split('-')
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(' ');
   return (
     <header>
-      <button onClick={ () => navigate('/profile') }>
-        <img src={ ProfileIcon } alt="" data-testid="profile-top-btn" />
-      </button>
-      {togleSearch ? (
-        <div style={ { display: 'inline' } }>
-          <input
-            type="text"
-            data-testid="search-input"
-            value={ inputValue }
-            onChange={ ({ target }) => setInputValue(target.value) }
-          />
+      <div className="header-top">
+        <div className="icon-name">
+          <img src={ AppIcon } alt="app-icon" />
+          <div className="app-title">
+            <img src={ AppTitle } alt="app-t" />
+            <img
+              src={ RecipesTitle }
+              alt="recipes-t"
+              style={ { margin: '7px 0 0 1px' } }
+            />
+          </div>
         </div>
-      ) : (
-        ''
-      )}
-      {pathIcon ? (
-        <button data-testid="btn-Click" onClick={ () => setTogleSearch(!togleSearch) }>
-          <img src={ iconSearch } alt="" data-testid="search-top-btn" />
-        </button>
-      ) : null}
-      <h1 data-testid="page-title">{newPath}</h1>
-      <SearchBar />
+        <div className="search-profile">
+          {pathIcon ? (
+            <button
+              data-testid="btn-Click"
+              onClick={ () => setToggleSearch(!toggleSearch) }
+            >
+              <img src={ iconSearch } alt="" data-testid="search-top-btn" />
+            </button>
+          ) : null}
+          <button onClick={ () => navigate('/profile') }>
+            <img src={ ProfileIcon } alt="" data-testid="profile-top-btn" />
+          </button>
+        </div>
+      </div>
+      <h1
+        data-testid="page-title"
+        className="page-title"
+      >
+        {newPath}
+      </h1>
+      <div className="search-details">
+        {toggleSearch ? (
+          <div style={ { display: 'inline' } }>
+            <input
+              style={ {
+                width: '70vw',
+                border: '0.5px solid black',
+                borderRadius: '5px',
+                padding: '5px',
+              } }
+              type="text"
+              data-testid="search-input"
+              value={ inputValue }
+              onChange={ ({ target }) => setInputValue(target.value) }
+              placeholder="Search"
+            />
+          </div>
+        ) : (
+          ''
+        )}
+        <SearchBar />
+      </div>
     </header>
   );
 }

@@ -1,68 +1,86 @@
-.meals {
-  align-items: center;
-  background: #0fa36b;
-  color: #464646;
+header {
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  height: 100vh;
+  align-items: center;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header > .header-top {
+  background-color:#FCDC36;
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  padding-right: 10px;
+}
+
+.page-title {
+  font-weight: 900;
+  font-size: max(20px, 3vw);
+  line-height: 20.5px;
+  text-align: center;
+  color:#41197F;
+  padding: max(10px, 1vw);
+}
+
+.icon-name {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-profile {
+  display: flex;
   justify-content: center;
+}
+
+.search-profile > button {
+  border: none;
+  background: transparent;
+}
+
+.search-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #41197F;
+  width: 70vw;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.radio-container > label {
+  font-size: max(12px, 1vw);
+  color: white;
+  margin-left: 3px;
+}
+
+.radio-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
   width: 100%;
 }
 
-.rocksGlass {
-  animation: shake 1s infinite ease;
-  max-height: 80vh;
+.search-filters > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25px;
+  background-color:#FCC436;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
-/*
-#iceLeft {
-  animation: clink .8s infinite ease;
-  opacity: 0.6;
-  transform-origin: 36px 66px;
-}
-
-#iceRight {
-  animation: clink .8s .2s infinite ease;
-  opacity: 0.6;
-  transform-origin: 60px 78px;
-}
-*/
-
-.meals > .logo {
-  animation: shake 1.5s infinite ease;
-  color: aliceblue;
-  font-family: Montserrat , sans-serif;
-  font-size: 3em;
-  font-weight: 900;
-}
-
-@keyframes shake {
-
-  0% {
-    transform: rotate(5deg);
-  }
-
-  50% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(5deg);
-  }
-}
-
-@keyframes clink {
-
-  0% {
-    transform: rotate(-10deg);
-  }
-
-  50% {
-    transform: rotate(20deg);
-  }
-
-  100% {
-    transform: rotate(-10deg);
-  }
+.search-filters {
+  width: 77%;
 }
