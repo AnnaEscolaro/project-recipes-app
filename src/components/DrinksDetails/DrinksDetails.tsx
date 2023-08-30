@@ -248,6 +248,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
               name: strDrink,
               image: strDrinkThumb,
             } }
+            testId="favorite-btn"
           />
         </div>
       </div>
