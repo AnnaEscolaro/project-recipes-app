@@ -57,11 +57,21 @@ export default function Header() {
               data-testid="btn-Click"
               onClick={ () => setToggleSearch(!toggleSearch) }
             >
-              <img src={ iconSearch } alt="" data-testid="search-top-btn" />
+              <img
+                style={ { paddingRight: '10px' } }
+                src={ iconSearch }
+                alt="icon-search"
+                data-testid="search-top-btn"
+              />
             </button>
           ) : null}
           <button onClick={ () => navigate('/profile') }>
-            <img src={ ProfileIcon } alt="" data-testid="profile-top-btn" />
+            <img
+              src={ ProfileIcon }
+              alt="icon-profile"
+              data-testid="profile-top-btn"
+              style={ { paddingRight: '5px' } }
+            />
           </button>
         </div>
       </div>

@@ -4,18 +4,13 @@ header {
   align-items: center;
 }
 
-.header-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 header > .header-top {
   background-color:#FCDC36;
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  padding-right: 10px;
+  height: 52px;
+  padding-right: 15px;
 }
 
 .page-title {
@@ -29,8 +24,9 @@ header > .header-top {
 
 .icon-name {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
+  padding: 5px;
 }
 
 .search-profile {
@@ -83,4 +79,18 @@ header > .header-top {
 
 .search-filters {
   width: 77%;
+}
+
+footer {
+  background-color: #41197F;
+  width: 100vw;
+  height: 52px;
+  justify-content: space-between;
+}
+
+footer > nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 40px 0 40px; 
 }
