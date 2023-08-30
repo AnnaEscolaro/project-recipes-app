@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  text-align: center;
 }
 
 .DivMain > img {
@@ -10,47 +11,13 @@
   background-size: cover;
 }
 
-.DivAbsolute {
-  position: absolute;
-  top: 5%;
-  left: 2%;
-  text-align: center;
-}
-
-.DivAbsolute > h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  padding: 0 0 0 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  color: #fcc436;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-
-.DivAbsolute > h2 > img {
-  border: 2px solid yellow;
-  border-radius: 50%;
-  padding: 0.4rem;
-  margin-right: 1rem;
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  top: 5;
-  left: 10%;
-}
-
 .DivMain > h1 {
+  width: 100vw;
   position: absolute;
-  top: 20%;
-  left: 35%;
+  top: 10%;
   color: #fff;
   text-align: center;
-  font-size: 20px;
+  font-size: max(20px, 2vw);
   font-style: normal;
   font-weight: 900;
   line-height: normal;
@@ -58,24 +25,59 @@
   text-transform: uppercase;
 }
 
-.DivBtns {
+.DivAbsolute {
   position: absolute;
-  top: 4%;
-  right: 2%;
+  width: 96vw;
+  top: 2%;
+  left: 2%;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  background: hsla(0, 0%, 0%, 0.3);
+  border-radius: 15px;
+  padding: 5px;
+
 }
 
-.DivBtns > div {
+.DivAbsolute > div {
+  display: flex;
+  align-items: center;
+}
+
+.DivAbsolute > div> h2 {
+  font-size: max(14px, 1.7vw);
+  font-weight: 700;
+  color: #fcc436;
+  font-style: normal;
+  line-height: normal;
+  margin: 0;
+  /* background-color: #FFF; */
+}
+
+.DivAbsolute > div > img {
+  border: 2px solid yellow;
+  border-radius: 50%;
+  padding: 0.4rem;
+  margin-right: 1rem;
+  width: 50px;
+  height: 50px;
+}
+
+.DivBtns {
   display: flex;
   justify-content: center;
   text-align: center;
   align-items: center;
   gap: 0.5rem;
+  background: hsla(43, 97%, 60%, 0.3);
+  border-radius: 15px;
   padding: 0.5rem;
 }
 
-.DivBtns > div > button {
+.DivBtns > button {
   display: flex;
-  background-color: transparent;
+  background: rgba(255, 255, 255, .0);
+  border-radius: 5px;
   border: none;
   outline: none;
   cursor: pointer;
@@ -190,23 +192,29 @@ line-height: normal;
   overflow-x: scroll;
   flex-direction: row;
   flex-wrap: nowrap;
+  margin-bottom: 30px;
 }
 
-.DivImages > div > div {
+.DivImages > div > a {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   padding: 2vw;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 5px;
+  background-color: #0000003f;
+  border-radius: 5px;
 }
 
-.DivImages > div > div > img {
-  width: 43vw;
-  border-radius: 5px 5px 0px 0px;
+.DivImages > div > a > img {
+  width: 40.5vw;
+  border-radius: 5px;
 }
 
-.DivImages > div > div > p {
+.DivImages > div > a > p {
   color: #1a1b1c;
   font-size: max(12px, 1.5vw);
   font-style: normal;

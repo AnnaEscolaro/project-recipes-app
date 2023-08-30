@@ -10,6 +10,7 @@ import { LocalStorageContext }
 import style from './styles.module.css';
 
 import iconDrink from '../../images/DrinksDetails/iconDrink.svg';
+import { Link } from 'react-router-dom';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
   const {
@@ -136,10 +137,27 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
       <img src={ strDrinkThumb } alt={ strDrink } data-testid="recipe-photo" />
       <h1 data-testid="recipe-title">{strDrink}</h1>
       <div className={ style.DivAbsolute }>
-        <h2 data-testid="recipe-category">
+        <div>
           <img src={ iconDrink } alt="" />
-          {strAlcoholic}
-        </h2>
+          <h2 data-testid="recipe-category">
+            {strAlcoholic}
+          </h2>
+        </div>
+        <div className={ style.DivBtns }>
+          <ShareButton link={ `http://localhost:3000/drinks/${drink.idDrink}` } />
+          <FavoriteButton
+            favoriteRecipe={ {
+              id: drink.idDrink,
+              type: 'drink',
+              category: drink.strCategory,
+              nationality: '',
+              alcoholicOrNot: drink.strAlcoholic,
+              name: strDrink,
+              image: strDrinkThumb,
+            } }
+            testId="favorite-btn"
+          />
+        </div>
       </div>
       <div className={ style.DivList }>
         <h3>Ingredients</h3>
@@ -187,11 +205,12 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
         </div>
       </div>
       <div className={ style.DivImages }>
-        <h3>Recomended</h3>
+        <h3>Recommended</h3>
         <div>
           {data
             && data.slice(0, 6).map((meals, index) => (
-              <div
+              <Link
+                to={ `/meals/${meals.idMeal}` }
                 key={ meals.strMeal }
                 data-testid={ `${index}-recommendation-card` }
               >
@@ -202,7 +221,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
                 <p data-testid={ `${index}-recommendation-title` }>
                   {meals.strMeal}
                 </p>
-              </div>
+              </Link>
             ))}
         </div>
       </div>
@@ -234,23 +253,6 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
             } }
           />
         )}
-      </div>
-      <div className={ style.DivBtns }>
-        <div>
-          <ShareButton link={ `http://localhost:3000/drinks/${drink.idDrink}` } />
-          <FavoriteButton
-            favoriteRecipe={ {
-              id: drink.idDrink,
-              type: 'drink',
-              category: drink.strCategory,
-              nationality: '',
-              alcoholicOrNot: drink.strAlcoholic,
-              name: strDrink,
-              image: strDrinkThumb,
-            } }
-            testId="favorite-btn"
-          />
-        </div>
       </div>
     </div>
   );
