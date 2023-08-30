@@ -89,7 +89,7 @@
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .DivList > h3 {
@@ -140,7 +140,6 @@ line-height: normal;
   justify-content: center;
   gap: 1rem;
   padding: 1rem;
-  margin-top: 2rem;
 }
 
 .DivInstructions > h3 {
@@ -176,7 +175,6 @@ line-height: normal;
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  margin-top: 2rem;
 }
 
 .DivImages > h3 {
