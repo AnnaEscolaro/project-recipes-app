@@ -28,8 +28,8 @@ export default function FavoriteButton({ favoriteRecipe }: { favoriteRecipe: Rec
     <button
       onClick={ handleClickFavorite }
     >
-      favorite
       <img
+        style={ { color: '#FCC436', border: '1px solid #FCC436', borderRadius: '100%' } }
         data-testid="favorite-btn"
         src={ favorite ? favoriteIcon : noIsFavoriteIcon }
         alt=""

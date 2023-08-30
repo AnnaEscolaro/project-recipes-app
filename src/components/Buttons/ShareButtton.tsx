@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import iconShare from '../../images/DrinksDetails/shareDrink.svg';
+
 export default function ShareButton({ link }: { link: string }) {
   const [alert, setAlert] = useState('');
 
@@ -13,13 +15,14 @@ export default function ShareButton({ link }: { link: string }) {
   };
   return (
     <div>
-      <p>{ alert }</p>
       <button
+        style={ { background: 'none', border: 'none', padding: '5px' } }
         data-testid="share-btn"
         onClick={ handleClick }
       >
-        Share
+        <img src={ iconShare } alt="aaaaaaaaaa" />
       </button>
+      <p>{ alert }</p>
     </div>
   );
 }

@@ -1,0 +1,226 @@
+.DivMain {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.DivMain > img {
+  width: 100vw;
+  height: 33vh;
+  background-size: cover;
+}
+
+.DivAbsolute {
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  text-align: center;
+}
+
+.DivAbsolute > h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0 0 0 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: #fcc436;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.DivAbsolute > h2 > img {
+  border: 2px solid yellow;
+  border-radius: 50%;
+  padding: 0.4rem;
+  margin-right: 1rem;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 5;
+  left: 10%;
+}
+
+.DivMain > h1 {
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 2.1px;
+  text-transform: uppercase;
+}
+
+.DivBtns {
+  position: absolute;
+  top: 4%;
+  right: 2%;
+}
+
+.DivBtns > div {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.DivBtns > div > button {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.DivList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.DivList > h3 {
+  color: #1a1b1c;
+  font-size: max(20px, 2vw);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.DivList > div {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  border-radius: 5.351px;
+  border: 0.554px solid #b1b1b1;
+  background:#FFF;
+  padding: 17px;
+}
+
+.DivList > div > li {
+  color: #1a1b1c;
+  font-size: max(14px, 2vw);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 15.8px;
+}
+
+.DivList > div > label {
+  color: #1A1B1C !important;
+font-size: max(14px, 2vw) !important;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.DivList > div > input[type="checkbox"] {
+  border-radius: 3px !important;
+  border: 2px solid #fcc436 !important;
+}
+
+.DivInstructions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.DivInstructions > h3 {
+  color: #1a1b1c;
+  font-size: max(20px, 2vw);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.DivInstructions > div {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  border-radius: 5.351px;
+  border: 0.554px solid #b1b1b1;
+  background: #fff;
+  padding: 17px;
+}
+
+.DivInstructions > div > p {
+  color: #1a1b1c;
+  font-size: max(14px, 2vw);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 15.8px;
+}
+
+.DivImages {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.DivImages > h3 {
+  color: #1a1b1c;
+  font-size: max(20px, 2vw);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.DivImages > div {
+  display: flex;
+  overflow-x: scroll;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.DivImages > div > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2vw;
+}
+
+.DivImages > div > div > img {
+  width: 43vw;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.DivImages > div > div > p {
+  color: #1a1b1c;
+  font-size: max(12px, 1.5vw);
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.BtnStatus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+}

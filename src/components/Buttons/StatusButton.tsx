@@ -41,7 +41,7 @@ export default function StatusButton(
 
   return (
     <button
-      style={ { position: 'fixed', bottom: 0, right: 0 } }
+      className="btnStatus"
       data-testid={ testID }
       onClick={ btnName === 'Finish Recipe' ? handleFinish : () => navigate(page) }
       disabled={ visibility }

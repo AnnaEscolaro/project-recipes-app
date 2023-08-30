@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { api } from '../services/api';
 import { MealsAndDrinks } from '../types/typesApi';
-import DrinksDetail from '../components/DrinksDetails';
+import DrinksDetail from '../components/DrinksDetails/DrinksDetails';
 import MealsDetails from '../components/MealsDetails';
 
 export default function RecipeDetails() {
