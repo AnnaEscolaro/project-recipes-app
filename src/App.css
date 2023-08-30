@@ -11,15 +11,28 @@ header > .header-top {
   width: 100vw;
   height: 52px;
   padding-right: 15px;
+  margin-bottom: 5px;
+}
+
+.page-plus-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: max(10px, 1vw);
+}
+
+.page-plus-icon > img {
+  width: max(39.43px, 3vw);
 }
 
 .page-title {
   font-weight: 900;
-  font-size: max(20px, 3vw);
+  font-size: max(20px, 2vw);
   line-height: 20.5px;
   text-align: center;
   color:#41197F;
-  padding: max(10px, 1vw);
+  padding: max(5px, 1vw);
 }
 
 .icon-name {
