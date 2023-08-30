@@ -10,7 +10,7 @@ import { LocalStorageContext }
 import style from './styles.module.css';
 
 import iconDrink from '../../images/DrinksDetails/iconDrink.svg';
-import { ingredientsDetails } from '../../utils/ingredientsDetails';
+import { ingredientsDetails, measuresDetails } from '../../utils/ingredientsDetails';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
   const {
@@ -29,15 +29,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
 
   const ingredientsAndNumbers = ingredientsDetails(drink);
 
-  const measures = Object.entries(drink).reduce(
-    (acc: string[], curr: string[]) => {
-      if (curr[0].includes('strMeasure') && curr[1] !== null) {
-        acc.push(curr[1]);
-      }
-      return acc;
-    },
-    [],
-  );
+  const measures = measuresDetails(drink);
 
   const recipeStatus = () => {
     if (

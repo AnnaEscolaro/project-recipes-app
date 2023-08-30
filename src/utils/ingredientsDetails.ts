@@ -16,3 +16,16 @@ export const ingredientsDetails = (drink: Drinks) => {
   );
   return ingredientsAndNumbers;
 };
+
+export const measuresDetails = (drink: Drinks) => {
+  const measures = Object.entries(drink).reduce(
+    (acc: string[], curr: string[]) => {
+      if (curr[0].includes('strMeasure') && curr[1] !== null) {
+        acc.push(curr[1]);
+      }
+      return acc;
+    },
+    [],
+  );
+  return measures;
+};
