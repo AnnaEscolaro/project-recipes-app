@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../../types/typesApi';
 import FavoriteButton from '../Buttons/FavoriteButton';
 import ShareButton from '../Buttons/ShareButtton';
@@ -10,7 +10,7 @@ import { LocalStorageContext }
 import style from './styles.module.css';
 
 import iconDrink from '../../images/DrinksDetails/iconDrink.svg';
-import { Link } from 'react-router-dom';
+import { ingredientsDetails } from '../../utils/ingredientsDetails';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
   const {
@@ -27,19 +27,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
 
   const { strDrink, strDrinkThumb, strAlcoholic, strInstructions } = drink;
 
-  const ingredientsAndNumbers = Object.entries(drink).reduce(
-    (acc: string[], curr: string[]) => {
-      if (
-        curr[0].includes('strIngredient')
-        && curr[1] !== null
-        && curr[1] !== ''
-      ) {
-        acc.push(`${curr[0].substring(curr[0].length - 1)} ${curr[1]}`);
-      }
-      return acc;
-    },
-    [],
-  );
+  const ingredientsAndNumbers = ingredientsDetails(drink);
 
   const measures = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
