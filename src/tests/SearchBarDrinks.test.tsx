@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import { renderWithRouter } from './Helpers/renderWithRouter';
-import { MockFetchDrinksByIngredient } from './Mocks/mockDrinksByIngredient';
+import mockDrinksByIngredient from './Mocks/mockDrinksByIngredient';
 import { mockFetchDrinksByName } from './Mocks/mockDrinksByName';
 import { mockFetchDrinksByFirstLetter } from './Mocks/mockDrinksByFirstLetter';
 import App from '../App';
-import { mockFetchOneDrink } from './Mocks/mockOneDrink';
+import mockOneDrink from './Mocks/mockOneDrink';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
@@ -29,7 +29,7 @@ describe('Testando o componente SearchBar', () => {
 
   test('Se o filtro ingredient funciona corretamente na tela drinks', async () => {
     global.fetch = vi.fn().mockResolvedValue({
-      json: async () => MockFetchDrinksByIngredient,
+      json: async () => mockDrinksByIngredient,
     });
 
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
@@ -89,7 +89,7 @@ describe('Testando o componente SearchBar', () => {
 
   test('Se havendo apenas uma receita, ocorre o redirecionamento de tela', async () => {
     global.fetch = vi.fn().mockResolvedValue({
-      json: async () => mockFetchOneDrink,
+      json: async () => mockOneDrink,
     });
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
