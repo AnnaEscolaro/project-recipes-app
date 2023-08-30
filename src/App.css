@@ -1,24 +1,24 @@
 header {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 header > .header-top {
-  background-color:#FCDC36;
+  background-color: #fcdc36;
   display: flex;
-  justify-content: space-between;
-  width: 100vw;
   height: 52px;
-  padding-right: 15px;
+  justify-content: space-between;
   margin-bottom: 5px;
+  padding-right: 15px;
+  width: 100vw;
 }
 
 .page-plus-icon {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   padding: max(10px, 1vw);
 }
 
@@ -27,18 +27,18 @@ header > .header-top {
 }
 
 .page-title {
-  font-weight: 900;
+  color: #41197f;
   font-size: max(20px, 2vw);
+  font-weight: 900;
   line-height: 20.5px;
-  text-align: center;
-  color:#41197F;
   padding: max(5px, 1vw);
+  text-align: center;
 }
 
 .icon-name {
+  align-items: center;
   display: flex;
   gap: 15px;
-  align-items: center;
   padding: 5px;
 }
 
@@ -48,46 +48,46 @@ header > .header-top {
 }
 
 .search-profile > button {
-  border: none;
   background: transparent;
+  border: none;
 }
 
 .search-details {
+  align-items: center;
+  background-color: #41197f;
+  border: 1px solid black;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   text-align: center;
-  background-color: #41197F;
   width: 70vw;
-  border: 1px solid black;
-  border-radius: 5px;
 }
 
 .radio-container > label {
-  font-size: max(12px, 1vw);
   color: white;
+  font-size: max(12px, 1vw);
   margin-left: 3px;
 }
 
 .radio-container {
+  align-items: center;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   text-align: center;
   width: 100%;
 }
 
 .search-filters > button {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 25px;
-  background-color:#FCC436;
-  color: white;
+  background-color: #fcc436;
   border: 1px solid black;
   border-radius: 5px;
+  color: white;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  width: 100%;
 }
 
 .search-filters {
@@ -95,15 +95,15 @@ header > .header-top {
 }
 
 footer {
-  background-color: #41197F;
-  width: 100vw;
+  background-color: #41197f;
   height: 52px;
   justify-content: space-between;
+  width: 100vw;
 }
 
 footer > nav {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
-  padding: 8px 40px 0 40px; 
+  padding: 8px 40px 0;
 }

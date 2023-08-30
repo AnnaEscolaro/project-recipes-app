@@ -4,7 +4,7 @@ import CardDoneRecipes from '../components/CardDoneRecipes';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 
 export default function AllDoneRecipes() {
-  const { doneRecipes, setDoneRecipes } = useContext(LocalStorageContext);
+  const { doneRecipes /* setDoneRecipes */ } = useContext(LocalStorageContext);
 
   const doneRecipesLocalStorage = doneRecipes;
 
