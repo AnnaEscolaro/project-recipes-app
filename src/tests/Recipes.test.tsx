@@ -27,15 +27,25 @@ describe('Teste o componente Recipes.tsx', () => {
     vi.clearAllMocks();
   });
 
-  test('Verifica se na rota "/meals" carrega as 12 primeiras receitas', async () => {
-    renderWithRouter(<App />, { route: '/meals' });
+  test('Verifica se na rota "/meals" carrega as categorias certas', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
 
     // global.fetch = vi.fn().mockResolvedValue(fetchData);
     await waitFor(() => {
       expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
     }, {
-      timeout: 5000,
+      timeout: 2000,
     });
+
     checkFirstTwelveRecipes(meals.meals);
+
+    const btnBreakfast = screen.getByRole('button', { name: /breakfast/i });
+    expect(btnBreakfast).toBeInTheDocument();
+
+    await user.click(btnBreakfast);
+
+    const btnAll = screen.getByRole('button', { name: /all/i });
+
+    await user.click(btnAll);
   });
 });
