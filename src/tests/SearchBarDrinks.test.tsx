@@ -15,7 +15,9 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se as opções de input e o botão search são renderizados na tela drinks', () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchDrinksByName,
+    });
     renderWithRouter(<App />, { route: '/drinks' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const name = screen.getByLabelText(/Name/i);
@@ -107,6 +109,9 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se aparece um alerta na tela de drinks caso sejam digitadas mais de uma letra no filtro firstletter', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockOneDrink,
+    });
     window.alert = vi.fn(() => {});
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
     const firstLetter = screen.getByLabelText(/First-Letter/i);

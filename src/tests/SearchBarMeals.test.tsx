@@ -15,7 +15,10 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se as opções de input e o botão search são renderizados na tela meals', () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsByIngredient,
+    });
+
     renderWithRouter(<App />, { route: '/meals' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const name = screen.getByLabelText(/Name/i);
@@ -132,7 +135,6 @@ describe('Testando o alerta de receita não encontrada', () => {
     const searchButtonBar = screen.getByRole('button', { name: /Search/i });
 
     await user.click(searchButtonHeader);
-    screen.debug();
     const textInput = screen.getByTestId('search-input');
     await user.type(textInput, 'trybe');
     await user.click(ingredient);
