@@ -12,6 +12,7 @@
 }
 
 .DivMain > h1 {
+  background: hsla(0, 0%, 0%, 0.4);
   width: 100vw;
   position: absolute;
   top: 10%;
@@ -47,7 +48,7 @@
 .DivAbsolute > div> h2 {
   font-size: max(14px, 1.7vw);
   font-weight: 700;
-  color: #fcc436;
+  color: #1A1B1C;
   font-style: normal;
   line-height: normal;
   margin: 0;
@@ -55,8 +56,8 @@
 }
 
 .DivAbsolute > div > img {
-  border: 2px solid yellow;
-  border-radius: 50%;
+  /* border: 2px solid yellow; */
+  /* border-radius: 50%; */
   padding: 0.4rem;
   margin-right: 1rem;
   width: 50px;
@@ -69,7 +70,7 @@
   text-align: center;
   align-items: center;
   gap: 0.5rem;
-  background: hsla(43, 97%, 60%, 0.3);
+  /* background: hsla(43, 97%, 60%, 0.3); */
   border-radius: 15px;
   padding: 0.5rem;
 }

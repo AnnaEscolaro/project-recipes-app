@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Drinks, Meals } from '../../types/typesApi';
 import FavoriteButton from '../Buttons/FavoriteButton';
-import ShareButton from '../Buttons/ShareButtton';
+import ShareButton from '../Buttons/ShareButton';
 import StatusButton from '../Buttons/StatusButton';
 import { LocalStorageContext }
   from '../../context/LocalStorageContext/LocalStorageContext';
 
 import style from './styles.module.css';
 
-import iconDrink from '../../images/DrinksDetails/iconDrink.svg';
+import iconDrink from '../../images/drinkIcon.svg';
 import { ingredientsDetails, measuresDetails } from '../../utils/ingredientsDetails';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
@@ -119,9 +119,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
       <div className={ style.DivAbsolute }>
         <div>
           <img src={ iconDrink } alt="" />
-          <h2 data-testid="recipe-category">
-            {strAlcoholic}
-          </h2>
+          <h2 data-testid="recipe-category">{strAlcoholic}</h2>
         </div>
         <div className={ style.DivBtns }>
           <ShareButton link={ `http://localhost:3000/drinks/${drink.idDrink}` } />
@@ -145,11 +143,9 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
           {path.includes('progress')
             ? ingredientsAndNumbers.map((ingredient, index) => (
               <label
-                style={
-                    getChecked(Number(ingredient.slice(0, 1)))
-                      ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
-                      : { textDecoration: 'none' }
-                  }
+                style={ getChecked(Number(ingredient.slice(0, 1)))
+                  ? { textDecoration: 'line-through solid rgb(0, 0, 0)' }
+                  : { textDecoration: 'none' } }
                 htmlFor={ ingredient }
                 key={ ingredient }
                 data-testid={ `${index}-ingredient-step` }
