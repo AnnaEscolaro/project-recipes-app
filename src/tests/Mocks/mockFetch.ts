@@ -7,7 +7,7 @@ import oneDrink from './mockOneDrink';
 import drinks from './mockDrinks';
 import meals from './mockMeals';
 
-const fetch = (url: string) => Promise.resolve({
+const mockFetch = (url: string) => Promise.resolve({
   status: 200,
   ok: true,
   json: () => {
@@ -39,4 +39,4 @@ const fetch = (url: string) => Promise.resolve({
   },
 });
 
-export default fetch;
+export default mockFetch;
