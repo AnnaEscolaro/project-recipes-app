@@ -5,7 +5,7 @@ import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorage
 import './DoneRecipes.css';
 
 export default function AllDoneRecipes() {
-  const { doneRecipes, setDoneRecipes } = useContext(LocalStorageContext);
+  const { doneRecipes } = useContext(LocalStorageContext);
 
   const doneRecipesLocalStorage = doneRecipes;
 
