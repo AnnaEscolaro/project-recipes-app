@@ -2,7 +2,7 @@ import { vi } from 'vitest';
 import { screen } from '@testing-library/dom';
 import App from '../App';
 import { renderWithRouter } from './Helpers/renderWithRouter';
-import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
+// import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
 
 describe('testando o componente Profile', () => {
 //   beforeEach(() => {
