@@ -1,4 +1,4 @@
-export const fetchMealsByIngredient = {
+const mockMealsByIngredient = {
   meals: [
     {
       strMeal: 'Brown Stew Chicken',
@@ -37,3 +37,5 @@ export const fetchMealsByIngredient = {
     },
   ],
 };
+
+export default mockMealsByIngredient;

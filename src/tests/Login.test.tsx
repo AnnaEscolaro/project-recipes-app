@@ -2,6 +2,7 @@ import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import App from '../App';
 import { renderWithRouter } from './Helpers/renderWithRouter';
+import mockDrinksByIngredient from './Mocks/mockDrinksByIngredient';
 
 describe('Testando o componente Login', () => {
   const VALID_EMAIL = 'tryber@test.com';
@@ -14,7 +15,9 @@ describe('Testando o componente Login', () => {
   });
 
   test('Verifica se o componente renderiza corretamente quando esta na rota "/"', () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockDrinksByIngredient,
+    });
 
     renderWithRouter(<App />, { route: '/' });
 
@@ -31,7 +34,9 @@ describe('Testando o componente Login', () => {
   });
 
   test('Verifica se a validação funciona corretamente', async () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockDrinksByIngredient,
+    });
 
     const { user } = renderWithRouter(<App />, { route: '/' });
 
@@ -65,7 +70,9 @@ describe('Testando o componente Login', () => {
   });
 
   test('Verifica se o email é armazenado no local storage', async () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockDrinksByIngredient,
+    });
 
     const { user } = renderWithRouter(<App />, { route: '/' });
 

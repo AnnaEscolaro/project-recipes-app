@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import { renderWithRouter } from './Helpers/renderWithRouter';
-import { fetchMealsByIngredient } from './Mocks/mockMealsByIngredient';
+import mockMealsByIngredient from './Mocks/mockMealsByIngredient';
 import { mockFetchMealsByName } from './Mocks/mockMealsByName';
 import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
 import App from '../App';
-import { mockFetchOneMeal } from './Mocks/mockOneMeal';
+import mockOneMeal from './Mocks/mockOneMeal';
 
 describe('Testando o componente SearchBar', () => {
   const searchInput = 'search-input';
@@ -15,7 +15,10 @@ describe('Testando o componente SearchBar', () => {
   });
 
   test('Se as opções de input e o botão search são renderizados na tela meals', () => {
-    global.fetch = vi.fn();
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockMealsByIngredient,
+    });
+
     renderWithRouter(<App />, { route: '/meals' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
     const name = screen.getByLabelText(/Name/i);
@@ -29,7 +32,7 @@ describe('Testando o componente SearchBar', () => {
 
   test('Se o filtro ingredient funciona corretamente na tela meals', async () => {
     global.fetch = vi.fn().mockResolvedValue({
-      json: async () => fetchMealsByIngredient,
+      json: async () => mockMealsByIngredient,
     });
     const { user } = renderWithRouter(<App />, { route: '/meals' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
@@ -86,7 +89,7 @@ describe('Testando o componente SearchBar', () => {
 
   test('Se havendo apenas uma receita, ocorre o redirecionamento de tela', async () => {
     global.fetch = vi.fn().mockResolvedValue({
-      json: async () => mockFetchOneMeal,
+      json: async () => mockOneMeal,
     });
     const { user } = renderWithRouter(<App />, { route: '/meals' });
     const ingredient = screen.getByLabelText(/Ingredient/i);
@@ -135,7 +138,6 @@ describe('Testando o alerta de receita não encontrada', () => {
     const searchButtonBar = screen.getByRole('button', { name: /Search/i });
 
     await user.click(searchButtonHeader);
-    screen.debug();
     const textInput = screen.getByTestId('search-input');
     await user.type(textInput, 'trybe');
     await user.click(ingredient);
