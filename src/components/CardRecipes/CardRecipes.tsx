@@ -1,3 +1,5 @@
+import style from './styles.module.css';
+
 type CardRecipesProps = {
   data: {
     strMealThumb?: string,
@@ -11,7 +13,7 @@ type CardRecipesProps = {
 
 function CardRecipes({ data, type, index }: CardRecipesProps) {
   return (
-    <div data-testid={ `${index}-recipe-card` }>
+    <div className={ style.Card } data-testid={ `${index}-recipe-card` }>
       <img
         src={ type === 'meals'
           ? data.strMealThumb

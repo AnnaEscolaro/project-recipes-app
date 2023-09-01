@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import CardRecipes from '../components/CardRecipes';
-import { DrinksContext } from '../context/DrinksContext/DrinksContext';
-import { MealsContext } from '../context/MealsContext/MealsContext';
-import { api } from '../services/api';
+import CardRecipes from '../../components/CardRecipes/CardRecipes';
+import { DrinksContext } from '../../context/DrinksContext/DrinksContext';
+import { MealsContext } from '../../context/MealsContext/MealsContext';
+import { api } from '../../services/api';
+import style from './styles.module.css';
 
 type RecipesProps = {
   path: string,
@@ -71,8 +72,7 @@ function Recipes({ path } : RecipesProps) {
 
   return (
     <>
-      <h1>Recipes</h1>
-      <div>
+      <div className={ style.DivButtons }>
         {listCategory && (
           listCategory.slice(0, 5).map((categoryBtn: { strCategory: string }, index) => (
             <button
@@ -80,7 +80,10 @@ function Recipes({ path } : RecipesProps) {
               data-testid={ `${categoryBtn.strCategory}-category-filter` }
               onClick={ () => handleClickCategory(categoryBtn.strCategory) }
             >
-              {categoryBtn.strCategory}
+              <img
+                src={ `src/images/category_items/${categoryBtn.strCategory}.svg` }
+                alt={ categoryBtn.strCategory }
+              />
             </button>
           ))
         )}
@@ -88,10 +91,14 @@ function Recipes({ path } : RecipesProps) {
           data-testid="All-category-filter"
           onClick={ handleClickClear }
         >
-          All
+          <img
+            src={ path === 'meals' ? 'src/images/category_items/All.svg'
+              : 'src/images/category_items/AllDrinks.svg' }
+            alt="all"
+          />
         </button>
       </div>
-      <main>
+      <main className={ style.Main }>
         {path === 'drinks' && drinks?.length > 0 ? (
           drinks?.slice(0, 12).map((current, index) => (
             <Link to={ `/drinks/${current.idDrink}` } key={ index }>
