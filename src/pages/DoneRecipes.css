@@ -21,7 +21,7 @@
   font-size: 9px;
   line-height: 1em;
   font-family: Epilogue;
-  color: #1A1B1C;
+  color: #FCC436;
 }
 
 .container-filter-buttons {
@@ -41,6 +41,10 @@
   border: 2.67px solid #FCC436;
   height: 66.72px;
   width: 66.72px;
+  font-size: 9px;
+  line-height: 2em;
+  font-family: Epilogue;
+  color: #797D86;
 }
 
 .filter-button {
@@ -78,7 +82,6 @@
   border-radius: 5px;
   border: 1px solid #B1B1B1;
   margin: 10px 10px;
-
 }
 
 .recipe-image {

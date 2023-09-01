@@ -62,7 +62,7 @@ function CardFavoriteRecipes({
         >
           <img
             data-testid={ `${index}-horizontal-share-btn` }
-            src={ shareIcon }
+            src="src/images/vector.png"
             alt="imagem compartilhar"
           />
         </button>

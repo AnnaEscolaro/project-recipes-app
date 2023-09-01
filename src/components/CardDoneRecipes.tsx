@@ -75,7 +75,7 @@ function CardDoneRecipes({
         >
           <img
             data-testid={ `${index}-horizontal-share-btn` }
-            src="src/images/shareIcon.svg"
+            src="src/images/vector.png"
             alt="imagem compartilhar"
           />
           <p>{ alert }</p>
