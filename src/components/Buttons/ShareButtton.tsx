@@ -4,12 +4,8 @@ export default function ShareButton({ link }: { link: string }) {
   const [alert, setAlert] = useState('');
 
   const handleClick = async () => {
-    try {
-      await navigator.clipboard.writeText(link);
-      setAlert('Link copied!');
-    } catch (error) {
-      console.log(error);
-    }
+    await navigator.clipboard.writeText(link);
+    setAlert('Link copied!');
   };
   return (
     <div>
