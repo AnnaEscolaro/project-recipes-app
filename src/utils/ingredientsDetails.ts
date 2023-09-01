@@ -1,6 +1,6 @@
-import { Drinks } from '../types/typesApi';
+import { Drinks, Meals } from '../types/typesApi';
 
-export const ingredientsDetails = (drink: Drinks) => {
+export const ingredientsDetails = (drink: Drinks | Meals) => {
   const ingredientsAndNumbers = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
       if (
@@ -17,7 +17,7 @@ export const ingredientsDetails = (drink: Drinks) => {
   return ingredientsAndNumbers;
 };
 
-export const measuresDetails = (drink: Drinks) => {
+export const measuresDetails = (drink: Drinks | Meals) => {
   const measures = Object.entries(drink).reduce(
     (acc: string[], curr: string[]) => {
       if (curr[0].includes('strMeasure') && curr[1] !== null) {

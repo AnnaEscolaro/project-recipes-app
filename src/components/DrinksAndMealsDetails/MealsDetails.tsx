@@ -8,6 +8,7 @@ import ShareButton from '../Buttons/ShareButton';
 import StatusButton from '../Buttons/StatusButton';
 import style from './styles.module.css';
 import mealIcon from '../../images/mealIcon.svg';
+import { ingredientsDetails, measuresDetails } from '../../utils/ingredientsDetails';
 
 export default function MealsDetails({ meals }: { meals: Meals }) {
   const { inProgressRecipes, doneRecipes, favoriteRecipes,
@@ -24,17 +25,7 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
     meals.strTags.substring(meals.strTags.indexOf(',')).replace(',', '')]
     : [];
 
-  const ingredientsAndNumbers = Object.entries(meals)
-    .reduce((acc: string[], curr: string[]) => {
-      if (
-        curr[0].includes('strIngredient')
-        && curr[1] !== null
-        && curr[1] !== ''
-      ) {
-        acc.push(`${curr[0].substring(curr[0].length - 1)} ${curr[1]}`);
-      }
-      return acc;
-    }, []);
+  const ingredientsAndNumbers = ingredientsDetails(meals);
 
   const getChecked = (ingredientNum: number) => {
     if (inProgressRecipes.meals[meals.idMeal]) {
@@ -77,15 +68,7 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
     }
   };
 
-  const measures = Object.entries(meals).reduce(
-    (acc: string[], curr: string[]) => {
-      if (curr[0].includes('strMeasure') && curr[1] !== null) {
-        acc.push(curr[1]);
-      }
-      return acc;
-    },
-    [],
-  );
+  const measures = measuresDetails(meals);
 
   const recipeStatus = () => {
     if (inProgressRecipes.meals[meals.idMeal]

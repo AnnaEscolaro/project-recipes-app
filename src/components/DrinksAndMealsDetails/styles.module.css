@@ -231,3 +231,15 @@ line-height: normal;
   width: 100vw;
   z-index: 100;
 }
+
+@media screen and (min-width: 850px) {
+  .DivMain > h1 {
+    top: 8%;
+  }
+}
+
+@media screen and (min-width: 1150px) {
+  .DivMain > h1 {
+    top: 6%;
+  }
+}
