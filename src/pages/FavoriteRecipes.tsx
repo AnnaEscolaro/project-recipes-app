@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import { Recipe } from '../types/typesLocalStorage';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 import CardFavoriteRecipes from '../components/CardFavoriteRecipes';
-import './FavoriteRecipes.css';
 
 export default function AllDoneRecipes() {
   const { favoriteRecipes } = useContext(LocalStorageContext);
@@ -36,7 +35,7 @@ export default function AllDoneRecipes() {
   };
 
   return (
-    <div>
+    <div className="done-and-favorite-container">
       <div className="container-filter-buttons">
         <button
           data-testid="filter-by-all-btn"
@@ -81,16 +80,17 @@ export default function AllDoneRecipes() {
           </div>
         </button>
       </div>
-      {
-        filteredMealsOrDrinks?.map((recipe: Recipe, index: number) => (
-          <CardFavoriteRecipes
-            key={ recipe.id }
-            recipe={ recipe }
-            index={ index }
-          />
-        ))
-      }
-
+      <div className="cards-recipes">
+        {
+          filteredMealsOrDrinks?.map((recipe: Recipe, index: number) => (
+            <CardFavoriteRecipes
+              key={ recipe.id }
+              recipe={ recipe }
+              index={ index }
+            />
+          ))
+        }
+      </div>
     </div>
   );
 }
