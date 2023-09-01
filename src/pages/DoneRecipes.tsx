@@ -41,7 +41,7 @@ export default function AllDoneRecipes() {
   };
 
   return (
-    <div>
+    <div className="done-and-favorite-container">
       <div className="container-filter-buttons">
         <button
           className="filter-button"
@@ -86,36 +86,37 @@ export default function AllDoneRecipes() {
           </div>
         </button>
       </div>
-      {
-        filteredMealsOrDinks?.map(({
-          id,
-          type,
-          category,
-          name,
-          image,
-          doneDate,
-          tags,
-          nationality,
-          alcoholicOrNot,
-        }: DoneRecipe, index: number) => (
-          <CardDoneRecipes
-            key={ id }
-            id={ id }
-            type={ type }
-            index={ index }
-            image={ image }
-            category={ category }
-            name={ name }
-            doneDate={ doneDate }
-            tags={ tags }
-            nationality={ nationality }
-            alcoholicOrNot={ alcoholicOrNot }
-            handleClick={ handleClickShare }
-            alert={ alertMessage }
-          />
-        ))
-      }
-
+      <div className="cards-recipes">
+        {
+          filteredMealsOrDinks?.map(({
+            id,
+            type,
+            category,
+            name,
+            image,
+            doneDate,
+            tags,
+            nationality,
+            alcoholicOrNot,
+          }: DoneRecipe, index: number) => (
+            <CardDoneRecipes
+              key={ id }
+              id={ id }
+              type={ type }
+              index={ index }
+              image={ image }
+              category={ category }
+              name={ name }
+              doneDate={ doneDate }
+              tags={ tags }
+              nationality={ nationality }
+              alcoholicOrNot={ alcoholicOrNot }
+              handleClick={ handleClickShare }
+              alert={ alertMessage }
+            />
+          ))
+        }
+      </div>
     </div>
   );
 }

@@ -8,12 +8,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-#done-recipes-card {
-  display: flex;
-  flex-direction: column;
-}
-
-#recipe-image {
-  width: 100%;
-}

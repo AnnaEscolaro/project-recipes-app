@@ -106,6 +106,9 @@ describe('Testando o componente SearchBar', () => {
     expect(meal).toBeInTheDocument();
   });
 
+  /**
+   * @todo mock
+   */
   test('Se aparece um alerta na tela de meals caso sejam digitadas mais de uma letra no filtro firstletter', async () => {
     window.alert = vi.fn(() => {});
     const { user } = renderWithRouter(<App />, { route: '/meals' });
