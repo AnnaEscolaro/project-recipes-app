@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-<<<<<<< HEAD
 .btnStatus {
   color: #fff;
   text-align: center;
@@ -18,9 +17,4 @@
 background: #FCC436;
 height: 40px;
 width: 100%;
-=======
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
->>>>>>> main-group-6
 }
