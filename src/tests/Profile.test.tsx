@@ -5,11 +5,14 @@ import { renderWithRouter } from './Helpers/renderWithRouter';
 import { mockFetchMealsByFirstLetter } from './Mocks/mockMealsByFirstLetter';
 
 describe('testando o componente Profile', () => {
-  beforeEach(() => {
-    localStorage.clear();
-    global.fetch = vi.fn().mockResolvedValue({ ...mockFetchMealsByFirstLetter, ...mockFetchMealsByFirstLetter });
+  afterEach(() => {
+    vi.clearAllMocks();
   });
   test('testando se o email aparece na tela', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchMealsByFirstLetter,
+    });
+
     const { user } = renderWithRouter(<App />);
     const inputEmail = screen.getByRole('textbox');
     const inputPassword = screen.getByPlaceholderText(/senha/i);
@@ -36,6 +39,10 @@ describe('testando o componente Profile', () => {
     expect(profileBtn).not.toBeInTheDocument();
   });
   test('testando se o button favorite', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchMealsByFirstLetter,
+    });
+
     const { user } = renderWithRouter(<App />);
     const inputEmail = screen.getByRole('textbox');
     const inputPassword = screen.getByPlaceholderText(/senha/i);
@@ -63,6 +70,10 @@ describe('testando o componente Profile', () => {
     expect(title).toBeInTheDocument();
   });
   test('testando o component not found', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      json: async () => mockFetchMealsByFirstLetter,
+    });
+
     renderWithRouter(<App />, { route: '/dsdssads' });
     const notFound = screen.getByTestId('not');
     expect(notFound).toBeInTheDocument();
