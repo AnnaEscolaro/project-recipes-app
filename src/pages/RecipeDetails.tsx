@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { api } from '../services/api';
 import { MealsAndDrinks } from '../types/typesApi';
-import DrinksDetail from '../components/DrinksDetails';
-import MealsDetails from '../components/MealsDetails';
+import MealsDetails from '../components/DrinksAndMealsDetails/MealsDetails';
+import DrinksDetails from '../components/DrinksAndMealsDetails/DrinksDetails';
 
 export default function RecipeDetails() {
   const { pathname } = useLocation();
@@ -44,7 +44,7 @@ export default function RecipeDetails() {
           />
         )
         : details && (
-          <DrinksDetail
+          <DrinksDetails
             drink={ details.drinks[0] }
           />
         )}

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import shareIcon from '../images/shareIcon.svg';
 import { Recipe } from '../types/typesLocalStorage';
 import FavoriteButton from './Buttons/FavoriteButton';
 import '../pages/DoneRecipes.css';

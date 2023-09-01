@@ -34,11 +34,12 @@ export default function FavoriteButton({
     <button
       onClick={ handleClickFavorite }
     >
-      favorite
       <img
+        // style={ { color: '#FCC436', border: '1px solid #FCC436', borderRadius: '100%' } }
         data-testid={ testId }
         src={ favorite ? favoriteIcon : noIsFavoriteIcon }
-        alt=""
+        alt="Favorite Icon"
+        width="30px"
       />
     </button>
   );
