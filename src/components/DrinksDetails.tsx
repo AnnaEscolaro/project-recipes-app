@@ -118,7 +118,12 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
 
   return (
     <div>
-      <img src={ strDrinkThumb } alt={ strDrink } data-testid="recipe-photo" />
+      <img
+        src={ strDrinkThumb }
+        alt={ strDrink }
+        data-testid="recipe-photo"
+        width="360px"
+      />
       <h1 data-testid="recipe-title">{strDrink}</h1>
       <h2 data-testid="recipe-category">{strAlcoholic}</h2>
       {path.includes('progress') ? (
@@ -212,6 +217,7 @@ export default function DrinksDetails({ drink }: { drink: Drinks }) {
             name: strDrink,
             image: strDrinkThumb,
           } }
+          testId="favorite-btn"
         />
       </div>
     </div>

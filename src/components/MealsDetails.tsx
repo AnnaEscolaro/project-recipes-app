@@ -238,6 +238,7 @@ export default function MealsDetails({ meals }: { meals: Meals }) {
             name: meals.strMeal,
             image: strMealThumb }
           }
+          testId="favorite-btn"
         />
       </div>
     </div>
