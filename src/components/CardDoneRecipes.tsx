@@ -63,6 +63,7 @@ function CardDoneRecipes({
               <p
                 key={ idx }
                 data-testid={ `${index}-${tag}-horizontal-tag` }
+                className="tags"
               >
                 { tag }
               </p>

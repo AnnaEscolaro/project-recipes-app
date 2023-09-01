@@ -134,3 +134,11 @@ a {
   flex-direction: row;
   justify-content: space-evenly;
 }
+
+.tags {
+  background-color: #B1B1B1;
+  color: #1A1B1C;
+  border: 0.52px;
+  border-radius: 5px;
+  padding: 1%;
+}
