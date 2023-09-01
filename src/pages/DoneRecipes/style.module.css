@@ -136,7 +136,7 @@ p {
   color: #1A1B1C;
 }
 
-.CardDetails > button {
+.CardDetails button {
   background: transparent;
   border: none;
 }
