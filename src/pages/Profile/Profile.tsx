@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import iconStyledProfile from '../../images/profileIconStyled.svg';
 import iconStyledDone from '../../images/doneRecipeBtn.svg';
 import iconFavorite from '../../images/favoriteBtnProfile.svg';
 import iconLogout from '../../images/logoutIconProfile.svg';
@@ -19,8 +18,6 @@ export default function Profile() {
 
   return (
     <div className={ style.DivMain }>
-      <img src={ iconStyledProfile } alt="" />
-      <h1>PROFILE</h1>
       <h2 data-testid="profile-email">{user.email}</h2>
       <div className={ style.DivBtn }>
         <button
