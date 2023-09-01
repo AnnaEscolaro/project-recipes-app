@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
-import DoneRecipes from './pages/DoneRecipes';
+import DoneRecipes from './pages/DoneRecipes/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Layout from './components/Layout';
 import RecipeDetails from './pages/RecipeDetails';

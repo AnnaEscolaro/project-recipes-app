@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import '../pages/DoneRecipes.css';
+import style from '../pages/DoneRecipes/style.module.css';
 
 type CardDoneRecipesProps = {
   id: string,
@@ -31,19 +31,19 @@ function CardDoneRecipes({
   alert,
 }: CardDoneRecipesProps) {
   return (
-    <div className="done-recipes-card">
+    <div className={ style.Card }>
       <Link
         to={ `/${type}s/${id}` }
       >
         <img
-          className="recipe-image"
+          className={ style.RecipeImage }
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
       </Link>
-      <div className="card-details">
-        <div className="card-details-no-share">
+      <div className={ style.CardDetails }>
+        <div className={ style.CardDetailsNoShare }>
           <Link
             to={ `/${type}s/${id}` }
             data-testid={ `${index}-horizontal-name` }
@@ -63,7 +63,7 @@ function CardDoneRecipes({
               <p
                 key={ idx }
                 data-testid={ `${index}-${tag}-horizontal-tag` }
-                className="tags"
+                className={ style.Tags }
               >
                 { tag }
               </p>
@@ -71,7 +71,7 @@ function CardDoneRecipes({
           }
         </div>
         <button
-          className="share-button"
+          className={ style.ShareButton }
           onClick={ () => handleClick(`http://localhost:3000/${type}s/${id}`) }
         >
           <img
@@ -79,7 +79,7 @@ function CardDoneRecipes({
             src="src/images/vector.png"
             alt="imagem compartilhar"
           />
-          <p>{ alert }</p>
+          <p className={ style.ShareMessage }>{ alert }</p>
         </button>
       </div>
     </div>
