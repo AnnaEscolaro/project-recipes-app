@@ -7,7 +7,8 @@ import FavoriteButton from '../Buttons/FavoriteButton';
 import ShareButton from '../Buttons/ShareButton';
 import StatusButton from '../Buttons/StatusButton';
 import style from './styles.module.css';
-import mealIcon from '../../images/mealIcon.svg';
+import mealIcon from '../../images/icone-prato.png';
+
 import { ingredientsDetails, measuresDetails } from '../../utils/ingredientsDetails';
 
 export default function MealsDetails({ meals }: { meals: Meals }) {

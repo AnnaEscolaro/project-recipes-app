@@ -9,7 +9,8 @@ import { LocalStorageContext }
 
 import style from './styles.module.css';
 
-import iconDrink from '../../images/drinkIcon.svg';
+import iconDrink from '../../images/DrinksDetails/iconDrink.svg';
+
 import { ingredientsDetails, measuresDetails } from '../../utils/ingredientsDetails';
 
 export default function DrinksDetails({ drink }: { drink: Drinks }) {
