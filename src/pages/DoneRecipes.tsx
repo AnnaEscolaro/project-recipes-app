@@ -2,17 +2,16 @@ import { useContext, useState } from 'react';
 import { DoneRecipe } from '../types/typesLocalStorage';
 import CardDoneRecipes from '../components/CardDoneRecipes';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
+import './DoneRecipes.css';
 
 export default function AllDoneRecipes() {
-  const { doneRecipes, setDoneRecipes } = useContext(LocalStorageContext);
+  const { doneRecipes } = useContext(LocalStorageContext);
 
   const doneRecipesLocalStorage = doneRecipes;
 
   const [filteredMealsOrDinks, setFilteredMealsOrDrinks] = useState<
   DoneRecipe[]>(doneRecipesLocalStorage);
   const [alertMessage, setAlertMessage] = useState<string>('');
-
-  console.log(filteredMealsOrDinks);
 
   const handleClickShare = async (link: string) => {
     // try {
@@ -43,24 +42,50 @@ export default function AllDoneRecipes() {
 
   return (
     <div>
-      <button
-        data-testid="filter-by-all-btn"
-        onClick={ removeFilters }
-      >
-        All
-      </button>
-      <button
-        data-testid="filter-by-meal-btn"
-        onClick={ filterByMeal }
-      >
-        Meals
-      </button>
-      <button
-        data-testid="filter-by-drink-btn"
-        onClick={ filterByDrink }
-      >
-        Drinks
-      </button>
+      <div className="container-filter-buttons">
+        <button
+          className="filter-button"
+          data-testid="filter-by-all-btn"
+          onClick={ removeFilters }
+        >
+          <div className="cointainer-filter-button">
+            <img
+              src="src/images/group.png"
+              alt="icon show all"
+              className="filter-img"
+            />
+            All
+          </div>
+        </button>
+        <button
+          className="filter-button"
+          data-testid="filter-by-meal-btn"
+          onClick={ filterByMeal }
+        >
+          <div className="cointainer-filter-button">
+            <img
+              src="src/images/icone-prato.png"
+              alt="meal icon"
+              className="filter-img"
+            />
+            Meals
+          </div>
+        </button>
+        <button
+          className="filter-button"
+          data-testid="filter-by-drink-btn"
+          onClick={ filterByDrink }
+        >
+          <div className="cointainer-filter-button">
+            <img
+              src="src/images/icone-bebida.png"
+              alt="drink icon"
+              className="filter-img"
+            />
+            Drinks
+          </div>
+        </button>
+      </div>
       {
         filteredMealsOrDinks?.map(({
           id,

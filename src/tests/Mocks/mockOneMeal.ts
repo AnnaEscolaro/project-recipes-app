@@ -1,4 +1,4 @@
-export const mockFetchOneMeal = {
+const mockOneMeal = {
   meals: [
     {
       idMeal: '52841',
@@ -57,3 +57,5 @@ export const mockFetchOneMeal = {
     },
   ],
 };
+
+export default mockOneMeal;

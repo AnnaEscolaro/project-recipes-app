@@ -1,4 +1,4 @@
-export const MockFetchDrinksByIngredient = {
+const mockDrinksByIngredient = {
   drinks: [
     {
       strDrink: '3-Mile Long Island Iced Tea',
@@ -247,3 +247,4 @@ export const MockFetchDrinksByIngredient = {
     },
   ],
 };
+export default mockDrinksByIngredient;
