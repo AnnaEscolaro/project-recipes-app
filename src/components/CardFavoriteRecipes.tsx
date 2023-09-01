@@ -1,8 +1,8 @@
-// import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 import { Recipe } from '../types/typesLocalStorage';
 import FavoriteButton from './Buttons/FavoriteButton';
+import '../pages/DoneRecipes.css';
 
 type CardFavoriteRecipesProps = {
   recipe: Recipe,
@@ -25,48 +25,53 @@ function CardFavoriteRecipes({
   };
 
   return (
-    <div id="done-recipes-card">
-      <a
-        href={ `/${type}s/${id}` }
-      >
-        <p
-          data-testid={ `${index}-horizontal-name` }
-        >
-          { name }
-        </p>
-      </a>
+    <div className="done-recipes-card">
       <a
         href={ `/${type}s/${id}` }
       >
         <img
-          width="360px"
+          className="recipe-image"
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
       </a>
-      {
-        type === 'meal'
-          ? (
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              { `${nationality} - ${category}` }
-            </p>)
-          : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
-      }
-      { alertMessage }
-      <button
-        onClick={ () => handleShare(`http://localhost:3000/${type}s/${id}`) }
-      >
-        <img
-          data-testid={ `${index}-horizontal-share-btn` }
-          src={ shareIcon }
-          alt="imagem compartilhar"
+      <div className="card-details">
+        <div className="card-details-no-share">
+          <a
+            href={ `/${type}s/${id}` }
+          >
+            <p
+              data-testid={ `${index}-horizontal-name` }
+            >
+              { name }
+            </p>
+          </a>
+          {
+            type === 'meal'
+              ? (
+                <p data-testid={ `${index}-horizontal-top-text` }>
+                  { `${nationality} - ${category}` }
+                </p>)
+              : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
+          }
+        </div>
+        <button
+          className="share-button"
+          onClick={ () => handleShare(`http://localhost:3000/${type}s/${id}`) }
+        >
+          <img
+            data-testid={ `${index}-horizontal-share-btn` }
+            src={ shareIcon }
+            alt="imagem compartilhar"
+          />
+        </button>
+        <p>{ alertMessage }</p>
+        <FavoriteButton
+          favoriteRecipe={ recipe }
+          testId={ `${index}-horizontal-favorite-btn` }
         />
-      </button>
-      <FavoriteButton
-        favoriteRecipe={ recipe }
-        testId={ `${index}-horizontal-favorite-btn` }
-      />
+      </div>
     </div>
   );
 }

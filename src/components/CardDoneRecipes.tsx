@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../pages/DoneRecipes.css';
 
 type CardDoneRecipesProps = {
   id: string,
@@ -30,52 +31,56 @@ function CardDoneRecipes({
   alert,
 }: CardDoneRecipesProps) {
   return (
-    <div id="done-recipes-card">
-      <Link
-        to={ `/${type}s/${id}` }
-        data-testid={ `${index}-horizontal-name` }
-      >
-        { name }
-      </Link>
+    <div className="done-recipes-card">
       <Link
         to={ `/${type}s/${id}` }
       >
         <img
-          id="recipe-image"
+          className="recipe-image"
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
       </Link>
-      {
-        type === 'meal' ? (
-          <p data-testid={ `${index}-horizontal-top-text` }>
-            { `${nationality} - ${category}` }
-          </p>
-        ) : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
-      }
-      <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
-      {
-        tags.map((tag, idx) => (
-          <p
-            key={ idx }
-            data-testid={ `${index}-${tag}-horizontal-tag` }
+      <div className="card-details">
+        <div className="card-details-no-share">
+          <Link
+            to={ `/${type}s/${id}` }
+            data-testid={ `${index}-horizontal-name` }
           >
-            { tag }
-          </p>
-        ))
-      }
-      { alert }
-      <button
-        // data-testid={ `${index}-horizontal-share-btn` }
-        onClick={ () => handleClick(`http://localhost:3000/${type}s/${id}`) }
-      >
-        <img
-          data-testid={ `${index}-horizontal-share-btn` }
-          src="src/images/shareIcon.svg"
-          alt="imagem compartilhar"
-        />
-      </button>
+            <p>{ name }</p>
+          </Link>
+          {
+            type === 'meal' ? (
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                { `${nationality} - ${category}` }
+              </p>
+            ) : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
+          }
+          <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
+          {
+            tags.map((tag, idx) => (
+              <p
+                key={ idx }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
+              >
+                { tag }
+              </p>
+            ))
+          }
+        </div>
+        <button
+          className="share-button"
+          onClick={ () => handleClick(`http://localhost:3000/${type}s/${id}`) }
+        >
+          <img
+            data-testid={ `${index}-horizontal-share-btn` }
+            src="src/images/shareIcon.svg"
+            alt="imagem compartilhar"
+          />
+          <p>{ alert }</p>
+        </button>
+      </div>
     </div>
   );
 }
