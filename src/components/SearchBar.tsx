@@ -83,51 +83,55 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
-      <label htmlFor="ingredient">
-        {' '}
-        Ingredient
-        {' '}
-        <input
-          type="radio"
-          name="ingredient"
-          id="ingredient"
-          data-testid="ingredient-search-radio"
-          checked={ selected.ingredient }
-          onChange={ handleCheck }
-        />
-      </label>
-      <label htmlFor="name">
-        {' '}
-        Name
-        {' '}
-        <input
-          type="radio"
-          name="name"
-          id="name"
-          data-testid="name-search-radio"
-          checked={ selected.name }
-          onChange={ handleCheck }
-        />
-      </label>
-      <label htmlFor="first-letter">
-        {' '}
-        First-Letter
-        {' '}
-        <input
-          type="radio"
-          name="first-letter"
-          id="first-letter"
-          data-testid="first-letter-search-radio"
-          checked={ selected.firstLetter }
-          onChange={ handleCheck }
-        />
-      </label>
+    <div className="search-filters">
+      <div className="radio-container">
+        <label htmlFor="ingredient">
+          <input
+            type="radio"
+            name="ingredient"
+            id="ingredient"
+            data-testid="ingredient-search-radio"
+            checked={ selected.ingredient }
+            onChange={ handleCheck }
+          />
+          <span>
+            Ingredient
+          </span>
+        </label>
+        <label htmlFor="name">
+          <input
+            type="radio"
+            name="name"
+            id="name"
+            data-testid="name-search-radio"
+            checked={ selected.name }
+            onChange={ handleCheck }
+          />
+          <span>
+            Name
+          </span>
+        </label>
+        <label htmlFor="first-letter">
+          <input
+            type="radio"
+            name="first-letter"
+            id="first-letter"
+            data-testid="first-letter-search-radio"
+            checked={ selected.firstLetter }
+            onChange={ handleCheck }
+          />
+          <span>
+            First-Letter
+          </span>
+        </label>
+      </div>
       <button
         data-testid="exec-search-btn"
         onClick={ execSearch }
       >
-        Search
+        <span>
+          SEARCH
+        </span>
       </button>
     </div>
   );
