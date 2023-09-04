@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Recipe } from '../types/typesLocalStorage';
 import { LocalStorageContext } from '../context/LocalStorageContext/LocalStorageContext';
 import CardFavoriteRecipes from '../components/CardFavoriteRecipes';
+import style from './DoneRecipes/style.module.css';
 
 export default function AllDoneRecipes() {
   const { favoriteRecipes } = useContext(LocalStorageContext);
@@ -35,18 +36,18 @@ export default function AllDoneRecipes() {
   };
 
   return (
-    <div className="done-and-favorite-container">
-      <div className="container-filter-buttons">
+    <div className={ style.Container }>
+      <div className={ style.ContainerFilterButtons }>
         <button
           data-testid="filter-by-all-btn"
           onClick={ removeFilters }
-          className="filter-button"
+          className={ style.FilterButton }
         >
-          <div className="cointainer-filter-button">
+          <div className={ style.ContainerFilterButton }>
             <img
               src="src/images/group.png"
               alt="icon show all"
-              className="filter-img"
+              className={ style.FilterImg }
             />
             All
           </div>
@@ -54,13 +55,13 @@ export default function AllDoneRecipes() {
         <button
           data-testid="filter-by-meal-btn"
           onClick={ filterByMeal }
-          className="filter-button"
+          className={ style.FilterButton }
         >
-          <div className="cointainer-filter-button">
+          <div className={ style.ContainerFilterButton }>
             <img
               src="src/images/icone-prato.png"
               alt="meal icon"
-              className="filter-img"
+              className={ style.FilterImg }
             />
             Meals
           </div>
@@ -68,19 +69,19 @@ export default function AllDoneRecipes() {
         <button
           data-testid="filter-by-drink-btn"
           onClick={ filterByDrink }
-          className="filter-button"
+          className={ style.FilterButton }
         >
-          <div className="cointainer-filter-button">
+          <div className={ style.ContainerFilterButton }>
             <img
               src="src/images/icone-bebida.png"
               alt="drink icon"
-              className="filter-img"
+              className={ style.FilterImg }
             />
             Drinks
           </div>
         </button>
       </div>
-      <div className="cards-recipes">
+      <div className={ style.CardsRecipes }>
         {
           filteredMealsOrDrinks?.map((recipe: Recipe, index: number) => (
             <CardFavoriteRecipes

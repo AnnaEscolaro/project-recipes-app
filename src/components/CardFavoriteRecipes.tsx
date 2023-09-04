@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Recipe } from '../types/typesLocalStorage';
 import FavoriteButton from './Buttons/FavoriteButton';
-import '../pages/DoneRecipes.css';
+import style from '../pages/DoneRecipes/style.module.css';
 
 type CardFavoriteRecipesProps = {
   recipe: Recipe,
@@ -24,19 +24,19 @@ function CardFavoriteRecipes({
   };
 
   return (
-    <div className="done-recipes-card">
+    <div className={ style.Card }>
       <a
         href={ `/${type}s/${id}` }
       >
         <img
-          className="recipe-image"
+          className={ style.RecipeImage }
           src={ image }
           alt="foto receita"
           data-testid={ `${index}-horizontal-image` }
         />
       </a>
-      <div className="card-details">
-        <div className="card-details-no-share">
+      <div className={ style.CardDetails }>
+        <div className={ style.CardDetailsNoShare }>
           <a
             href={ `/${type}s/${id}` }
           >
@@ -55,22 +55,24 @@ function CardFavoriteRecipes({
               : (<p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>)
           }
         </div>
-        <button
-          className="share-button"
-          onClick={ () => handleShare(`http://localhost:3000/${type}s/${id}`) }
-        >
-          <img
-            data-testid={ `${index}-horizontal-share-btn` }
-            src="src/images/vector.png"
-            alt="imagem compartilhar"
+        <div className={ style.ButtonsShareAndFavorite }>
+          <button
+            className={ style.ShareButton }
+            onClick={ () => handleShare(`http://localhost:3000/${type}s/${id}`) }
+          >
+            <img
+              data-testid={ `${index}-horizontal-share-btn` }
+              src="src/images/vector.png"
+              alt="imagem compartilhar"
+            />
+          </button>
+          <FavoriteButton
+            favoriteRecipe={ recipe }
+            testId={ `${index}-horizontal-favorite-btn` }
           />
-        </button>
-        <p>{ alertMessage }</p>
-        <FavoriteButton
-          favoriteRecipe={ recipe }
-          testId={ `${index}-horizontal-favorite-btn` }
-        />
+        </div>
       </div>
+      <p className={ style.ShareMessage }>{ alertMessage }</p>
     </div>
   );
 }
